@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Work — Rafael L. Muñoz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-hero { padding-top:9rem; padding-bottom:var(--sp-lg); text-align:center; }
+    .page-hero-title { font-size:clamp(2.8rem,6vw,5rem); font-weight:800; }
+
+    /* Category tabs */
+    .cat-tabs { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; margin-bottom:var(--sp-lg); }
+    .cat-tab {
+      font-family:var(--font-display); font-size:.72rem; font-weight:700;
+      letter-spacing:.12em; text-transform:uppercase; padding:.5rem 1.4rem;
+      border-radius:var(--radius-xl); border:1.5px solid var(--card-border);
+      background:transparent; color:var(--text-muted); cursor:pointer;
+      transition:all var(--transition);
+    }
+    .cat-tab:hover,.cat-tab.active {
+      border-color:var(--accent-violet); color:var(--text-primary);
+      background:rgba(155,89,252,.12);
+    }
+
+    /* Bento grid */
+    .bento { display:grid; grid-template-columns:repeat(6,1fr); gap:1.25rem; }
+    .bento-item {
+      border-radius:var(--radius-md); overflow:hidden;
+      background:var(--card-bg); border:1px solid var(--card-border);
+      backdrop-filter:blur(12px); position:relative;
+      display:flex; flex-direction:column;
+      transition:all var(--transition);
+    }
+    .bento-item:hover {
+      transform:translateY(-6px);
+      border-color:rgba(155,89,252,.4);
+      box-shadow:0 24px 60px rgba(0,0,0,.45);
+    }
+    .bento-item.col2 { grid-column:span 2; }
+    .bento-item.col3 { grid-column:span 3; }
+    .bento-item.col4 { grid-column:span 4; }
+    .bento-item.col6 { grid-column:span 6; }
+
+    .bento-thumb {
+      width:100%; aspect-ratio:4/3;
+      display:flex; align-items:center; justify-content:center;
+      font-size:3.5rem; position:relative;
+    }
+    .bento-item.col6 .bento-thumb,
+    .bento-item.col4 .bento-thumb { aspect-ratio:21/7; font-size:5rem; }
+    .bento-overlay { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(3,1,10,.9)); }
+
+    .bento-body { padding:1.2rem 1.5rem 1.5rem; flex:1; display:flex; flex-direction:column; }
+    .bento-tag { margin-bottom:.5rem; }
+    .bento-title { font-family:var(--font-display); font-size:1rem; font-weight:700; margin-bottom:.4rem; }
+    .bento-desc  { font-size:.82rem; color:var(--text-muted); line-height:1.65; flex:1; }
+    .bento-link  {
+      display:inline-flex; align-items:center; gap:.4rem; margin-top:.9rem;
+      font-family:var(--font-display); font-size:.7rem; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase; color:var(--accent-violet);
+      transition:gap var(--transition);
+    }
+    .bento-item:hover .bento-link { gap:.7rem; }
+
+    /* Gallery mosaic */
+    .gallery-mosaic { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:var(--sp-lg); }
+    .gallery-item {
+      border-radius:var(--radius-sm); overflow:hidden;
+      aspect-ratio:1; background:var(--card-bg); border:1px solid var(--card-border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:2.5rem; cursor:pointer; transition:all var(--transition);
+      position:relative;
+    }
+    .gallery-item:hover { transform:scale(1.04); border-color:rgba(240,25,110,.4); z-index:1; }
+    .gallery-item.tall { grid-row:span 2; aspect-ratio:unset; }
+    .gallery-caption {
+      position:absolute; inset:0; background:rgba(3,1,10,.75);
+      display:flex; align-items:flex-end; padding:.8rem;
+      opacity:0; transition:opacity var(--transition);
+      backdrop-filter:blur(4px);
+    }
+    .gallery-item:hover .gallery-caption { opacity:1; }
+    .gallery-caption p { font-size:.72rem; font-family:var(--font-display); font-weight:700; color:#fff; }
+
+    /* Color palette showcase */
+    .palette-row { display:flex; gap:.5rem; margin-top:.8rem; }
+    .swatch { width:28px; height:28px; border-radius:50%; border:2px solid rgba(255,255,255,.15); }
+
+    @media(max-width:900px){
+      .bento { grid-template-columns:repeat(4,1fr); }
+      .bento-item.col6,.bento-item.col4 { grid-column:span 4; }
+      .bento-item.col3 { grid-column:span 2; }
+      .gallery-mosaic { grid-template-columns:repeat(3,1fr); }
+    }
+    @media(max-width:600px){
+      .bento { grid-template-columns:1fr 1fr; }
+      .bento-item.col2,.bento-item.col3,.bento-item.col4,.bento-item.col6 { grid-column:span 2; }
+      .gallery-mosaic { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo display">Rafael<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li><li><a href="creative.html">Creative</a></li>
+        <li><a href="music.html">Music</a></li><li><a href="experience.html">Experience</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html" class="btn btn-primary nav-cta">Hire Me</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <ul class="nav-mobile" id="nav-mobile">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li><li><a href="creative.html">Creative</a></li>
+      <li><a href="music.html">Music</a></li><li><a href="experience.html">Experience</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero container" data-reveal>
+  <p class="section-label">Art, Design & Craft</p>
+  <h1 class="page-hero-title display">Creative <em style="color:var(--accent-violet);">Work</em></h1>
+  <p style="color:var(--text-muted);max-width:500px;margin:1rem auto 0;font-size:1rem;line-height:1.75;">
+    Beyond screens — resin art, candles, brand identities, and a gallery of one-of-a-kind pieces.
+  </p>
+</div>
+
+<!-- ── RESIN ART ── -->
+<section id="resin">
+  <div class="container">
+    <div style="margin-bottom:var(--sp-md);" data-reveal>
+      <p class="section-label">Handmade</p>
+      <h2 class="section-title display">Resin Art</h2>
+      <p style="color:var(--text-muted);max-width:560px;font-size:.95rem;line-height:1.75;">
+        Each piece is a small universe — pigments, alcohol inks, and epoxy resin poured and manipulated before they set forever. No two are alike.
+      </p>
+    </div>
+    <div class="bento">
+      <div class="bento-item col4" data-reveal style="background:linear-gradient(135deg,rgba(155,89,252,.2),rgba(0,229,255,.1));">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#1a003a,#0a2050,#003a30);">
+          <span>🌊</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-brands bento-tag" style="color:var(--accent-violet);border-color:rgba(155,89,252,.3);">Resin Art</span>
+          <h3 class="bento-title display">Ocean Series — Set of 4 Coasters</h3>
+          <p class="bento-desc">Deep-pour resin with ocean wave pigments, crushed shells, and iridescent powder. Each coaster captures a different time of day on the water.</p>
+          <div class="palette-row">
+            <div class="swatch" style="background:#0a4a6a;"></div>
+            <div class="swatch" style="background:#00b4d8;"></div>
+            <div class="swatch" style="background:#90e0ef;"></div>
+            <div class="swatch" style="background:#caf0f8;"></div>
+          </div>
+          <a href="#" class="bento-link">View in Gallery →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="1">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#1a0a00,#3a1500,#200a00);">
+          <span>🔥</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-games bento-tag">Resin Art</span>
+          <h3 class="bento-title display">Lava Flow Tray</h3>
+          <p class="bento-desc">Large serving tray with molten rock texture, gold flakes, and heat-resistant coating.</p>
+          <a href="#" class="bento-link">View →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="2">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#0a0020,#200040,#100020);">
+          <span>🌌</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-ai bento-tag" style="color:var(--accent-gold);border-color:rgba(255,209,102,.25);">Resin Art</span>
+          <h3 class="bento-title display">Galaxy Charcuterie Board</h3>
+          <p class="bento-desc">Custom-poured galaxy pattern with glow-in-the-dark pigments and food-safe seal.</p>
+          <a href="#" class="bento-link">View →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="1">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#001a0a,#003015,#000a05);">
+          <span>🌿</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-apps bento-tag">Resin Art</span>
+          <h3 class="bento-title display">Forest Floor Shelf</h3>
+          <p class="bento-desc">Live-edge wood and green resin river shelf with embedded dried botanicals.</p>
+          <a href="#" class="bento-link">View →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── CANDLES ── -->
+<section id="candles">
+  <div class="container">
+    <div style="margin-bottom:var(--sp-md);" data-reveal>
+      <p class="section-label">Ember & Wax Co.</p>
+      <h2 class="section-title display">Candles</h2>
+      <p style="color:var(--text-muted);max-width:560px;font-size:.95rem;line-height:1.75;">
+        Hand-poured soy and coconut wax candles with custom fragrance blends. Every scent tells a story.
+      </p>
+    </div>
+    <div class="bento">
+      <div class="bento-item col2" data-reveal>
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#1a0500,#3a1000,#2a0800);">
+          <span>🕯️</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-games bento-tag">Signature</span>
+          <h3 class="bento-title display">Midnight Amber</h3>
+          <p class="bento-desc">Black fig, amber resin, and a whisper of smoked oud. Burns 60+ hours.</p>
+          <a href="#" class="bento-link">Shop Now →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="1">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#001a10,#003a25,#001a10);">
+          <span>🌲</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-apps bento-tag">Seasonal</span>
+          <h3 class="bento-title display">Forest Rain</h3>
+          <p class="bento-desc">Fresh petrichor, cedar bark, and eucalyptus — brings the outdoors inside.</p>
+          <a href="#" class="bento-link">Shop Now →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="2">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#1a001a,#350035,#1a001a);">
+          <span>🌸</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-brands bento-tag" style="color:var(--accent-violet);">Limited</span>
+          <h3 class="bento-title display">Violet Dusk</h3>
+          <p class="bento-desc">Lavender, violet, and a base of warm sandalwood. A limited-edition run of 50.</p>
+          <a href="#" class="bento-link">Shop Now →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── BRANDING ── -->
+<section id="brands">
+  <div class="container">
+    <div style="margin-bottom:var(--sp-md);" data-reveal>
+      <p class="section-label">Identity Design</p>
+      <h2 class="section-title display">Branding & Design</h2>
+    </div>
+    <div class="bento">
+      <div class="bento-item col3" data-reveal style="background:linear-gradient(135deg,rgba(240,25,110,.06),rgba(155,89,252,.06));">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#1a001a,#38003a,#200030);">
+          <span style="font-size:3rem;font-family:var(--font-display);font-weight:800;color:rgba(255,255,255,.7);">L✦</span>
+          <div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-brands bento-tag">Full Identity</span>
+          <h3 class="bento-title display">Lumière Creative Studio</h3>
+          <p class="bento-desc">Logo system, color palette, typography guide, stationery suite, social templates, and motion logo. 3-month engagement.</p>
+          <a href="#" class="bento-link">View Case Study →</a>
+        </div>
+      </div>
+      <div class="bento-item col3" data-reveal data-delay="1">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#0a1a00,#1a3500,#0a2000);">
+          <span style="font-size:2.5rem;font-family:var(--font-display);font-weight:800;color:rgba(180,255,120,.6);">E&W</span>
+          <div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-brands bento-tag">Product Brand</span>
+          <h3 class="bento-title display">Ember & Wax Co.</h3>
+          <p class="bento-desc">Packaging, label design, e-commerce storefront, and photography direction for the candle & resin brand.</p>
+          <a href="#" class="bento-link">View Work →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal>
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#001520,#002a40,#001020);">
+          <span>🏄</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-apps bento-tag">Rebrand</span>
+          <h3 class="bento-title display">Swell Studio</h3>
+          <p class="bento-desc">Brand refresh for a surf photography studio including logo, site redesign, and print materials.</p>
+          <a href="#" class="bento-link">View →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="1">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#1a1000,#302000,#1a1500);">
+          <span>☕</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-ai bento-tag" style="color:var(--accent-gold);">Startup</span>
+          <h3 class="bento-title display">Roast & Co.</h3>
+          <p class="bento-desc">Full identity for a specialty coffee startup from zero — name, mark, packaging and web.</p>
+          <a href="#" class="bento-link">View →</a>
+        </div>
+      </div>
+      <div class="bento-item col2" data-reveal data-delay="2">
+        <div class="bento-thumb" style="background:linear-gradient(135deg,#0a001a,#180035,#0a001a);">
+          <span>🎮</span><div class="bento-overlay"></div>
+        </div>
+        <div class="bento-body">
+          <span class="project-tag tag-games bento-tag">Game Brand</span>
+          <h3 class="bento-title display">Neon Frontier Brand Kit</h3>
+          <p class="bento-desc">Game logo, key art, Steam page assets, press kit, and marketing materials.</p>
+          <a href="#" class="bento-link">View →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── ART GALLERY ── -->
+<section id="gallery">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:var(--sp-lg);" data-reveal>
+      <p class="section-label">The Collection</p>
+      <h2 class="section-title display">Art Gallery</h2>
+      <p style="color:var(--text-muted);max-width:500px;margin:.8rem auto 0;font-size:.95rem;line-height:1.75;">
+        A curated selection of finished pieces — commissions, personal work, and experiments that turned out beautifully.
+      </p>
+    </div>
+    <div class="gallery-mosaic">
+      <div class="gallery-item tall" style="background:linear-gradient(135deg,#001a3a,#0a3060);" data-reveal>
+        <span>🌊</span>
+        <div class="gallery-caption"><p>Ocean Deep — Resin Panel, 2024</p></div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#1a0a00,#3a1500);" data-reveal data-delay="1">
+        <span>🔥</span>
+        <div class="gallery-caption"><p>Lava Coaster Set, 2023</p></div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#1a001a,#35003a);" data-reveal data-delay="2">
+        <span>🌸</span>
+        <div class="gallery-caption"><p>Floral Resin Ring Dish, 2023</p></div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#001a10,#003020);" data-reveal data-delay="3">
+        <span>🌿</span>
+        <div class="gallery-caption"><p>Botanical Tray, 2024</p></div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#0a0020,#200040);" data-reveal data-delay="1">
+        <span>🌌</span>
+        <div class="gallery-caption"><p>Galaxy Board — Commission, 2024</p></div>
+      </div>
+      <div class="gallery-item tall" style="background:linear-gradient(135deg,#200010,#400020);" data-reveal data-delay="2">
+        <span>💎</span>
+        <div class="gallery-caption"><p>Crystal Geode Art, 2023</p></div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#1a1000,#302000);" data-reveal data-delay="3">
+        <span>🌅</span>
+        <div class="gallery-caption"><p>Sunset Series No. 3, 2024</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo display">Rafael<span>.</span></div>
+        <p class="footer-tagline">Product manager, game developer, creative director, and AI builder.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">💼</a><a href="#" class="social-link">🐙</a>
+          <a href="#" class="social-link">🐦</a><a href="#" class="social-link">📸</a>
+        </div>
+      </div>
+      <div><p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li><li><a href="creative.html">Creative</a></li>
+          <li><a href="music.html">Music</a></li><li><a href="experience.html">Experience</a></li>
+        </ul>
+      </div>
+      <div><p class="footer-col-title">Creative</p>
+        <ul class="footer-links">
+          <li><a href="#resin">Resin Art</a></li><li><a href="#candles">Candles</a></li>
+          <li><a href="#brands">Branding</a></li><li><a href="#gallery">Gallery</a></li>
+        </ul>
+      </div>
+      <div><p class="footer-col-title">Contact</p>
+        <a href="mailto:rafael@example.com" class="footer-contact-item"><span class="icon">✉️</span>rafael@example.com</a>
+        <div class="footer-contact-item"><span class="icon">📍</span>Rhode Island</div>
+        <a href="contact.html" class="btn btn-primary" style="margin-top:1rem;font-size:.7rem;padding:.6rem 1.4rem;">Hire Me ✦</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
+      <span>Designed & Built with ✦ by Rafael</span>
+    </div>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>

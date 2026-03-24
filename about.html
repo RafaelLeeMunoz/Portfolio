@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Rafael L. Muñoz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── About-page extras ── */
+    .page-hero {
+      padding-top: 9rem;
+      padding-bottom: var(--sp-xl);
+      text-align: center;
+    }
+    .page-hero-title { font-size: clamp(2.8rem,6vw,5rem); font-weight:800; }
+
+    /* Two-col bio */
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--sp-xl);
+      align-items: start;
+    }
+    .bio-sticky { position: sticky; top: 100px; }
+    .bio-photo {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(155,89,252,0.25);
+      box-shadow: 0 0 80px rgba(155,89,252,0.12);
+      margin-bottom: var(--sp-md);
+    }
+    .bio-photo img { width:100%; object-fit:cover; display:block; }
+    .bio-social { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; }
+
+    /* Values */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.25rem;
+      margin-top: var(--sp-lg);
+    }
+    .value-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.8rem 1.5rem;
+      text-align:center;
+      backdrop-filter:blur(12px);
+      transition: all var(--transition);
+    }
+    .value-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,229,255,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .value-icon { font-size:2.5rem; margin-bottom:.75rem; display:block; }
+    .value-title { font-family:var(--font-display); font-size:.95rem; font-weight:700; margin-bottom:.4rem; }
+    .value-desc  { font-size:.82rem; color:var(--text-muted); line-height:1.6; }
+
+    /* Timeline */
+    .timeline { position:relative; padding-left: 2rem; margin-top: var(--sp-md); }
+    .timeline::before {
+      content:'';
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:2px;
+      background: linear-gradient(to bottom, var(--accent-violet), var(--accent-cyan), transparent);
+      border-radius:2px;
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 1.5rem;
+      padding-bottom: 2.5rem;
+    }
+    .timeline-item::before {
+      content:'';
+      position:absolute;
+      left:-2.1rem;
+      top:.35rem;
+      width:10px; height:10px;
+      border-radius:50%;
+      background: var(--accent-violet);
+      box-shadow: 0 0 12px var(--accent-violet);
+      border: 2px solid var(--bg-deep);
+    }
+    .timeline-year {
+      font-family:var(--font-display);
+      font-size:.68rem;
+      font-weight:700;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:var(--accent-cyan);
+      margin-bottom:.3rem;
+    }
+    .timeline-role {
+      font-family:var(--font-display);
+      font-size:1rem;
+      font-weight:700;
+      margin-bottom:.25rem;
+    }
+    .timeline-org  { font-size:.85rem; color:var(--accent-violet); margin-bottom:.4rem; }
+    .timeline-desc { font-size:.85rem; color:var(--text-muted); line-height:1.65; }
+
+    /* Fun facts */
+    .facts-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: var(--sp-md);
+    }
+    .fact-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      background: rgba(155,89,252,0.1);
+      border:1px solid rgba(155,89,252,0.2);
+      border-radius: var(--radius-xl);
+      padding: .4rem 1rem;
+      font-size:.8rem;
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+    .fact-pill:hover { background:rgba(155,89,252,0.2); color:var(--text-primary); transform:translateY(-2px); }
+
+    @media (max-width:900px) {
+      .bio-grid { grid-template-columns:1fr; }
+      .bio-sticky { position:static; }
+      .values-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:600px) {
+      .values-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo display">Rafael<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="creative.html">Creative</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html" class="btn btn-primary nav-cta">Hire Me</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <ul class="nav-mobile" id="nav-mobile">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li><li><a href="creative.html">Creative</a></li>
+      <li><a href="music.html">Music</a></li><li><a href="experience.html">Experience</a></li>
+      <li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero container" data-reveal>
+  <p class="section-label">The Person Behind the Work</p>
+  <h1 class="page-hero-title display">About <em style="color:var(--accent-pink);">Me</em></h1>
+  <p style="color:var(--text-muted);max-width:520px;margin:1rem auto 0;font-size:1rem;line-height:1.75;">
+    Builder, creator, dreamer — I've spent the last decade proving that one person can wear many hats without dropping any of them.
+  </p>
+</div>
+
+<hr class="divider" />
+
+<!-- BIO SECTION -->
+<section>
+  <div class="container">
+    <div class="bio-grid">
+
+      <!-- Sticky photo + socials -->
+      <div class="bio-sticky" data-reveal="left">
+        <div class="bio-photo">
+          <img src="rafael.jpeg" alt="Rafael L. Muñoz" loading="lazy" />
+        </div>
+        <div class="bio-social">
+          <a href="#" class="social-link" title="LinkedIn">💼</a>
+          <a href="#" class="social-link" title="GitHub">🐙</a>
+          <a href="#" class="social-link" title="Twitter">🐦</a>
+          <a href="#" class="social-link" title="Instagram">📸</a>
+          <a href="#" class="social-link" title="Spotify">🎵</a>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center;">
+            Work With Me →
+          </a>
+        </div>
+      </div>
+
+      <!-- Bio text & timeline -->
+      <div data-reveal="right">
+        <p class="section-label">My Story</p>
+        <h2 class="section-title display" style="margin-bottom:var(--sp-sm);">From a Kid Who Loved Games<br>to Building Them</h2>
+
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:1rem;">
+          I grew up in Rhode Island obsessed with two things: video games and making stuff. Those two passions never left me — they just grew up too. Today I combine product management, game development, creative direction, and AI to build experiences that surprise and stick.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:1rem;">
+          My career has taken me through indie game studios, product teams at early-stage startups, brand agencies, and solo creative ventures. I've shipped mobile apps, launched brand identities, composed original music, and poured resin at 2am while listening to lo-fi beats. Each discipline feeds the others.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:var(--sp-md);">
+          These days I'm focused on the intersection of AI and interactive storytelling — building tools that make game narratives feel alive, and helping small teams punch above their weight with smart product strategy.
+        </p>
+
+        <!-- Fun facts pills -->
+        <p class="section-label" style="margin-bottom:.75rem;">A Few Things About Me</p>
+        <div class="facts-row">
+          <span class="fact-pill">🎮 Gaming since age 6</span>
+          <span class="fact-pill">🎵 Self-taught producer</span>
+          <span class="fact-pill">🕯️ Candle & resin artist</span>
+          <span class="fact-pill">☕ Coffee connoisseur</span>
+          <span class="fact-pill">📍 Rhode Island born & raised</span>
+          <span class="fact-pill">🤖 AI early adopter</span>
+          <span class="fact-pill">🎸 Plays guitar badly</span>
+          <span class="fact-pill">📚 Sci-fi reader</span>
+        </div>
+
+        <!-- Timeline -->
+        <div style="margin-top:var(--sp-lg);">
+          <p class="section-label" style="margin-bottom:var(--sp-sm);">Career Timeline</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <p class="timeline-year">2024 – Present</p>
+              <p class="timeline-role display">Senior Product Manager</p>
+              <p class="timeline-org">Independent / Consulting</p>
+              <p class="timeline-desc">Leading product strategy for 3 early-stage startups across gaming, health tech, and AI tooling. Embedded PM and fractional CPO roles.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2021 – 2024</p>
+              <p class="timeline-role display">Product Manager & Game Designer</p>
+              <p class="timeline-org">Neon Frontier Studios</p>
+              <p class="timeline-desc">Led the product roadmap for two shipped titles. Managed a cross-functional team of 12 across engineering, art, and narrative design.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2019 – 2021</p>
+              <p class="timeline-role display">Creative Director</p>
+              <p class="timeline-org">Lumière Creative Agency</p>
+              <p class="timeline-desc">Oversaw brand identities, digital campaigns, and motion design for 20+ clients ranging from local restaurants to national e-commerce brands.</p>
+            </div>
+            <div class="timeline-item">
+              <p class="timeline-year">2016 – 2019</p>
+              <p class="timeline-role display">Full-Stack Developer</p>
+              <p class="timeline-org">Freelance</p>
+              <p class="timeline-desc">Built web apps, e-commerce platforms, and internal tools for small businesses. First exposure to React, Node.js, and product thinking.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- VALUES -->
+<section>
+  <div class="container">
+    <div style="text-align:center;" data-reveal>
+      <p class="section-label">What Drives Me</p>
+      <h2 class="section-title display">Core Values</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card" data-reveal data-delay="1">
+        <span class="value-icon">🔥</span>
+        <h3 class="value-title display">Craft Over Output</h3>
+        <p class="value-desc">I'd rather ship one exceptional thing than ten mediocre ones. Quality is a choice I make at every step.</p>
+      </div>
+      <div class="value-card" data-reveal data-delay="2">
+        <span class="value-icon">🌐</span>
+        <h3 class="value-title display">Think in Systems</h3>
+        <p class="value-desc">Products, games, brands — they're all systems. Understanding the whole helps you design better parts.</p>
+      </div>
+      <div class="value-card" data-reveal data-delay="3">
+        <span class="value-icon">💡</span>
+        <h3 class="value-title display">Curiosity First</h3>
+        <p class="value-desc">The best solutions come from asking better questions. I stay curious even when I think I know the answer.</p>
+      </div>
+      <div class="value-card" data-reveal data-delay="1">
+        <span class="value-icon">🤝</span>
+        <h3 class="value-title display">People Over Process</h3>
+        <p class="value-desc">Process serves people, not the other way around. Great teams beat great frameworks every time.</p>
+      </div>
+      <div class="value-card" data-reveal data-delay="2">
+        <span class="value-icon">⚡</span>
+        <h3 class="value-title display">Bias Toward Action</h3>
+        <p class="value-desc">Thinking is important. But a rough prototype teaches you more than a perfect plan every time.</p>
+      </div>
+      <div class="value-card" data-reveal data-delay="3">
+        <span class="value-icon">🎯</span>
+        <h3 class="value-title display">Intentional Design</h3>
+        <p class="value-desc">Every color, word, and feature should earn its place. I don't add things — I solve for outcomes.</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:var(--sp-lg);" data-reveal>
+      <a href="contact.html" class="btn btn-primary">Let's Build Something Together →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo display">Rafael<span>.</span></div>
+        <p class="footer-tagline">Product manager, game developer, creative director, and AI builder.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">💼</a><a href="#" class="social-link">🐙</a>
+          <a href="#" class="social-link">🐦</a><a href="#" class="social-link">📸</a>
+        </div>
+      </div>
+      <div><p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li><li><a href="creative.html">Creative</a></li>
+          <li><a href="music.html">Music</a></li><li><a href="experience.html">Experience</a></li>
+        </ul>
+      </div>
+      <div><p class="footer-col-title">Work</p>
+        <ul class="footer-links">
+          <li><a href="projects.html#games">Games</a></li><li><a href="projects.html#apps">Apps</a></li>
+          <li><a href="creative.html#brands">Brands</a></li><li><a href="music.html">Music</a></li>
+          <li><a href="certifications.html">Certifications</a></li>
+        </ul>
+      </div>
+      <div><p class="footer-col-title">Contact</p>
+        <a href="mailto:rafael@example.com" class="footer-contact-item"><span class="icon">✉️</span>rafael@example.com</a>
+        <div class="footer-contact-item"><span class="icon">📍</span>Rhode Island</div>
+        <a href="contact.html" class="btn btn-primary" style="margin-top:1rem;font-size:.7rem;padding:.6rem 1.4rem;">Hire Me ✦</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
+      <span>Designed & Built with ✦ by Rafael</span>
+    </div>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>
