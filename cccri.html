@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CCCRI Website Redesign — Rafael L. Muñoz</title>
+  <meta name="description" content="Case study: How I redesigned a fragmented 80+ page church website into a modern, bilingual, mobile-first platform — reducing complexity by 90% and creating clarity for two distinct audiences." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS — mirrors styles.css exactly
+       ============================================================ */
+    :root {
+      --bg-deep:      #03010a;
+      --bg-mid:       #0d0528;
+      --bg-blue:      #0a1a4a;
+      --accent-pink:  #f0196e;
+      --accent-cyan:  #00e5ff;
+      --accent-violet:#9b59fc;
+      --accent-gold:  #ffd166;
+      --text-primary: #f0eeff;
+      --text-muted:   #8b85b0;
+      --text-dim:     #4a4470;
+      --card-bg:      rgba(255,255,255,0.04);
+      --card-border:  rgba(255,255,255,0.08);
+      --glass:        rgba(13,5,40,0.6);
+      --sp-xs: 0.5rem;
+      --sp-sm: 1rem;
+      --sp-md: 1.75rem;
+      --sp-lg: 3rem;
+      --sp-xl: 5rem;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius-sm:  8px;
+      --radius-md: 16px;
+      --radius-lg: 28px;
+      --radius-xl: 48px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --transition: 0.35s var(--ease);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 10%,  rgba(10,26,74,0.85)  0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 0%,   rgba(155,89,252,0.35) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 70% at 50% 100%,  rgba(240,25,110,0.15) 0%, transparent 55%),
+        linear-gradient(160deg, #0a1a4a 0%, #0d0528 40%, #03010a 100%);
+      z-index: -2; pointer-events: none;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.3; z-index: -1; pointer-events: none;
+    }
+
+    img { max-width: 100%; display: block; }
+    a   { color: inherit; text-decoration: none; }
+    ul  { list-style: none; }
+    h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.1; }
+
+    .container { width: min(1100px, 92vw); margin-inline: auto; }
+    .prose-container { width: min(740px, 92vw); margin-inline: auto; }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent-cyan); margin-bottom: var(--sp-xs);
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800; margin-bottom: var(--sp-sm);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(155,89,252,0.4), rgba(0,229,255,0.3), transparent);
+      margin: 0; border: none;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.8rem; border-radius: var(--radius-xl);
+      font-family: var(--font-display); font-size: 0.8rem;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; border: none; transition: all var(--transition);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
+      color: #fff; box-shadow: 0 4px 30px rgba(240,25,110,0.4);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(240,25,110,0.6); }
+    .btn-outline {
+      background: transparent; color: var(--text-primary);
+      border: 1.5px solid rgba(255,255,255,0.3);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-cyan); color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(0,229,255,0.2); transform: translateY(-2px);
+    }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); transition: all var(--transition); overflow: hidden;
+    }
+
+    /* ── NAV (identical to global) ─────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0; transition: all var(--transition);
+    }
+    #navbar.scrolled {
+      background: rgba(3,1,10,0.85); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 0;
+    }
+    .nav-logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; letter-spacing: 0.05em; }
+    .nav-logo span { color: var(--accent-pink); }
+    .nav-links { display: flex; align-items: center; gap: var(--sp-md); }
+    .nav-links a {
+      font-family: var(--font-display); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+      transition: color var(--transition); position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent-pink), var(--accent-cyan));
+      transform: scaleX(0); transition: transform var(--transition); border-radius: 2px;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-cta { padding: 0.55rem 1.4rem; font-size: 0.72rem; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all var(--transition); }
+    .nav-mobile { display: none; flex-direction: column; gap: var(--sp-sm); padding: var(--sp-sm) 0 var(--sp-md); border-top: 1px solid rgba(255,255,255,0.06); }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding: 0.4rem 0; transition: color var(--transition); }
+    .nav-mobile a:hover { color: var(--text-primary); }
+
+    /* ── BREADCRUMB ─────────────────────────────────────────── */
+    .breadcrumb-bar {
+      padding: 7rem 0 0;
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display); font-size: 0.68rem;
+      font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .breadcrumb a { color: var(--text-dim); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--accent-cyan); }
+    .breadcrumb .sep { color: var(--text-dim); }
+    .breadcrumb .current { color: var(--accent-cyan); }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    .project-hero {
+      padding: 2.5rem 0 var(--sp-xl);
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.25rem; flex-wrap: wrap;
+    }
+    .hero-tag {
+      font-family: var(--font-display); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.25rem 0.75rem; border-radius: var(--radius-xl);
+      background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25);
+      color: var(--accent-cyan);
+    }
+    .hero-tag.pink {
+      background: rgba(240,25,110,0.08); border-color: rgba(240,25,110,0.25);
+      color: var(--accent-pink);
+    }
+    .hero-tag.violet {
+      background: rgba(155,89,252,0.08); border-color: rgba(155,89,252,0.25);
+      color: var(--accent-violet);
+    }
+    .hero-year { font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-display); letter-spacing: 0.1em; }
+
+    .project-title {
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      font-weight: 800; line-height: 1.0; margin-bottom: 1.25rem;
+    }
+    .project-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-muted);
+      max-width: 680px; line-height: 1.75; margin-bottom: var(--sp-md);
+    }
+
+    .hero-visual {
+      width: 100%; aspect-ratio: 21/9; border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #0a0520 0%, #0d1535 30%, #1a0830 60%, #080420 100%);
+      border: 1px solid var(--card-border);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: var(--sp-md);
+    }
+    .hero-visual-inner {
+      position: relative; z-index: 2; text-align: center;
+    }
+    .hero-visual-emoji { font-size: 5rem; display: block; margin-bottom: 1rem; }
+    .hero-visual-label {
+      font-family: var(--font-display); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+    }
+
+    /* Animated glow orbs in hero visual */
+    .hero-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 20% 50%, rgba(0,229,255,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 50%, rgba(155,89,252,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(240,25,110,0.08) 0%, transparent 60%);
+    }
+    /* Grid overlay */
+    .hero-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Floating UI mockup elements */
+    .hero-mockup-bar {
+      position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+      width: min(480px, 85%); height: 36px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-xl); z-index: 3;
+      display: flex; align-items: center; padding: 0 12px; gap: 8px;
+    }
+    .mockup-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .mockup-dot.r { background: rgba(240,25,110,0.6); }
+    .mockup-dot.y { background: rgba(255,209,102,0.6); }
+    .mockup-dot.g { background: rgba(0,229,255,0.3); }
+    .mockup-url {
+      flex: 1; height: 18px; background: rgba(255,255,255,0.04);
+      border-radius: var(--radius-xl); border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .hero-mockup-card {
+      position: absolute; bottom: 24px; z-index: 3;
+      background: rgba(13,5,40,0.75); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md); padding: 10px 14px; backdrop-filter: blur(12px);
+    }
+    .hero-mockup-card.left  { left: 24px; }
+    .hero-mockup-card.right { right: 24px; }
+    .mockup-stat-val {
+      font-family: var(--font-display); font-size: 1.4rem; font-weight: 800;
+      line-height: 1; margin-bottom: 2px;
+    }
+    .mockup-stat-val.cyan   { color: var(--accent-cyan); }
+    .mockup-stat-val.pink   { color: var(--accent-pink); }
+    .mockup-stat-label { font-size: 0.65rem; color: var(--text-dim); font-family: var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* ── QUICK SUMMARY ──────────────────────────────────────── */
+    .summary-strip {
+      padding: var(--sp-lg) 0;
+    }
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); overflow: hidden;
+      background: var(--card-border);
+    }
+    .summary-cell {
+      background: var(--card-bg); padding: 1.5rem;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: background var(--transition);
+    }
+    .summary-cell:hover { background: rgba(155,89,252,0.06); }
+    .summary-cell-label {
+      font-family: var(--font-display); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+    .summary-cell-value {
+      font-family: var(--font-display); font-size: 0.92rem; font-weight: 600;
+      color: var(--text-primary); line-height: 1.3;
+    }
+
+    /* ── GENERIC SECTIONS ───────────────────────────────────── */
+    .case-section { padding: var(--sp-xl) 0; }
+    .case-section + .case-section { padding-top: 0; }
+
+    .prose {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.85;
+    }
+    .prose + .prose { margin-top: 1rem; }
+    .prose strong { color: var(--text-primary); font-weight: 500; }
+
+    /* ── TWO-COL LAYOUT ─────────────────────────────────────── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-lg);
+      align-items: start;
+    }
+    .two-col-3-2 {
+      display: grid; grid-template-columns: 3fr 2fr; gap: var(--sp-lg);
+      align-items: start;
+    }
+
+    /* ── INSIGHT CARDS ──────────────────────────────────────── */
+    .insight-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+      margin-top: var(--sp-md);
+    }
+    .insight-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: all var(--transition);
+    }
+    .insight-card:hover {
+      border-color: rgba(155,89,252,0.35); transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+    }
+    .insight-icon { font-size: 1.5rem; margin-bottom: 0.75rem; display: block; }
+    .insight-title {
+      font-family: var(--font-display); font-size: 0.85rem; font-weight: 700;
+      margin-bottom: 0.4rem; color: var(--text-primary);
+    }
+    .insight-body { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── PERSONA CARDS ──────────────────────────────────────── */
+    .persona-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: var(--sp-md); }
+    .persona-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.75rem;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      position: relative; overflow: hidden;
+    }
+    .persona-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--persona-accent, var(--accent-cyan));
+    }
+    .persona-quote {
+      font-size: 0.88rem; font-style: italic; color: var(--text-muted);
+      border-left: 2px solid rgba(255,255,255,0.1); padding-left: 0.75rem;
+      margin-bottom: 1rem; line-height: 1.65;
+    }
+    .persona-name {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+    .persona-meta { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 1rem; }
+    .persona-list { margin-top: 0.75rem; }
+    .persona-list li {
+      font-size: 0.8rem; color: var(--text-muted); padding: 0.25rem 0;
+      padding-left: 1rem; position: relative; line-height: 1.5;
+    }
+    .persona-list li::before {
+      content: '→'; position: absolute; left: 0; color: var(--accent-cyan); font-size: 0.75rem;
+    }
+    .persona-list-label {
+      font-family: var(--font-display); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-top: 0.75rem;
+    }
+
+    /* ── GOAL PILLS ─────────────────────────────────────────── */
+    .goal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: var(--sp-md); }
+    .goal-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.25rem;
+      backdrop-filter: blur(12px);
+    }
+    .goal-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+    .goal-title { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .goal-body  { font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── ROLE & RESPONSIBILITIES ────────────────────────────── */
+    .role-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
+    .role-badge {
+      font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: var(--radius-xl);
+      background: rgba(155,89,252,0.1); border: 1px solid rgba(155,89,252,0.25);
+      color: var(--accent-violet);
+    }
+    .role-badge.cyan {
+      background: rgba(0,229,255,0.1); border-color: rgba(0,229,255,0.25); color: var(--accent-cyan);
+    }
+    .role-badge.pink {
+      background: rgba(240,25,110,0.1); border-color: rgba(240,25,110,0.25); color: var(--accent-pink);
+    }
+    .responsibility-list { margin-top: 1.25rem; }
+    .responsibility-item {
+      display: flex; gap: 1rem; padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .responsibility-item:last-child { border-bottom: none; }
+    .resp-bullet {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 0.65rem; margin-top: 1px;
+    }
+    .resp-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    .resp-text strong { color: var(--text-primary); }
+
+    /* ── PROCESS TIMELINE ───────────────────────────────────── */
+    .process-steps { margin-top: var(--sp-md); display: flex; flex-direction: column; gap: 0; }
+    .process-step {
+      display: grid; grid-template-columns: 60px 1fr; gap: 0 1.5rem;
+      position: relative;
+    }
+    .step-track {
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .step-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 2px solid rgba(155,89,252,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 0.78rem; font-weight: 800;
+      color: var(--accent-violet); flex-shrink: 0; background: var(--bg-deep);
+      position: relative; z-index: 1;
+    }
+    .step-line {
+      flex: 1; width: 2px;
+      background: linear-gradient(to bottom, rgba(155,89,252,0.3), rgba(0,229,255,0.15));
+      min-height: 24px;
+    }
+    .process-step:last-child .step-line { display: none; }
+    .step-content { padding-bottom: var(--sp-md); padding-top: 6px; }
+    .step-label {
+      font-family: var(--font-display); font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 0.3rem;
+    }
+    .step-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .step-body  { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── SOLUTIONS GRID ─────────────────────────────────────── */
+    .solutions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: var(--sp-md); }
+    .solution-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem 1.5rem 1.5rem 1.25rem;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; gap: 1rem; transition: all var(--transition);
+    }
+    .solution-card:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+    .solution-icon-wrap {
+      width: 44px; height: 44px; border-radius: var(--radius-sm);
+      background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .solution-title { font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .solution-body  { font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── BEFORE / AFTER ─────────────────────────────────────── */
+    .before-after {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: var(--sp-md);
+    }
+    .ba-panel {
+      border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--card-border);
+    }
+    .ba-header {
+      padding: 0.75rem 1.25rem; display: flex; align-items: center; gap: 0.6rem;
+      font-family: var(--font-display); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .ba-header.before { background: rgba(240,25,110,0.1); color: var(--accent-pink); border-bottom: 1px solid rgba(240,25,110,0.15); }
+    .ba-header.after  { background: rgba(0,229,255,0.1);  color: var(--accent-cyan);  border-bottom: 1px solid rgba(0,229,255,0.15); }
+    .ba-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .ba-dot.before { background: var(--accent-pink); }
+    .ba-dot.after  { background: var(--accent-cyan); }
+    .ba-body { padding: 1.25rem; background: var(--card-bg); backdrop-filter: blur(12px); }
+    .ba-item {
+      display: flex; gap: 0.75rem; padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem;
+    }
+    .ba-item:last-child { border-bottom: none; }
+    .ba-item::before { content: '✕'; color: var(--accent-pink); font-size: 0.7rem; margin-top: 3px; flex-shrink: 0; }
+    .ba-panel:last-child .ba-item::before { content: '✓'; color: var(--accent-cyan); }
+
+    /* ── METRICS BANNER ─────────────────────────────────────── */
+    .metrics-banner {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: var(--sp-lg);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background-color: var(--card-border);
+      backdrop-filter: blur(12px); overflow: hidden; margin-top: var(--sp-md);
+    }
+    .metric-cell {
+      background: var(--card-bg); padding: 2rem 1.5rem; text-align: center;
+      transition: background var(--transition);
+    }
+    .metric-cell:hover { background: rgba(155,89,252,0.06); }
+    .metric-val {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; line-height: 1;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .metric-label { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── REFLECTION ─────────────────────────────────────────── */
+    .reflection-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: var(--sp-md); }
+    .reflection-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem;
+      backdrop-filter: blur(12px);
+    }
+    .reflection-card-label {
+      font-family: var(--font-display); font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.5rem;
+    }
+    .reflection-card-title { font-family: var(--font-display); font-size: 0.88rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .reflection-card-body  { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── VISUAL GALLERY ─────────────────────────────────────── */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: var(--sp-md);
+    }
+    .gallery-item {
+      aspect-ratio: 4/3; border-radius: var(--radius-md); overflow: hidden;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; transition: all var(--transition);
+    }
+    .gallery-item:hover { transform: scale(1.02); border-color: rgba(155,89,252,0.35); box-shadow: 0 12px 36px rgba(0,0,0,0.4); }
+    .gallery-item-inner { text-align: center; z-index: 2; }
+    .gallery-item-emoji { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+    .gallery-item-caption { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+    .gallery-item::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gallery-bg, linear-gradient(135deg, #060318 0%, #0d0a28 100%));
+    }
+
+    /* ── CTA SECTION ────────────────────────────────────────── */
+    .cta-section { padding: var(--sp-xl) 0; }
+    .cta-inner {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: var(--sp-lg) var(--sp-xl);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--sp-lg); position: relative; overflow: hidden;
+    }
+    .cta-inner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 0% 50%, rgba(155,89,252,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .cta-label { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 0.5rem; }
+    .cta-title { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 800; line-height: 1.2; }
+    .cta-sub   { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.4rem; }
+    .cta-buttons { display: flex; gap: 1rem; flex-shrink: 0; flex-wrap: wrap; }
+
+    /* ── NEXT PROJECT STRIP ─────────────────────────────────── */
+    .next-project {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--sp-lg) 0; border-top: 1px solid var(--card-border);
+      gap: 1rem;
+    }
+    .next-label { font-family: var(--font-display); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.3rem; }
+    .next-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+    .next-arrow {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition); flex-shrink: 0;
+    }
+    .next-arrow:hover { border-color: var(--accent-cyan); background: rgba(0,229,255,0.08); transform: translateX(4px); }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer { border-top: 1px solid var(--card-border); background: rgba(3,1,10,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--sp-lg); padding: var(--sp-xl) 0 var(--sp-lg); }
+    .footer-brand .footer-logo { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; }
+    .footer-brand .footer-logo span { color: var(--accent-pink); }
+    .footer-tagline { font-size: 0.85rem; color: var(--text-muted); max-width: 280px; line-height: 1.7; margin-bottom: var(--sp-sm); }
+    .footer-col-title { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1rem; }
+    .footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a { font-size: 0.88rem; color: var(--text-muted); transition: color var(--transition); }
+    .footer-links a:hover { color: var(--text-primary); }
+    .footer-contact-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.7rem; }
+    .social-links { display: flex; gap: 0.8rem; margin-top: 1rem; }
+    .social-link { width: 38px; height: 38px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all var(--transition); }
+    .social-link:hover { border-color: var(--accent-cyan); background: rgba(0,229,255,0.08); transform: translateY(-3px); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; border-top: 1px solid var(--card-border); font-size: 0.78rem; color: var(--text-dim); }
+    .footer-bottom a { color: var(--accent-cyan); }
+
+    /* ── SCROLL REVEALS ─────────────────────────────────────── */
+    [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    [data-reveal].revealed { opacity: 1; transform: translateY(0); }
+    [data-reveal="left"]  { transform: translateX(-28px); }
+    [data-reveal="right"] { transform: translateX(28px); }
+    [data-reveal="left"].revealed, [data-reveal="right"].revealed { transform: translateX(0); }
+    [data-delay="1"] { transition-delay: 0.1s; } [data-delay="2"] { transition-delay: 0.2s; }
+    [data-delay="3"] { transition-delay: 0.3s; } [data-delay="4"] { transition-delay: 0.4s; }
+
+    /* ── HIGHLIGHT QUOTE ────────────────────────────────────── */
+    .highlight-quote {
+      border-left: 3px solid var(--accent-cyan); padding: 1rem 1.5rem;
+      background: rgba(0,229,255,0.04); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 1.5rem 0;
+    }
+    .highlight-quote p { font-size: 0.95rem; color: var(--text-muted); font-style: italic; line-height: 1.75; }
+    .highlight-quote cite { display: block; margin-top: 0.5rem; font-size: 0.78rem; font-style: normal; color: var(--text-dim); font-family: var(--font-display); letter-spacing: 0.06em; }
+
+    /* ── AI DISCLAIMER ──────────────────────────────────────── */
+    .ai-note {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display); font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim);
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-xl); padding: 0.3rem 0.9rem; margin-bottom: var(--sp-md);
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links   { display: none; }
+      .hamburger   { display: flex; }
+      .two-col, .two-col-3-2 { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: repeat(2,1fr); }
+      .insight-grid { grid-template-columns: 1fr 1fr; }
+      .persona-grid { grid-template-columns: 1fr; }
+      .solutions-grid { grid-template-columns: 1fr; }
+      .before-after { grid-template-columns: 1fr; }
+      .metrics-banner { grid-template-columns: repeat(2,1fr); }
+      .reflection-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: var(--sp-md); }
+      .cta-inner { flex-direction: column; align-items: flex-start; padding: var(--sp-md); }
+      .hero-mockup-card { display: none; }
+    }
+    @media (max-width: 600px) {
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+      .insight-grid { grid-template-columns: 1fr; }
+      .goal-grid { grid-template-columns: 1fr; }
+      .metrics-banner { grid-template-columns: 1fr 1fr; }
+      .reflection-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hero-visual { aspect-ratio: 4/3; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo display">Rafael<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../creative.html">Creative</a></li>
+        <li><a href="../music.html">Music</a></li>
+        <li><a href="../experience.html">Experience</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../contact.html" class="btn btn-primary nav-cta">Hire Me</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <ul class="nav-mobile" id="nav-mobile">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../projects.html">Projects</a></li>
+      <li><a href="../creative.html">Creative</a></li>
+      <li><a href="../music.html">Music</a></li>
+      <li><a href="../experience.html">Experience</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     BREADCRUMB
+════════════════════════════════════════════════ -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../projects.html">Projects</a>
+      <span class="sep">›</span>
+      <span class="current">CCCRI Redesign</span>
+    </nav>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section class="project-hero">
+  <div class="container">
+
+    <div data-reveal>
+      <span class="ai-note">🤖 AI-assisted writing, research &amp; code review</span>
+    </div>
+
+    <div class="hero-eyebrow" data-reveal data-delay="1">
+      <span class="hero-tag">UX Design</span>
+      <span class="hero-tag pink">Product Management</span>
+      <span class="hero-tag violet">Front-End Dev</span>
+      <span class="hero-year">2024 · 1-Week Sprint</span>
+    </div>
+
+    <h1 class="project-title display" data-reveal data-delay="2">
+      CCCRI <em>Website</em><br>Redesign
+    </h1>
+
+    <p class="hero-sub" data-reveal data-delay="3">
+      Redesigning a fragmented, confusing digital experience into a modern, bilingual, mobile-first platform — collapsing 80+ pages into 8 and creating a clear, accessible path for every user who walks through the door.
+    </p>
+
+    <!-- Hero Visual -->
+    <div class="hero-visual" data-reveal data-delay="4">
+      <div class="hero-mockup-bar">
+        <div class="mockup-dot r"></div>
+        <div class="mockup-dot y"></div>
+        <div class="mockup-dot g"></div>
+        <div class="mockup-url"></div>
+      </div>
+
+      <div class="hero-visual-inner">
+        <span class="hero-visual-emoji">⛪</span>
+        <p class="hero-visual-label">CCCRI · Community Church of Christ — Rhode Island</p>
+      </div>
+
+      <div class="hero-mockup-card left">
+        <div class="mockup-stat-val cyan">80+</div>
+        <div class="mockup-stat-label">Pages → 8</div>
+      </div>
+      <div class="hero-mockup-card right">
+        <div class="mockup-stat-val pink">90%</div>
+        <div class="mockup-stat-label">Complexity Reduction</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     QUICK SUMMARY STRIP
+════════════════════════════════════════════════ -->
+<div class="summary-strip">
+  <div class="container">
+    <div class="summary-grid" data-reveal>
+      <div class="summary-cell">
+        <div class="summary-cell-label">My Role</div>
+        <div class="summary-cell-value">PM / UX Designer / Developer</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-cell-label">Timeline</div>
+        <div class="summary-cell-value">1-Week Sprint</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-cell-label">Tools</div>
+        <div class="summary-cell-value">Figma · HTML/CSS · JS · ChatGPT · Claude</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-cell-label">Deliverable</div>
+        <div class="summary-cell-value">Donated, Live Redesign</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     PROJECT OVERVIEW
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div class="two-col-3-2">
+      <div data-reveal>
+        <p class="section-label">Overview</p>
+        <h2 class="section-title">A community deserved better than what they had</h2>
+        <p class="prose">
+          CCCRI (Community Church of Christ — Rhode Island) is a bilingual church serving both English and Chinese-speaking communities. Over time, their digital presence became a patchwork: multiple websites, dozens of disconnected pages, and a navigation system that required calling the church office just to find basic information.
+        </p>
+        <p class="prose">
+          In a single week, I led a complete end-to-end redesign — from discovery and persona development through sitemap architecture, design, and front-end implementation — delivering a modern, bilingual, mobile-first platform that serves real people in the pews and behind screens.
+        </p>
+        <div class="highlight-quote">
+          <p>"We originally used engineers and designers to create the first version of the site. As time grew, responsibility became that of non-technical volunteers. Multiple people in charge leads to conflicts in what should be delivered and what is an acceptable outcome."</p>
+          <cite>— CCCRI Stakeholder</cite>
+        </div>
+      </div>
+      <div data-reveal="right" data-delay="2">
+        <div class="insight-grid" style="grid-template-columns: 1fr;">
+          <div class="insight-card">
+            <span class="insight-icon">📱</span>
+            <div class="insight-title">Mobile-First Rebuild</div>
+            <div class="insight-body">Designed for thumbs first, then scaled up to desktop — reversing the legacy approach that buried mobile users under desktop-only navigation.</div>
+          </div>
+          <div class="insight-card">
+            <span class="insight-icon">🌎</span>
+            <div class="insight-title">Unified Bilingual System</div>
+            <div class="insight-body">Replaced disconnected English and Chinese pages with a single, integrated bilingual experience — one URL, one navigation, two languages.</div>
+          </div>
+          <div class="insight-card">
+            <span class="insight-icon">🗺️</span>
+            <div class="insight-title">Radical Simplification</div>
+            <div class="insight-body">Consolidated 80+ fragmented pages into 8 core sections, rebuilt the entire sitemap from the ground up around actual user journeys.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     PROBLEM / CHALLENGE
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Problem / Challenge</p>
+      <h2 class="section-title">Four cracks running through the foundation</h2>
+      <p class="prose" style="max-width: 680px;">
+        The existing site wasn't just aesthetically dated — it was structurally broken. For a church whose job is to be welcoming and accessible, the digital front door was locked, confusing, and invisible on mobile.
+      </p>
+    </div>
+    <div class="insight-grid" style="margin-top: var(--sp-md);">
+      <div class="insight-card" data-reveal data-delay="1">
+        <span class="insight-icon">🧭</span>
+        <div class="insight-title">High Navigation Friction</div>
+        <div class="insight-body">No clear information hierarchy. Navigation didn't work on mobile. Key content — service times, ministries, contact — was buried behind expandable sections and orphaned pages.</div>
+      </div>
+      <div class="insight-card" data-reveal data-delay="2">
+        <span class="insight-icon">📵</span>
+        <div class="insight-title">Broken Mobile Experience</div>
+        <div class="insight-body">The majority of visitors browse on phones. The existing site was designed for desktop only, rendering menus inaccessible and layouts broken on smaller screens.</div>
+      </div>
+      <div class="insight-card" data-reveal data-delay="3">
+        <span class="insight-icon">🔤</span>
+        <div class="insight-title">Disconnected Bilingual Access</div>
+        <div class="insight-body">English and Chinese content existed in entirely separate, inconsistent structures. Chinese-speaking community members had to hunt for translations with no guarantee of parity.</div>
+      </div>
+      <div class="insight-card" data-reveal data-delay="1" style="grid-column: 1 / -1; max-width: 520px;">
+        <span class="insight-icon">📂</span>
+        <div class="insight-title">80+ Pages, Zero Clarity</div>
+        <div class="insight-body">Content was duplicated across pages, managed by multiple non-technical volunteers with conflicting ideas of what "done" meant. No single source of truth existed for anything.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     GOALS
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Goals</p>
+      <h2 class="section-title">What success actually looked like</h2>
+    </div>
+    <div class="goal-grid">
+      <div class="goal-item" data-reveal data-delay="1">
+        <span class="goal-icon">🎯</span>
+        <div>
+          <div class="goal-title">Consolidate & Simplify</div>
+          <div class="goal-body">Reduce 80+ pages to 8 core sections. Every piece of content needs a clear home, and every navigation path needs to work on the first try.</div>
+        </div>
+      </div>
+      <div class="goal-item" data-reveal data-delay="2">
+        <span class="goal-icon">📲</span>
+        <div>
+          <div class="goal-title">Mobile-First UX</div>
+          <div class="goal-body">Design for a phone, then scale up. Prioritize finger-friendly targets, thumb-reach navigation, and fast loading — because most visitors arrive on mobile.</div>
+        </div>
+      </div>
+      <div class="goal-item" data-reveal data-delay="3">
+        <span class="goal-icon">🌐</span>
+        <div>
+          <div class="goal-title">Unified Bilingual Experience</div>
+          <div class="goal-body">Build English and Simplified Chinese into a single, consistent structure — not two separate sites. Create parity so the language a user speaks doesn't determine what they can access.</div>
+        </div>
+      </div>
+      <div class="goal-item" data-reveal data-delay="4">
+        <span class="goal-icon">📈</span>
+        <div>
+          <div class="goal-title">Scalable for Non-Technical Owners</div>
+          <div class="goal-body">The site needs to survive long-term in the hands of volunteers. The new architecture had to be simple enough that anyone could maintain it without breaking the experience.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     ROLE & RESPONSIBILITIES
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div class="two-col" style="align-items: start;">
+      <div data-reveal>
+        <p class="section-label">My Role</p>
+        <h2 class="section-title">End-to-end, week-one ownership</h2>
+        <p class="prose">
+          This was a solo project — which meant I wore every hat. I conducted the discovery, defined the architecture, designed the visual system, and built and delivered the front end. Unusually for a week-long sprint, I also served as the stakeholder bridge, gathering requirements from church leadership and translating them into actionable design decisions.
+        </p>
+        <div class="role-badges">
+          <span class="role-badge cyan">Product Manager</span>
+          <span class="role-badge">UX Designer</span>
+          <span class="role-badge pink">Front-End Developer</span>
+          <span class="role-badge">Content Strategist</span>
+          <span class="role-badge cyan">IA Architect</span>
+        </div>
+      </div>
+      <div data-reveal="right" data-delay="2">
+        <div class="responsibility-list">
+          <div class="responsibility-item">
+            <div class="resp-bullet">01</div>
+            <div class="resp-text"><strong>Site Audit & Discovery</strong> — Mapped all 80+ existing pages, documented redundancies, and identified every critical user task that the site was failing to support.</div>
+          </div>
+          <div class="responsibility-item">
+            <div class="resp-bullet">02</div>
+            <div class="resp-text"><strong>Persona Development</strong> — Built two primary personas representing distinct audience segments: the curious new visitor and the returning member seeking updates.</div>
+          </div>
+          <div class="responsibility-item">
+            <div class="resp-bullet">03</div>
+            <div class="resp-text"><strong>Information Architecture</strong> — Rebuilt the sitemap from scratch, collapsing fragmented content into 8 logical sections with clear user flows.</div>
+          </div>
+          <div class="responsibility-item">
+            <div class="resp-bullet">04</div>
+            <div class="resp-text"><strong>Design System & Visual Direction</strong> — Created a modern color system, typography hierarchy, and layout grid in Figma, then implemented it in production.</div>
+          </div>
+          <div class="responsibility-item">
+            <div class="resp-bullet">05</div>
+            <div class="resp-text"><strong>Front-End Development</strong> — Built the full responsive site in HTML, CSS, and JavaScript. AI tools assisted with code generation, debugging, and copy refinement.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     USERS & PERSONAS
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Users & Context</p>
+      <h2 class="section-title">Designing for real people in the pews</h2>
+      <p class="prose" style="max-width: 680px;">
+        Two very different people needed to succeed on this site. One is arriving for the first time, skeptical, browsing on her phone. The other has been attending for years and just needs to know what's happening this Sunday. The redesign had to work for both.
+      </p>
+    </div>
+    <div class="persona-grid">
+      <div class="persona-card" style="--persona-accent: var(--accent-cyan);" data-reveal data-delay="1">
+        <p class="persona-quote">"I want to know when services are and what to expect before I walk through that door."</p>
+        <div class="persona-name">Sara Martinez</div>
+        <div class="persona-meta">Age 34 · Teacher & Business Owner · Mobile-First User</div>
+        <div class="persona-list-label">Frustrations with the old site</div>
+        <ul class="persona-list">
+          <li>Couldn't find event information consistently</li>
+          <li>Too many pages, no clear starting point</li>
+          <li>Left when confused — called the church directly</li>
+          <li>No mobile-friendly experience</li>
+        </ul>
+        <div class="persona-list-label">How the redesign helps</div>
+        <ul class="persona-list">
+          <li>8-page structure makes entry intuitive</li>
+          <li>Service times and location surfaced immediately</li>
+          <li>Clear CTAs guide her from landing to connection</li>
+        </ul>
+      </div>
+      <div class="persona-card" style="--persona-accent: var(--accent-violet);" data-reveal data-delay="2">
+        <p class="persona-quote">"I just want to quickly check what's happening this week — I've been coming here for 20 years."</p>
+        <div class="persona-name">David Li</div>
+        <div class="persona-meta">Age 52 · Construction Supervisor · Desktop + Occasional Mobile</div>
+        <div class="persona-list-label">Frustrations with the old site</div>
+        <ul class="persona-list">
+          <li>Information buried — too many clicks per task</li>
+          <li>Inconsistent structure across pages</li>
+          <li>Bilingual content not clearly accessible</li>
+          <li>Navigation changes confused his mental model</li>
+        </ul>
+        <div class="persona-list-label">How the redesign helps</div>
+        <ul class="persona-list">
+          <li>Consolidated pages remove recurring confusion</li>
+          <li>Announcements clearly visible on load</li>
+          <li>Unified bilingual experience removes friction</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     PROCESS / APPROACH
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Process</p>
+      <h2 class="section-title">Five phases. One week. Zero shortcuts.</h2>
+    </div>
+    <div class="two-col" style="margin-top: var(--sp-md);">
+      <div class="process-steps" data-reveal>
+        <div class="process-step">
+          <div class="step-track">
+            <div class="step-num">01</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-label">Discovery</div>
+            <div class="step-title">Full Site Audit</div>
+            <div class="step-body">Mapped all 80+ existing pages, documented navigation failures, performed a heuristic evaluation of usability issues, and analyzed mobile vs. desktop experience gaps.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-track">
+            <div class="step-num">02</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-label">Strategy</div>
+            <div class="step-title">Architecture & Personas</div>
+            <div class="step-body">Developed two primary personas from stakeholder interviews. Rebuilt the sitemap from the ground up — 8 core pages, 2 secondary categories for ministries and fellowships.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-track">
+            <div class="step-num">03</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-label">Design</div>
+            <div class="step-title">Mobile-First in Figma</div>
+            <div class="step-body">Designed every page starting at 375px. New color system, typography, and component library. Kept the Donate button persistently visible — a critical requirement from leadership.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-track">
+            <div class="step-num">04</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-label">Build</div>
+            <div class="step-title">HTML / CSS / JS + AI Assist</div>
+            <div class="step-body">Implemented the design in clean, semantic HTML and CSS. Used ChatGPT, Gemini, and Claude for code generation, debugging, and copy refinement — accelerating delivery without sacrificing quality.</div>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-track">
+            <div class="step-num">05</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-label">Delivery</div>
+            <div class="step-title">Donated & Deployed</div>
+            <div class="step-body">Delivered the site as a community donation. Provided documentation and a handoff guide for the volunteer team to maintain the site going forward.</div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal="right" data-delay="2">
+        <div class="card" style="padding: 1.5rem; margin-bottom: 1rem;">
+          <p class="section-label" style="margin-bottom: 0.5rem;">Key Tradeoffs Made</p>
+          <div class="responsibility-item">
+            <div class="resp-bullet">↓</div>
+            <div class="resp-text"><strong>Depth for Clarity</strong> — Reduced total content to surface essentials. Not every ministry gets its own page; the most important information gets the most real estate.</div>
+          </div>
+          <div class="responsibility-item">
+            <div class="resp-bullet">→</div>
+            <div class="resp-text"><strong>Edge Cases Deprioritized</strong> — Designed for the top two user journeys. Advanced use cases were deferred to a future iteration based on real usage data.</div>
+          </div>
+          <div class="responsibility-item" style="border: none;">
+            <div class="resp-bullet">⤴</div>
+            <div class="resp-text"><strong>Bilingual Doubles Content</strong> — Accepted that representing two full languages creates more content overhead in exchange for genuine community inclusion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     KEY SOLUTIONS
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Key Solutions</p>
+      <h2 class="section-title">The decisions that moved the needle</h2>
+    </div>
+    <div class="solutions-grid">
+      <div class="solution-card" data-reveal data-delay="1">
+        <div class="solution-icon-wrap">🗂️</div>
+        <div>
+          <div class="solution-title">Rebuilt Information Architecture</div>
+          <div class="solution-body">Consolidated 80+ pages into 8 core sections. Grouped related content logically. Added secondary pages only for Fellowship and Ministry groups — everything else lives on the main pages.</div>
+        </div>
+      </div>
+      <div class="solution-card" data-reveal data-delay="2">
+        <div class="solution-icon-wrap">📍</div>
+        <div>
+          <div class="solution-title">Persistent Donate & Nav CTA</div>
+          <div class="solution-body">The Donate button stays fixed in the navigation on every page, on every device. No hunting. A core organizational priority made impossible to miss.</div>
+        </div>
+      </div>
+      <div class="solution-card" data-reveal data-delay="1">
+        <div class="solution-icon-wrap">🌎</div>
+        <div>
+          <div class="solution-title">Integrated Bilingual Architecture</div>
+          <div class="solution-body">English and Chinese content live in the same unified page structure. No separate sites, no separate navigation. Language is a toggle, not a fork in the road.</div>
+        </div>
+      </div>
+      <div class="solution-card" data-reveal data-delay="2">
+        <div class="solution-icon-wrap">📣</div>
+        <div>
+          <div class="solution-title">Visible Announcement Cards</div>
+          <div class="solution-body">Upcoming events and weekly updates now live on the homepage in scannable cards — visible on first load, no scrolling required for returning members like David.</div>
+        </div>
+      </div>
+      <div class="solution-card" data-reveal data-delay="3">
+        <div class="solution-icon-wrap">🎨</div>
+        <div>
+          <div class="solution-title">Modern Visual Identity</div>
+          <div class="solution-body">Introduced a cohesive color system, improved typography hierarchy, and a welcoming visual language — bringing the church's digital presence in line with its community character.</div>
+        </div>
+      </div>
+      <div class="solution-card" data-reveal data-delay="4">
+        <div class="solution-icon-wrap">⚙️</div>
+        <div>
+          <div class="solution-title">Volunteer-Maintainable Structure</div>
+          <div class="solution-body">Every design decision was made with non-technical maintainers in mind. Clean HTML structure, no framework dependencies, and a full handoff guide to protect the investment long-term.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     BEFORE vs AFTER
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Before vs. After</p>
+      <h2 class="section-title">The transformation in plain language</h2>
+    </div>
+    <div class="before-after" data-reveal data-delay="1">
+      <div class="ba-panel">
+        <div class="ba-header before">
+          <span class="ba-dot before"></span>
+          Before
+        </div>
+        <div class="ba-body">
+          <div class="ba-item">80+ disorganized pages across multiple domains</div>
+          <div class="ba-item">Navigation broken on mobile — unusable for most visitors</div>
+          <div class="ba-item">Critical info hidden behind expandable sections</div>
+          <div class="ba-item">English and Chinese content on separate, inconsistent pages</div>
+          <div class="ba-item">Inconsistent design with no unified visual language</div>
+          <div class="ba-item">No clear call to action for new visitors</div>
+          <div class="ba-item">Maintained by multiple volunteers with no clear ownership</div>
+        </div>
+      </div>
+      <div class="ba-panel">
+        <div class="ba-header after">
+          <span class="ba-dot after"></span>
+          After
+        </div>
+        <div class="ba-body">
+          <div class="ba-item">8 structured, logical core pages</div>
+          <div class="ba-item">Fully mobile-first — designed for thumbs before mouse</div>
+          <div class="ba-item">Service times, events, and contact surfaced immediately</div>
+          <div class="ba-item">Unified bilingual system — one navigation, two languages</div>
+          <div class="ba-item">Cohesive, welcoming modern design system</div>
+          <div class="ba-item">Clear CTAs guiding new visitors through their first steps</div>
+          <div class="ba-item">Handoff documentation for sustainable volunteer maintenance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     KEY OUTCOMES / IMPACT
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Key Outcomes</p>
+      <h2 class="section-title">What changed for the community</h2>
+    </div>
+    <div class="metrics-banner" data-reveal data-delay="1">
+      <div class="metric-cell">
+        <div class="metric-val">90%</div>
+        <div class="metric-label">Reduction in total pages<br>(80+ → 8)</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-val">2×</div>
+        <div class="metric-label">Language coverage in a<br>single unified experience</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-val">1wk</div>
+        <div class="metric-label">Full delivery from discovery<br>to live deployment</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-val">$0</div>
+        <div class="metric-label">Donated to the community —<br>zero cost to the church</div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-top: var(--sp-md);">
+      <div data-reveal>
+        <p class="prose">
+          The redesign removed the primary friction points that caused visitors to call the church office for information they should have found online in under 60 seconds. By surfacing service times, ministries, and contact information on the first scroll, the site now functions as the welcoming front door it was always meant to be.
+        </p>
+        <p class="prose">
+          Critically, the bilingual integration removed a long-standing barrier for Chinese-speaking community members, who previously navigated an entirely separate and often outdated set of pages.
+        </p>
+      </div>
+      <div data-reveal="right" data-delay="2">
+        <p class="prose">
+          <strong>Delivered as a community donation</strong>, the project established a scalable foundation that the church can build on without needing a developer on call. The cleaned architecture and volunteer-friendly documentation mean the investment is protected for the long term.
+        </p>
+        <p class="prose">
+          The project also served as a proof-of-concept for AI-assisted development — using Claude, ChatGPT, and Gemini strategically across the sprint to multiply output without sacrificing judgment or craft.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     REFLECTION / LESSONS LEARNED
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Reflection</p>
+      <h2 class="section-title">What I learned building this</h2>
+    </div>
+    <div class="reflection-grid">
+      <div class="reflection-card" data-reveal data-delay="1">
+        <div class="reflection-card-label">Key Learning</div>
+        <div class="reflection-card-title">Less is almost always more</div>
+        <div class="reflection-card-body">Reducing content rarely means losing value. On this project, removing 72 pages didn't diminish the site — it finally let the important content breathe and be found.</div>
+      </div>
+      <div class="reflection-card" data-reveal data-delay="2">
+        <div class="reflection-card-label">Key Learning</div>
+        <div class="reflection-card-title">IA is the invisible foundation</div>
+        <div class="reflection-card-body">No amount of visual polish fixes broken information architecture. Getting the sitemap right before touching Figma was the most impactful decision I made on this project.</div>
+      </div>
+      <div class="reflection-card" data-reveal data-delay="3">
+        <div class="reflection-card-label">Key Learning</div>
+        <div class="reflection-card-title">Mobile-first forces discipline</div>
+        <div class="reflection-card-body">Designing at 375px first forced hard prioritization choices — what earns space on a small screen? That constraint produced a better desktop experience as a byproduct.</div>
+      </div>
+    </div>
+    <div class="reflection-grid" style="margin-top: 1rem;">
+      <div class="reflection-card" data-reveal data-delay="1">
+        <div class="reflection-card-label">What I'd Do Next</div>
+        <div class="reflection-card-title">User testing with real members</div>
+        <div class="reflection-card-body">Conduct moderated testing sessions with Sara and David archetypes to validate assumptions and find friction points that only real usage reveals.</div>
+      </div>
+      <div class="reflection-card" data-reveal data-delay="2">
+        <div class="reflection-card-label">What I'd Do Next</div>
+        <div class="reflection-card-title">Add analytics tracking</div>
+        <div class="reflection-card-body">Implement basic event tracking to understand which pages visitors actually use, where they drop off, and whether the 8-page structure is mapping to real behavior.</div>
+      </div>
+      <div class="reflection-card" data-reveal data-delay="3">
+        <div class="reflection-card-label">What I'd Do Next</div>
+        <div class="reflection-card-title">Iterate on bilingual UX</div>
+        <div class="reflection-card-body">The current bilingual system is functional but could be more elegant. I'd explore inline toggle patterns and test language-switching behavior with actual Chinese-speaking users.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     GALLERY
+════════════════════════════════════════════════ -->
+<section class="case-section">
+  <div class="container">
+    <div data-reveal>
+      <p class="section-label">Supporting Visuals</p>
+      <h2 class="section-title">Artifacts from the process</h2>
+      <p class="prose" style="max-width: 580px; margin-bottom: 0;">
+        Screenshots, wireframes, and design artifacts from discovery through delivery. Replace these placeholders with your actual Figma exports and screenshots.
+      </p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item" style="--gallery-bg: linear-gradient(135deg,#060318,#0d0840);" data-reveal data-delay="1">
+        <div class="gallery-item-inner">
+          <span class="gallery-item-emoji">🗺️</span>
+          <div class="gallery-item-caption">Original Sitemap Audit</div>
+        </div>
+      </div>
+      <div class="gallery-item" style="--gallery-bg: linear-gradient(135deg,#001525,#00253a);" data-reveal data-delay="2">
+        <div class="gallery-item-inner">
+          <span class="gallery-item-emoji">📐</span>
+          <div class="gallery-item-caption">New IA Architecture</div>
+        </div>
+      </div>
+      <div class="gallery-item" style="--gallery-bg: linear-gradient(135deg,#0d0520,#1a0835);" data-reveal data-delay="3">
+        <div class="gallery-item-inner">
+          <span class="gallery-item-emoji">📱</span>
+          <div class="gallery-item-caption">Mobile Homepage — Figma</div>
+        </div>
+      </div>
+      <div class="gallery-item" style="--gallery-bg: linear-gradient(135deg,#050d00,#0f1a00);" data-reveal data-delay="1">
+        <div class="gallery-item-inner">
+          <span class="gallery-item-emoji">🖥️</span>
+          <div class="gallery-item-caption">Desktop Homepage — Live</div>
+        </div>
+      </div>
+      <div class="gallery-item" style="--gallery-bg: linear-gradient(135deg,#150520,#280a3a);" data-reveal data-delay="2">
+        <div class="gallery-item-inner">
+          <span class="gallery-item-emoji">🌎</span>
+          <div class="gallery-item-caption">Bilingual Toggle — Chinese</div>
+        </div>
+      </div>
+      <div class="gallery-item" style="--gallery-bg: linear-gradient(135deg,#001a20,#002530);" data-reveal data-delay="3">
+        <div class="gallery-item-inner">
+          <span class="gallery-item-emoji">🎨</span>
+          <div class="gallery-item-caption">Design System — Figma</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════
+     CTA + NEXT PROJECT
+════════════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner" data-reveal>
+      <div>
+        <div class="cta-label">Want to work together?</div>
+        <h2 class="cta-title display">Let's build something<br>that actually works.</h2>
+        <p class="cta-sub">Whether you have a product problem, a team that needs direction, or a site that needs a reset — I'm interested.</p>
+      </div>
+      <div class="cta-buttons">
+        <a href="../contact.html" class="btn btn-primary">Get in Touch ✦</a>
+        <a href="../projects.html" class="btn btn-outline">← All Projects</a>
+      </div>
+    </div>
+
+    <div class="next-project" data-reveal>
+      <div>
+        <div class="next-label">Next Project</div>
+        <div class="next-title">FlowTrack PM — AI-Powered Project Management</div>
+      </div>
+      <a href="../projects/flowtrack.html" class="next-arrow" aria-label="Next project">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo display">Rafael<span>.</span></div>
+        <p class="footer-tagline">Product manager, game developer, creative director, and AI builder.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">💼</a>
+          <a href="#" class="social-link">🐙</a>
+          <a href="#" class="social-link">🐦</a>
+          <a href="#" class="social-link">📸</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../projects.html">Projects</a></li>
+          <li><a href="../creative.html">Creative</a></li>
+          <li><a href="../experience.html">Experience</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Projects</p>
+        <ul class="footer-links">
+          <li><a href="#">CCCRI Redesign</a></li>
+          <li><a href="#">FlowTrack PM</a></li>
+          <li><a href="#">NarratorAI</a></li>
+          <li><a href="#">GrowthOS</a></li>
+          <li><a href="#">PromptForge</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <div class="footer-contact-item"><span>✉️</span><span>hello@rafael.pm</span></div>
+        <div class="footer-contact-item"><span>📍</span><span>Rhode Island</span></div>
+        <a href="../contact.html" class="btn btn-primary" style="margin-top:1rem;font-size:.7rem;padding:.6rem 1.4rem;">Hire Me ✦</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
+      <span>Designed & Built with ✦ by Rafael</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════ -->
+<script>
+  /* Nav scroll */
+  const navbar = document.getElementById('navbar');
+  const onScroll = () => { navbar.classList.toggle('scrolled', window.scrollY > 40); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* Hamburger */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('nav-mobile');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    const bars = hamburger.querySelectorAll('span');
+    if (isOpen) {
+      bars[0].style.transform = 'translateY(7px) rotate(45deg)';
+      bars[1].style.opacity   = '0';
+      bars[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+    } else {
+      bars.forEach(b => { b.style.transform = ''; b.style.opacity = ''; });
+    }
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.querySelectorAll('span').forEach(b => { b.style.transform = ''; b.style.opacity = ''; });
+    });
+  });
+
+  /* Scroll reveals */
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (reveals.length) {
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    reveals.forEach(el => observer.observe(el));
+  }
+</script>
+</body>
+</html>
