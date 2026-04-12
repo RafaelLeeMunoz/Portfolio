@@ -18,29 +18,18 @@
 <!-- ============================================================
      NAVIGATION (pinned)
      ============================================================ -->
-<!--
-  CHANGE: Removed redundant role="navigation" — <nav> is already a navigation
-  landmark. Kept aria-label="Main navigation" so it remains discoverable and
-  distinguishable from the footer nav regions.
--->
-<nav id="navbar" aria-label="Main navigation">
+<nav id="navbar" role="navigation" aria-label="Main navigation">
   <div class="container">
     <div class="nav-inner">
 
-      <!-- Logo / home link -->
-      <a href="index.html" class="nav-logo display" aria-label="Rafael L. Muñoz — home">
-        Rafael<span aria-hidden="true">.</span>
+      <!-- Logo -->
+      <a href="index.html" class="nav-logo display">
+        Rafael<span>.</span>
       </a>
 
       <!-- Desktop links -->
-      <!--
-        CHANGE: Added aria-current="page" to the active Home link so assistive
-        technologies announce which page the user is currently on. The role="list"
-        is intentionally preserved — it restores list semantics in Safari/VoiceOver
-        when CSS list-style:none is applied.
-      -->
       <ul class="nav-links" role="list">
-        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
         <li><a href="creative.html">Creative</a></li>
@@ -51,33 +40,14 @@
       </ul>
 
       <!-- Hamburger (mobile) -->
-      <!--
-        CHANGE: Added type="button" — omitting this causes a <button> inside a
-        <form> to default to type="submit", which is a silent footgun. It has no
-        effect here since there's no form, but it's required per best practices
-        and prevents unintended behavior if a <form> is ever added as an ancestor.
-      -->
-      <button
-        type="button"
-        class="hamburger"
-        id="hamburger"
-        aria-label="Toggle menu"
-        aria-expanded="false"
-        aria-controls="nav-mobile"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
       </button>
     </div>
 
     <!-- Mobile drawer -->
-    <!--
-      CHANGE: Added aria-current="page" on the active Home link (mirrors desktop).
-      Preserved role="list" for the same VoiceOver reason as above.
-    -->
     <ul class="nav-mobile" id="nav-mobile" role="list">
-      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="projects.html">Projects</a></li>
       <li><a href="creative.html">Creative</a></li>
@@ -93,38 +63,18 @@
 <!-- ============================================================
      HERO SECTION
      ============================================================ -->
-<!--
-  CHANGE: Added aria-labelledby="hero-heading" so the section announces itself
-  by the h1 text to assistive technologies.
-
-  RISK NOTE (not changed): The direct child <div class="container"> uses
-  style="display:contents" — this removes the div from the box model, making
-  hero-content and hero-visual direct children of the <section> for layout
-  purposes. Removing or altering this would break the CSS grid/flex layout.
-  Left intact intentionally.
-
-  RISK NOTE (not changed): <div class="hero-content container"> carries both
-  classes. The .container class on this element appears to be the effective
-  layout container (since the parent's display:contents removes it from flow).
-  Removing .container here could break spacing/max-width behaviour defined in
-  styles.css. Left intact.
--->
-<section id="hero" aria-labelledby="hero-heading">
+<section id="hero">
   <div class="container" style="display:contents;">
-
     <!-- Content (left) -->
     <div class="hero-content container" style="max-width:560px; padding-left: clamp(1rem,4vw,4rem);">
 
       <!-- Eyebrow pill -->
-      <!--
-        CHANGE: Replaced unnecessary <div><span> wrapper with a single <p>.
-        The .hero-eyebrow class moves to the <p> — CSS targets the class, not
-        the tag, so this is safe. Removes one level of nesting.
-      -->
-      <p class="hero-eyebrow">Open to New Opportunities</p>
+      <div class="hero-eyebrow">
+        <span>Open to New Opportunities</span>
+      </div>
 
-      <!-- Name / primary heading -->
-      <h1 id="hero-heading" class="hero-name display">Rafael<br>L. Muñoz</h1>
+      <!-- Name -->
+      <h1 class="hero-name display">Rafael<br>L. Muñoz</h1>
 
       <!-- Rotating tagline -->
       <p class="hero-tagline">
@@ -133,103 +83,58 @@
 
       <!-- Description -->
       <p class="hero-desc">
-        I build products, games, and creative experiences where technology,
-        design, and imagination intersect. Based in Rhode Island, creating
-        for a global audience.
+        I build products, games, and creative experiences where technology, design, and imagination intersect. Based in Rhode Island, creating for a global audience.
       </p>
 
       <!-- CTAs -->
       <div class="hero-ctas">
         <a href="projects.html" class="btn btn-primary">
           See My Work
-          <!--
-            CHANGE: Added aria-hidden="true" to decorative inline SVG arrow.
-            The link text already communicates the action; the icon is purely
-            decorative and should be invisible to screen readers.
-          -->
-          <svg
-            aria-hidden="true"
-            focusable="false"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="contact.html" class="btn btn-outline">Contact Me</a>
       </div>
 
       <!-- Stats -->
-      <!--
-        CHANGE: Replaced non-semantic <div class="stat-number"> / <div class="stat-label">
-        pairs with <strong> for the number and <span> for the label. This preserves
-        the exact class hooks for CSS while adding meaningful inline semantics.
-        The wrapping <dl> (description list) expresses the key–value relationship
-        between each figure and its label without changing the visual layout.
-
-        RISK NOTE: If styles.css targets div.stat-number or div.stat-label by
-        tag selector (e.g. "div.stat-number { ... }"), the <strong>/<span>
-        substitution will break those rules. Because I can't verify this without
-        seeing styles.css, I am preserving the original <div> tags and only
-        adding the aria-label to the container for screen readers.
-      -->
-      <div class="hero-stats" role="list" aria-label="Career highlights">
-        <div class="stat-item" role="listitem">
-          <div class="stat-number" aria-label="8 or more years">8+</div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">8+</div>
           <div class="stat-label">Years of Experience</div>
         </div>
-        <div class="stat-item" role="listitem">
-          <div class="stat-number" aria-label="30 or more projects">30+</div>
+        <div class="stat-item">
+          <div class="stat-number">30+</div>
           <div class="stat-label">Projects Shipped</div>
         </div>
-        <div class="stat-item" role="listitem">
+        <div class="stat-item">
           <div class="stat-number">4</div>
           <div class="stat-label">Creative Disciplines</div>
         </div>
       </div>
 
-    </div><!-- /.hero-content -->
+    </div>
 
     <!-- Visual (right) -->
-    <div class="hero-visual" role="presentation">
-      <!-- Orbit ring (decorative) -->
-      <div class="hero-orbit" aria-hidden="true"></div>
+    <div class="hero-visual">
+      <!-- Orbit ring -->
+      <div class="hero-orbit"></div>
 
       <!-- Photo wrapper with morphing border -->
       <div class="hero-photo-wrapper">
-        <div class="hero-photo-ring" aria-hidden="true"></div>
+        <div class="hero-photo-ring"></div>
         <div class="hero-photo">
-          <img
-            src="Rafael L Munoz.jpeg"
-            alt="Rafael L. Muñoz, portfolio owner"
-            loading="eager"
-            width="400"
-            height="400"
-          />
+          <img src="Rafael L Munoz.jpeg" alt="Rafael L. Muñoz" loading="eager" />
         </div>
 
         <!-- Floating badge -->
-        <!--
-          CHANGE: Added aria-label to the badge so its meaning is exposed to
-          assistive technologies. The inner emoji and text spans are hidden
-          individually, and the composite label conveys the full message.
-        -->
-        <div class="hero-badge" aria-label="Game developer — Unity, Unreal, Godot">
-          <div class="hero-badge-icon" aria-hidden="true">🎮</div>
+        <div class="hero-badge">
+          <div class="hero-badge-icon">🎮</div>
           <div>
-            <div class="hero-badge-text" aria-hidden="true">Game Dev</div>
-            <div class="hero-badge-sub" aria-hidden="true">Unity · Unreal · Godot</div>
+            <div class="hero-badge-text">Game Dev</div>
+            <div class="hero-badge-sub">Unity · Unreal · Godot</div>
           </div>
         </div>
       </div>
-    </div><!-- /.hero-visual -->
-
+    </div>
   </div>
 </section>
 
@@ -239,126 +144,90 @@
 <!-- ============================================================
      FEATURED PROJECTS
      ============================================================ -->
-<!--
-  CHANGE: Added aria-labelledby pointing to the section's <h2>.
-  Added id="projects-heading" to that <h2>.
--->
-<section id="projects" aria-labelledby="projects-heading">
+<section id="projects">
   <div class="container">
 
     <!-- Section header -->
     <div class="projects-header">
       <div>
         <p class="section-label">Selected Work</p>
-        <h2 id="projects-heading" class="section-title display" data-reveal>Featured Projects</h2>
+        <h2 class="section-title display" data-reveal>Featured Projects</h2>
       </div>
-      <a href="projects.html" class="btn btn-outline" data-reveal data-delay="2">View All Projects
-        <span aria-hidden="true"> →</span>
-      </a>
+      <a href="projects.html" class="btn btn-outline" data-reveal data-delay="2">View All Projects →</a>
     </div>
 
     <!-- Project grid -->
-    <!--
-      Each card is already an <article>, which is correct — each project is a
-      self-contained, independently meaningful content unit.
-
-      CHANGE: Added aria-hidden="true" to all decorative SVG arrows and emoji
-      thumbnails. The link text already conveys the action.
-
-      CHANGE: Added aria-label to each project's thumbnail <div> to give the
-      decorative gradient panel an accessible description (role="img").
-    -->
     <div class="projects-grid">
 
       <!-- Featured game card -->
       <article class="project-card project-card--featured card" data-reveal>
-        <div
-          class="project-thumb"
-          role="img"
-          aria-label="Neon Frontier game thumbnail"
-          style="background: linear-gradient(135deg, #1a0a3a, #3a1060, #0a2050);"
-        >
-          <span aria-hidden="true" style="font-size:5rem; opacity:0.6;">🎮</span>
-          <div class="project-thumb-overlay" aria-hidden="true"></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a0a3a, #3a1060, #0a2050);">
+          <span style="font-size:5rem; opacity:0.6;">🎮</span>
+          <div class="project-thumb-overlay"></div>
         </div>
         <div class="project-body">
           <span class="project-tag tag-games">Game</span>
           <h3 class="project-title display">Neon Frontier</h3>
           <p class="project-desc">A cyberpunk action-RPG built in Unreal Engine 5 — featuring a procedural city generator, real-time narrative branching, and an original electronic score.</p>
-          <a href="projects.html" class="project-arrow" aria-label="Neon Frontier case study">
+          <a href="projects.html" class="project-arrow">
             Case Study
-            <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </article>
 
       <!-- App card -->
       <article class="project-card card" data-reveal data-delay="1">
-        <div
-          class="project-thumb"
-          role="img"
-          aria-label="FlowTrack PM app thumbnail"
-          style="background: linear-gradient(135deg, #001a2a, #003a50, #001530);"
-        >
-          <span aria-hidden="true" style="font-size:3.5rem; opacity:0.6;">📱</span>
-          <div class="project-thumb-overlay" aria-hidden="true"></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #001a2a, #003a50, #001530);">
+          <span style="font-size:3.5rem; opacity:0.6;">📱</span>
+          <div class="project-thumb-overlay"></div>
         </div>
         <div class="project-body">
           <span class="project-tag tag-apps">App</span>
           <h3 class="project-title display">FlowTrack PM</h3>
           <p class="project-desc">AI-powered project management tool that auto-generates sprint plans from voice notes and integrates with Jira, Slack & Notion.</p>
-          <a href="projects.html" class="project-arrow" aria-label="FlowTrack PM case study">
+          <a href="projects.html" class="project-arrow">
             Case Study
-            <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </article>
 
       <!-- Brand card -->
       <article class="project-card card" data-reveal data-delay="2">
-        <div
-          class="project-thumb"
-          role="img"
-          aria-label="Lumière Studio brand thumbnail"
-          style="background: linear-gradient(135deg, #1a001a, #38003a, #200030);"
-        >
-          <span aria-hidden="true" style="font-size:3.5rem; opacity:0.6;">✦</span>
-          <div class="project-thumb-overlay" aria-hidden="true"></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #1a001a, #38003a, #200030);">
+          <span style="font-size:3.5rem; opacity:0.6;">✦</span>
+          <div class="project-thumb-overlay"></div>
         </div>
         <div class="project-body">
           <span class="project-tag tag-brands">Brand</span>
           <h3 class="project-title display">Lumière Studio</h3>
           <p class="project-desc">Full visual identity for a boutique creative studio — logo system, brand guidelines, packaging, and motion assets.</p>
-          <a href="creative.html" class="project-arrow" aria-label="Lumière Studio work">
+          <a href="creative.html" class="project-arrow">
             View Work
-            <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </article>
 
       <!-- AI card -->
       <article class="project-card card" data-reveal data-delay="3">
-        <div
-          class="project-thumb"
-          role="img"
-          aria-label="NarratorAI project thumbnail"
-          style="background: linear-gradient(135deg, #001a10, #002a20, #0a1528);"
-        >
-          <span aria-hidden="true" style="font-size:3.5rem; opacity:0.6;">🤖</span>
-          <div class="project-thumb-overlay" aria-hidden="true"></div>
+        <div class="project-thumb" style="background: linear-gradient(135deg, #001a10, #002a20, #0a1528);">
+          <span style="font-size:3.5rem; opacity:0.6;">🤖</span>
+          <div class="project-thumb-overlay"></div>
         </div>
         <div class="project-body">
           <span class="project-tag tag-ai">AI</span>
           <h3 class="project-title display">NarratorAI</h3>
           <p class="project-desc">LLM-driven storytelling engine that generates dynamic in-game dialogue adapting to player behavior and emotional tone.</p>
-          <a href="projects.html" class="project-arrow" aria-label="NarratorAI — learn more">
+          <a href="projects.html" class="project-arrow">
             Learn More
-            <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </article>
 
-    </div><!-- /.projects-grid -->
+    </div>
   </div>
 </section>
 
@@ -368,62 +237,37 @@
 <!-- ============================================================
      ABOUT PREVIEW
      ============================================================ -->
-<!--
-  CHANGE: Added aria-labelledby pointing to the section's <h2>.
--->
-<section id="about-preview" aria-labelledby="about-heading">
+<section id="about-preview">
   <div class="container">
     <div class="about-grid">
 
       <!-- Photo -->
       <div class="about-photo-frame" data-reveal="left">
         <div class="about-photo-inner">
-          <!--
-            CHANGE: Improved alt text to describe the image in context rather
-            than just repeating the name (same as the hero photo).
-          -->
-          <img
-            src="Rlm.jpeg"
-            alt="Rafael L. Muñoz in a candid portrait"
-            loading="lazy"
-            width="480"
-            height="480"
-          />
+          <img src="Rlm.jpeg" alt="Rafael L. Muñoz" loading="lazy" />
         </div>
-        <div class="about-photo-deco" aria-hidden="true"></div>
+        <div class="about-photo-deco"></div>
       </div>
 
       <!-- Story -->
       <div class="about-content" data-reveal="right">
         <p class="section-label">Who I Am</p>
-        <h2 id="about-heading" class="about-quote display">
+        <h2 class="about-quote display">
           I don't just ship products —<br>
           I <em>craft experiences</em> people remember.
         </h2>
         <p class="about-body">
           I'm Rafael, a multi-disciplinary creator based in Rhode Island. My work lives at the crossroads of product strategy, game development, branding, and emerging AI. I've led teams at startups and studios, shipped mobile apps used by thousands, and poured my creativity into indie games, resin art, candle brands, and original music.
         </p>
-        <!--
-          CHANGE: Converted <span> chips to <ul>/<li> for semantic list structure.
-          The .chip class remains on each <li>, so existing CSS rules are unaffected.
-          This allows assistive technologies to announce "list, 6 items" which
-          helps users understand the set of skills at a glance.
-
-          RISK NOTE: If styles.css uses a selector like "span.chip" (tag-qualified),
-          moving the class to <li> will break it. If it uses ".chip" alone, it is
-          safe. Verify against styles.css before shipping.
-        -->
-        <ul class="about-chips" role="list" aria-label="Key skills and attributes">
-          <li class="chip">Rhode Island <span aria-hidden="true">📍</span></li>
-          <li class="chip">Product Strategy</li>
-          <li class="chip">Unreal Engine</li>
-          <li class="chip">AI &amp; LLMs</li>
-          <li class="chip">Brand Design</li>
-          <li class="chip">Music Production</li>
-        </ul>
-        <a href="about.html" class="btn btn-outline">
-          Read My Full Story <span aria-hidden="true">→</span>
-        </a>
+        <div class="about-chips">
+          <span class="chip">Rhode Island 📍</span>
+          <span class="chip">Product Strategy</span>
+          <span class="chip">Unreal Engine</span>
+          <span class="chip">AI & LLMs</span>
+          <span class="chip">Brand Design</span>
+          <span class="chip">Music Production</span>
+        </div>
+        <a href="about.html" class="btn btn-outline">Read My Full Story →</a>
       </div>
 
     </div>
@@ -436,94 +280,64 @@
 <!-- ============================================================
      SKILLS / AREAS
      ============================================================ -->
-<!--
-  CHANGE: Added aria-labelledby pointing to the section's <h2>.
-
-  CHANGE: Skill cards changed from <div> to <article>. Each card is a
-  self-contained, titled content unit — exactly what <article> semantically
-  represents. CSS class selectors are unaffected by the tag change.
-
-  CHANGE: The sub-skill row uses a hardcoded style="grid-template-columns:
-  repeat(4,1fr)" which will not reflow on small screens. Flagged in risk notes
-  but left intact since changing it without the full CSS context is risky.
-
-  CHANGE: font-size on sub-skill h3 uses "0.85rem" (~14px at 16px base) which
-  is on the edge of the minimum comfortable reading size. Left intact but flagged.
--->
-<section id="skills" aria-labelledby="skills-heading">
+<section id="skills">
   <div class="container">
 
     <div class="skills-header" data-reveal>
       <p class="section-label">What I Do</p>
-      <h2 id="skills-heading" class="section-title display">Skills &amp; Areas</h2>
-      <p class="skills-intro" style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:0.95rem;">
+      <h2 class="section-title display">Skills & Areas</h2>
+      <p style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:0.95rem;">
         A builder at heart — I move fluidly between strategy, execution, and pure creative expression.
       </p>
     </div>
 
-    <!-- Primary skills -->
-    <div class="skills-grid" role="list">
+    <div class="skills-grid">
 
-      <article class="skill-card card" role="listitem" style="--skill-accent: var(--accent-cyan);" data-reveal data-delay="1">
-        <span class="skill-icon" aria-hidden="true">📋</span>
+      <div class="skill-card card" style="--skill-accent: var(--accent-cyan);" data-reveal data-delay="1">
+        <span class="skill-icon">📋</span>
         <h3 class="skill-title display">Product Manager</h3>
         <p class="skill-desc">Roadmaps, sprints, stakeholder alignment, and shipping features that actually move metrics.</p>
-      </article>
+      </div>
 
-      <article class="skill-card card" role="listitem" style="--skill-accent: var(--accent-pink);" data-reveal data-delay="2">
-        <span class="skill-icon" aria-hidden="true">🎮</span>
+      <div class="skill-card card" style="--skill-accent: var(--accent-pink);" data-reveal data-delay="2">
+        <span class="skill-icon">🎮</span>
         <h3 class="skill-title display">Game Developer</h3>
-        <p class="skill-desc">From concept to launch — Unreal Engine, Unity, Godot. Gameplay systems, narrative design &amp; more.</p>
-      </article>
+        <p class="skill-desc">From concept to launch — Unreal Engine, Unity, Godot. Gameplay systems, narrative design & more.</p>
+      </div>
 
-      <article class="skill-card card" role="listitem" style="--skill-accent: var(--accent-violet);" data-reveal data-delay="3">
-        <span class="skill-icon" aria-hidden="true">🎨</span>
+      <div class="skill-card card" style="--skill-accent: var(--accent-violet);" data-reveal data-delay="3">
+        <span class="skill-icon">🎨</span>
         <h3 class="skill-title display">Creative Director</h3>
         <p class="skill-desc">Resin art, candle brands, branding identities, and visual storytelling that leave an impression.</p>
-      </article>
+      </div>
 
-      <article class="skill-card card" role="listitem" style="--skill-accent: var(--accent-gold);" data-reveal data-delay="4">
-        <span class="skill-icon" aria-hidden="true">🤖</span>
+      <div class="skill-card card" style="--skill-accent: var(--accent-gold);" data-reveal data-delay="4">
+        <span class="skill-icon">🤖</span>
         <h3 class="skill-title display">AI Builder</h3>
         <p class="skill-desc">LLM integrations, AI-assisted tooling, and prompt engineering to supercharge products and workflows.</p>
-      </article>
+      </div>
 
     </div>
 
-    <!-- Secondary skills row -->
-    <!--
-      RISK NOTE: style="grid-template-columns: repeat(4, 1fr)" is hardcoded and
-      will not reflow on narrow screens. Recommend moving this to a responsive
-      CSS class (e.g. .skills-grid--secondary) with a media query breakpoint.
-      Left intact to avoid breaking the layout without full CSS context.
-
-      ACCESSIBILITY NOTE: font-size:0.85rem (~13.6px at 16px base) on the <h3>
-      labels in this row falls below the recommended 14px minimum for body text.
-      Recommend bumping to at minimum 0.875rem (14px) in styles.css.
-    -->
-    <div class="skills-grid skills-grid--secondary" style="grid-template-columns: repeat(4, 1fr); margin-top: 1.5rem;" role="list">
-
-      <article class="skill-card card" role="listitem" style="--skill-accent: #00ff88; padding: 1.2rem;" data-reveal data-delay="1">
-        <span class="skill-icon" aria-hidden="true" style="font-size:2rem; margin-bottom:0.5rem;">🎵</span>
+    <!-- Extra areas row -->
+    <div class="skills-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 1.5rem;">
+      <div class="skill-card card" style="--skill-accent: #00ff88; padding: 1.2rem;" data-reveal data-delay="1">
+        <span class="skill-icon" style="font-size:2rem; margin-bottom:0.5rem;">🎵</span>
         <h3 class="skill-title display" style="font-size:0.85rem;">Music</h3>
-      </article>
-
-      <article class="skill-card card" role="listitem" style="--skill-accent: #ff8800; padding: 1.2rem;" data-reveal data-delay="2">
-        <span class="skill-icon" aria-hidden="true" style="font-size:2rem; margin-bottom:0.5rem;">✍️</span>
+      </div>
+      <div class="skill-card card" style="--skill-accent: #ff8800; padding: 1.2rem;" data-reveal data-delay="2">
+        <span class="skill-icon" style="font-size:2rem; margin-bottom:0.5rem;">✍️</span>
         <h3 class="skill-title display" style="font-size:0.85rem;">Storytelling</h3>
-      </article>
-
-      <article class="skill-card card" role="listitem" style="--skill-accent: #ff44aa; padding: 1.2rem;" data-reveal data-delay="3">
-        <span class="skill-icon" aria-hidden="true" style="font-size:2rem; margin-bottom:0.5rem;">🕯️</span>
-        <h3 class="skill-title display" style="font-size:0.85rem;">Candle &amp; Resin</h3>
-      </article>
-
-      <article class="skill-card card" role="listitem" style="--skill-accent: var(--accent-cyan); padding: 1.2rem;" data-reveal data-delay="4">
-        <span class="skill-icon" aria-hidden="true" style="font-size:2rem; margin-bottom:0.5rem;">💻</span>
+      </div>
+      <div class="skill-card card" style="--skill-accent: #ff44aa; padding: 1.2rem;" data-reveal data-delay="3">
+        <span class="skill-icon" style="font-size:2rem; margin-bottom:0.5rem;">🕯️</span>
+        <h3 class="skill-title display" style="font-size:0.85rem;">Candle & Resin</h3>
+      </div>
+      <div class="skill-card card" style="--skill-accent: var(--accent-cyan); padding: 1.2rem;" data-reveal data-delay="4">
+        <span class="skill-icon" style="font-size:2rem; margin-bottom:0.5rem;">💻</span>
         <h3 class="skill-title display" style="font-size:0.85rem;">Full-Stack Dev</h3>
-      </article>
-
-    </div><!-- /.skills-grid--secondary -->
+      </div>
+    </div>
 
   </div>
 </section>
@@ -534,63 +348,29 @@
 <!-- ============================================================
      FOOTER
      ============================================================ -->
-<footer aria-label="Site footer">
+<footer>
   <div class="container">
     <div class="footer-inner">
 
       <!-- Brand column -->
       <div class="footer-brand">
-        <!--
-          CHANGE: Changed <div class="footer-logo"> to <a> linking to the home
-          page. A logo in a footer is almost universally a home link — a <div>
-          is not interactive and fails keyboard navigation. The class and visual
-          output are identical.
-        -->
-        <a href="index.html" class="footer-logo display" aria-label="Rafael L. Muñoz — home">
-          Rafael<span aria-hidden="true">.</span>
-        </a>
+        <div class="footer-logo display">Rafael<span>.</span></div>
         <p class="footer-tagline">
           Product manager, game developer, creative director, and AI builder — building things that matter.
         </p>
-        <!--
-          CHANGE: Wrapped social links in a <nav> with a distinct aria-label so
-          it is a separately discoverable landmark.
-          CHANGE: Added aria-hidden="true" to the emoji icons inside each link.
-          The aria-label on the <a> already provides the accessible name; the
-          emoji is therefore redundant noise for screen readers.
-        -->
-        <nav aria-label="Social media links">
-          <div class="social-links">
-            <a href="#" class="social-link" aria-label="LinkedIn profile">
-              <span aria-hidden="true">💼</span>
-            </a>
-            <a href="#" class="social-link" aria-label="GitHub profile">
-              <span aria-hidden="true">🐙</span>
-            </a>
-            <a href="#" class="social-link" aria-label="Twitter / X profile">
-              <span aria-hidden="true">🐦</span>
-            </a>
-            <a href="#" class="social-link" aria-label="Instagram profile">
-              <span aria-hidden="true">📸</span>
-            </a>
-          </div>
-        </nav>
-      </div><!-- /.footer-brand -->
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+          <a href="#" class="social-link" aria-label="GitHub">🐙</a>
+          <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-link" aria-label="Instagram">📸</a>
+        </div>
+      </div>
 
       <!-- Navigation column -->
-      <!--
-        CHANGE: Wrapped in <nav> so it is a discoverable navigation landmark.
-        CHANGE: Changed <p class="footer-col-title"> to <h3 class="footer-col-title">
-        for all three footer column headers. These headings introduce grouped link
-        lists and should be in the heading hierarchy (h3 is correct under the
-        implicit document heading structure). This also helps users navigating by
-        headings to jump between footer sections.
-        CHANGE: Added role="list" to <ul> elements for VoiceOver parity.
-      -->
-      <nav aria-label="Site navigation links">
-        <h3 class="footer-col-title">Navigation</h3>
-        <ul class="footer-links" role="list">
-          <li><a href="index.html" aria-current="page">Home</a></li>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
           <li><a href="creative.html">Creative Work</a></li>
@@ -598,12 +378,12 @@
           <li><a href="experience.html">Experience</a></li>
           <li><a href="blog.html">Blog</a></li>
         </ul>
-      </nav>
+      </div>
 
       <!-- Work column -->
-      <nav aria-label="Work categories">
-        <h3 class="footer-col-title">Work</h3>
-        <ul class="footer-links" role="list">
+      <div>
+        <p class="footer-col-title">Work</p>
+        <ul class="footer-links">
           <li><a href="projects.html#games">Games</a></li>
           <li><a href="projects.html#apps">Apps</a></li>
           <li><a href="creative.html#brands">Brands</a></li>
@@ -611,71 +391,41 @@
           <li><a href="music.html">Music</a></li>
           <li><a href="certifications.html">Certifications</a></li>
         </ul>
-      </nav>
+      </div>
 
       <!-- Contact column -->
-      <!--
-        CHANGE: Changed <p class="footer-col-title"> to <h3 class="footer-col-title">.
-        CHANGE: Replaced <span class="icon"> children with aria-hidden="true" spans
-        so the decorative emoji icons are skipped by screen readers — the surrounding
-        text already conveys the content.
-        CHANGE: font-size:0.7rem (~11.2px) on the footer CTA button is well below
-        accessible minimum. Bumped to 0.875rem (14px). This is one of the two
-        inline style changes made; the other sizes are borderline but preserved.
-      -->
       <div>
-        <h3 class="footer-col-title">Get in Touch</h3>
-        <!--
-          RISK NOTE: Cloudflare email obfuscation markup (__cf_email__ span,
-          data-cfemail attribute, and the /cdn-cgi/l/email-protection URL) is
-          managed by Cloudflare's client-side script. The HTML structure here
-          is deliberately left exactly as-is — any changes to the href, span
-          class, or data attribute could break email reveal functionality.
-        -->
-        <a href="/cdn-cgi/l/email-protection#dcaebdbabdb9b09cb9a4bdb1acb0b9f2bfb3b1" class="footer-contact-item">
-          <span class="icon" aria-hidden="true">✉️</span>
-          <span class="__cf_email__" data-cfemail="b7c5d6d1d6d2dbf7d2cfd6dac7dbd299d4d8da">[email&#160;protected]</span>
+        <p class="footer-col-title">Get in Touch</p>
+        <a href="mailto:rafael@example.com" class="footer-contact-item">
+          <span class="icon">✉️</span>
+          rafael@example.com
         </a>
         <a href="tel:+14015550100" class="footer-contact-item">
-          <span class="icon" aria-hidden="true">📞</span>
+          <span class="icon">📞</span>
           (401) 555-0100
         </a>
         <div class="footer-contact-item">
-          <span class="icon" aria-hidden="true">📍</span>
+          <span class="icon">📍</span>
           East Greenwich, Rhode Island
         </div>
-        <a href="contact.html" class="btn btn-primary" style="margin-top:1rem; font-size:0.875rem; padding:0.6rem 1.4rem;">
-          Hire Me <span aria-hidden="true">✦</span>
+        <a href="contact.html" class="btn btn-primary" style="margin-top:1rem; font-size:0.7rem; padding:0.6rem 1.4rem;">
+          Hire Me ✦
         </a>
       </div>
 
-    </div><!-- /.footer-inner -->
+    </div>
 
     <!-- Bottom bar -->
     <div class="footer-bottom">
-      <small>© 2025 Rafael L. Muñoz. All rights reserved.</small>
-      <small>Designed &amp; Built with <span aria-hidden="true">✦</span> by Rafael</small>
+      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
+      <span>Designed & Built with ✦ by Rafael</span>
     </div>
-
   </div>
 </footer>
 
 
-<!-- ── Scripts ────────────────────────────────────────────── -->
-<!--
-  RISK NOTE: The original file's <script> tags were truncated/corrupted in the
-  source file at upload (the file ends mid-comment after the Scripts marker with
-  a malformed byte sequence). No script tags were present in the recoverable
-  content. Re-add your script tags here once the source file is verified.
-
-  Expected pattern based on the site's interactive features (hamburger toggle,
-  data-reveal scroll animations, rotating-text):
-
-  <script src="script.js" defer></script>
-
-  Recommendation: Add defer to all non-critical scripts so they don't block
-  HTML parsing. If any script must run before DOMContentLoaded, use async.
--->
+<!-- ── Scripts ───────────────────────────────────────────── -->
+<script src="nav.js"></script>
 
 </body>
 </html>
