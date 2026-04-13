@@ -1,22 +1,156 @@
 /* ============================================================
-   nav.js — Navigation + global interactions for all pages
+   nav.js  —  Shared components + navigation for all pages
+   ============================================================
+   Load order (bottom of <body>, before page-specific scripts):
+     <script src="nav.js"></script>
+
+   Each page needs exactly two placeholder elements:
+     <div id="site-nav"></div>      ← becomes <nav>
+     <div id="site-footer"></div>   ← becomes <footer>
    ============================================================ */
 
+/* ── SHARED NAV TEMPLATE ──────────────────────────────────── */
+const _NAV_HTML = `
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="container">
+    <div class="nav-inner">
+
+      <a href="index.html" class="nav-logo display">Rafael<span>.</span></a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="creative.html">Creative</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html" class="btn btn-primary nav-cta">Hire Me</a></li>
+      </ul>
+
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger" id="hamburger"
+              aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <ul class="nav-mobile" id="nav-mobile" role="list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="creative.html">Creative</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html" class="nav-mobile-cta">Hire Me</a></li>
+    </ul>
+  </div>
+</nav>
+`;
+
+/* ── SHARED FOOTER TEMPLATE ───────────────────────────────── */
+const _FOOTER_HTML = `
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <div class="footer-logo display">Rafael<span>.</span></div>
+        <p class="footer-tagline">
+          Product manager, game developer, creative director, and AI builder —
+          building things that matter.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+          <a href="#" class="social-link" aria-label="GitHub">🐙</a>
+          <a href="#" class="social-link" aria-label="Twitter / X">🐦</a>
+          <a href="#" class="social-link" aria-label="Instagram">📸</a>
+        </div>
+      </div>
+
+      <!-- Navigation column -->
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="creative.html">Creative Work</a></li>
+          <li><a href="music.html">My Music</a></li>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Work column -->
+      <div>
+        <p class="footer-col-title">Work</p>
+        <ul class="footer-links">
+          <li><a href="projects.html#games">Games</a></li>
+          <li><a href="projects.html#apps">Apps</a></li>
+          <li><a href="creative.html#brands">Brands</a></li>
+          <li><a href="creative.html#resin">Resin Art</a></li>
+          <li><a href="music.html">Music</a></li>
+          <li><a href="certifications.html">Certifications</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div>
+        <p class="footer-col-title">Get in Touch</p>
+        <a href="mailto:hello@rafaelm.com" class="footer-contact-item">
+          <span class="icon">✉️</span>
+          hello@rafaelm.com
+        </a>
+        <a href="tel:+14015550100" class="footer-contact-item">
+          <span class="icon">📞</span>
+          (401) 555-0100
+        </a>
+        <div class="footer-contact-item">
+          <span class="icon">📍</span>
+          East Greenwich, Rhode Island
+        </div>
+        <a href="contact.html" class="btn btn-primary footer-hire-btn">
+          Hire Me ✦
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
+      <span>Designed &amp; Built with ✦ by Rafael</span>
+    </div>
+  </div>
+</footer>
+`;
+
+
+/* ============================================================
+   INIT — runs once the DOM is ready
+   ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── 1. SCROLLED NAV BACKGROUND ─────────────────────────── */
+  /* ── 0. INJECT SHARED COMPONENTS ─────────────────────────── */
+  const navSlot    = document.getElementById('site-nav');
+  const footerSlot = document.getElementById('site-footer');
+  if (navSlot)    navSlot.outerHTML    = _NAV_HTML;
+  if (footerSlot) footerSlot.outerHTML = _FOOTER_HTML;
+
+
+  /* ── 1. SCROLLED NAV BACKGROUND ──────────────────────────── */
   const navbar = document.getElementById('navbar');
   if (navbar) {
-    const onScroll = () => {
-      if (window.scrollY > 40) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    };
+    const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    onScroll(); // run once on load
   }
+
 
   /* ── 2. MOBILE HAMBURGER TOGGLE ──────────────────────────── */
   const hamburger  = document.getElementById('hamburger');
@@ -25,9 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
 
-      // Animate bars
       const bars = hamburger.querySelectorAll('span');
       if (isOpen) {
         bars[0].style.transform = 'translateY(7px) rotate(45deg)';
@@ -38,10 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close on link click
+    // Close drawer when a link is tapped
     mobileMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
         hamburger.querySelectorAll('span').forEach(b => {
           b.style.transform = ''; b.style.opacity = '';
         });
@@ -49,46 +183,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── 3. ACTIVE NAV LINK (by current page) ─────────────────── */
+
+  /* ── 3. ACTIVE NAV LINK (by current page filename) ─────────── */
   const currentPage = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a, .nav-mobile a').forEach(link => {
     const href = link.getAttribute('href');
-    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+    // Strip any hash from href before comparing
+    const hrefBase = href ? href.split('#')[0] : '';
+    if (
+      hrefBase === currentPage ||
+      (currentPage === '' && hrefBase === 'index.html')
+    ) {
       link.classList.add('active');
+      if (link.closest('.nav-links')) {
+        link.setAttribute('aria-current', 'page');
+      }
     }
   });
 
-  /* ── 4. SMOOTH SCROLL FOR IN-PAGE ANCHORS ─────────────────── */
+
+  /* ── 4. SMOOTH SCROLL FOR IN-PAGE ANCHORS ──────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
+    anchor.addEventListener('click', e => {
       const target = document.querySelector(anchor.getAttribute('href'));
       if (target) {
         e.preventDefault();
-        const offset = navbar ? navbar.offsetHeight + 16 : 80;
+        const nav    = document.getElementById('navbar');
+        const offset = nav ? nav.offsetHeight + 16 : 80;
         const top    = target.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({ top, behavior: 'smooth' });
       }
     });
   });
 
-  /* ── 5. INTERSECTION OBSERVER — REVEAL ANIMATIONS ─────────── */
+
+  /* ── 5. INTERSECTION OBSERVER — REVEAL ANIMATIONS ──────────── */
   const reveals = document.querySelectorAll('[data-reveal]');
   if (reveals.length) {
-    const observer = new IntersectionObserver(
-      (entries) => {
+    const revealObserver = new IntersectionObserver(
+      entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
-    reveals.forEach(el => observer.observe(el));
+    reveals.forEach(el => revealObserver.observe(el));
   }
 
-  /* ── 6. ROTATING TAGLINE TEXT ─────────────────────────────── */
+
+  /* ── 6. ROTATING TAGLINE (index.html only) ─────────────────── */
   const rotatingEl = document.querySelector('.rotating-text');
   if (rotatingEl) {
     const roles = [
@@ -103,16 +250,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const typewrite = (text, el, cb) => {
       el.textContent = '';
       let i = 0;
-      const interval = setInterval(() => {
+      const t = setInterval(() => {
         el.textContent += text[i++];
-        if (i === text.length) { clearInterval(interval); setTimeout(cb, 2000); }
+        if (i === text.length) { clearInterval(t); setTimeout(cb, 2000); }
       }, 60);
     };
 
     const erase = (el, cb) => {
-      const interval = setInterval(() => {
+      const t = setInterval(() => {
         el.textContent = el.textContent.slice(0, -1);
-        if (!el.textContent.length) { clearInterval(interval); cb(); }
+        if (!el.textContent.length) { clearInterval(t); cb(); }
       }, 35);
     };
 
@@ -128,4 +275,4 @@ document.addEventListener('DOMContentLoaded', () => {
     cycle();
   }
 
-});
+}); // end DOMContentLoaded

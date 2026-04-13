@@ -276,7 +276,11 @@ section { padding: var(--sp-xl) 0; }
 .nav-cta {
   padding: 0.55rem 1.4rem;
   font-size: 0.72rem;
+  /* Ensure text stays white — btn-primary gradient can be overridden by
+     .nav-links a color rule without this explicit declaration */
+  color: #ffffff;
 }
+.nav-cta:hover { color: #ffffff; }
 
 /* Hamburger */
 .hamburger {
@@ -316,7 +320,19 @@ section { padding: var(--sp-xl) 0; }
   padding: 0.4rem 0;
   transition: color var(--transition);
 }
-.nav-mobile a:hover { color: var(--text-primary); }
+.nav-mobile a:hover,
+.nav-mobile a.active { color: var(--text-primary); }
+
+/* Mobile CTA in drawer — styled as a compact pill */
+.nav-mobile-cta {
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
+  color: #fff !important;
+  font-size: 0.75rem;
+}
 
 /* ============================================================
    HERO SECTION
@@ -831,6 +847,20 @@ section { padding: var(--sp-xl) 0; }
 }
 
 /* ============================================================
+   PAGE HERO  (shared across all inner pages)
+   ============================================================ */
+.page-hero {
+  padding-top: 9rem;
+  padding-bottom: var(--sp-xl);
+  text-align: center;
+}
+
+.page-hero-title {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 800;
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 footer {
@@ -934,6 +964,13 @@ footer {
 }
 
 .footer-bottom a { color: var(--accent-cyan); }
+
+/* Footer "Hire Me" button — sizing kept out of inline style */
+.footer-hire-btn {
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  padding: 0.6rem 1.4rem;
+}
 
 /* ============================================================
    SCROLL ANIMATIONS

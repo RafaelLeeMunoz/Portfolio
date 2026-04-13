@@ -6,14 +6,11 @@
   <title>Rafael L. Muñoz — Portfolio</title>
   <meta name="description" content="Product Manager, Game Developer, Creative Director & AI Builder." />
 
-  <!-- Preconnect for fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Global stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Scroll cue + Hire Me fix -->
+  <!-- Page-specific: scroll-cue animation (index only) -->
   <style>
     /* ── Scroll Cue ─────────────────────────────── */
     .scroll-cue {
@@ -30,16 +27,14 @@
       opacity: 0;
       animation: scrollCueFadeIn 1s ease 1.8s forwards;
     }
-
     .scroll-line {
       width: 1.5px;
       height: 48px;
-      background: linear-gradient(to bottom, transparent, var(--accent-cyan, #00d4ff));
+      background: linear-gradient(to bottom, transparent, var(--accent-cyan));
       border-radius: 9999px;
       position: relative;
       overflow: hidden;
     }
-
     .scroll-line::after {
       content: '';
       position: absolute;
@@ -51,18 +46,14 @@
       border-radius: 9999px;
       animation: scrollLineDrop 1.6s ease-in-out 2s infinite;
     }
-
     .scroll-label {
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--text-muted, rgba(255,255,255,0.45));
+      color: var(--text-muted);
       font-weight: 500;
     }
-
-    .scroll-cue:hover .scroll-label {
-      color: var(--accent-cyan, #00d4ff);
-    }
+    .scroll-cue:hover .scroll-label { color: var(--accent-cyan); }
 
     @keyframes scrollLineDrop {
       0%   { top: -100%; opacity: 0; }
@@ -70,68 +61,21 @@
       80%  { opacity: 1; }
       100% { top: 110%; opacity: 0; }
     }
-
-    @keyframes scrollCueFadeIn {
-      to { opacity: 1; }
-    }
+    @keyframes scrollCueFadeIn { to { opacity: 1; } }
 
     @media (prefers-reduced-motion: reduce) {
       .scroll-cue { animation: none; opacity: 1; }
       .scroll-line::after { animation: none; }
     }
 
-    /* Ensure hero is position:relative so absolute cue is anchored */
+    /* Hero needs position:relative so the absolute cue is anchored */
     #hero { position: relative; }
-
-    /* ── Hire Me nav fix ─────────────────────────── */
-    .nav-cta { color: #ffffff !important; }
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     NAVIGATION (pinned)
-     ============================================================ -->
-<nav id="navbar" role="navigation" aria-label="Main navigation">
-  <div class="container">
-    <div class="nav-inner">
-
-      <!-- Logo -->
-      <a href="index.html" class="nav-logo display">
-        Rafael<span>.</span>
-      </a>
-
-      <!-- Desktop links -->
-      <ul class="nav-links" role="list">
-        <li><a href="index.html" class="active" aria-current="page">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="creative.html">Creative</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="experience.html">Experience</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="contact.html" class="btn btn-primary nav-cta" style="color:#ffffff;">Hire Me</a></li>
-      </ul>
-
-      <!-- Hamburger (mobile) -->
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
-    <!-- Mobile drawer -->
-    <ul class="nav-mobile" id="nav-mobile" role="list">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="creative.html">Creative</a></li>
-      <li><a href="music.html">Music</a></li>
-      <li><a href="experience.html">Experience</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- ── Shared nav injected by nav.js ── -->
+<div id="site-nav"></div>
 
 
 <!-- ============================================================
@@ -139,6 +83,7 @@
      ============================================================ -->
 <section id="hero">
   <div class="container" style="display:contents;">
+
     <!-- Content (left) -->
     <div class="hero-content container" style="max-width:560px; padding-left: clamp(1rem,4vw,4rem);">
 
@@ -195,17 +140,12 @@
 
     <!-- Visual (right) -->
     <div class="hero-visual">
-      <!-- Orbit ring -->
       <div class="hero-orbit"></div>
-
-      <!-- Photo wrapper with morphing border -->
       <div class="hero-photo-wrapper">
         <div class="hero-photo-ring"></div>
         <div class="hero-photo">
           <img src="Rafael L Munoz.jpeg" alt="Rafael L. Muñoz" loading="eager" />
         </div>
-
-        <!-- Floating badge -->
         <div class="hero-badge">
           <div class="hero-badge-icon">🎮</div>
           <div>
@@ -215,6 +155,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -227,7 +168,6 @@
 <section id="projects">
   <div class="container">
 
-    <!-- Section header -->
     <div class="projects-header">
       <div>
         <p class="section-label">Selected Work</p>
@@ -236,7 +176,6 @@
       <a href="projects.html" class="btn btn-outline" data-reveal data-delay="2">View All Projects →</a>
     </div>
 
-    <!-- Project grid -->
     <div class="projects-grid">
 
       <!-- Featured game card -->
@@ -321,7 +260,6 @@
   <div class="container">
     <div class="about-grid">
 
-      <!-- Photo -->
       <div class="about-photo-frame" data-reveal="left">
         <div class="about-photo-inner">
           <img src="Rlm.jpeg" alt="Rafael L. Muñoz" loading="lazy" />
@@ -329,7 +267,6 @@
         <div class="about-photo-deco"></div>
       </div>
 
-      <!-- Story -->
       <div class="about-content" data-reveal="right">
         <p class="section-label">Who I Am</p>
         <h2 class="about-quote display">
@@ -337,8 +274,7 @@
           I <em>build experiences</em> people actually remember.
         </h2>
         <p class="about-body">
-          I’m Rafael, a product leader and builder based in Rhode Island. I sit at the intersection of strategy, creativity, and emerging tech, turning ideas into things people use, enjoy, and come back to. Whether it’s launching digital products, improving
-          user journeys, or experimenting with new ideas, I focus on creating work that delivers real impact, not just output.
+          I'm Rafael, a product leader and builder based in Rhode Island. I sit at the intersection of strategy, creativity, and emerging tech, turning ideas into things people use, enjoy, and come back to. Whether it's launching digital products, improving user journeys, or experimenting with new ideas, I focus on creating work that delivers real impact, not just output.
         </p>
         <div class="about-chips">
           <span class="chip">Product Leader</span>
@@ -404,83 +340,10 @@
 <hr class="divider" />
 
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-
-      <!-- Brand column -->
-      <div class="footer-brand">
-        <div class="footer-logo display">Rafael<span>.</span></div>
-        <p class="footer-tagline">
-          Product manager, game developer, creative director, and AI builder, building things that matter.
-        </p>
-        <div class="social-links">
-          <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
-          <a href="#" class="social-link" aria-label="GitHub">🐙</a>
-          <a href="#" class="social-link" aria-label="Twitter">🐦</a>
-          <a href="#" class="social-link" aria-label="Instagram">📸</a>
-        </div>
-      </div>
-
-      <!-- Navigation column -->
-      <div>
-        <p class="footer-col-title">Navigation</p>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="creative.html">Creative Work</a></li>
-          <li><a href="music.html">My Music</a></li>
-          <li><a href="experience.html">Experience</a></li>
-          <li><a href="blog.html">Blog</a></li>
-        </ul>
-      </div>
-
-      <!-- Work column -->
-      <div>
-        <p class="footer-col-title">Work</p>
-        <ul class="footer-links">
-          <li><a href="projects.html#games">Games</a></li>
-          <li><a href="projects.html#apps">Apps</a></li>
-          <li><a href="creative.html#brands">Brands</a></li>
-          <li><a href="creative.html#resin">Resin Art</a></li>
-          <li><a href="music.html">Music</a></li>
-          <li><a href="certifications.html">Certifications</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact column -->
-      <div>
-        <p class="footer-col-title">Get in Touch</p>
-        <a href="/cdn-cgi/l/email-protection#a8dac9cec9cdc4e8cdd0c9c5d8c4cd86cbc7c5" class="footer-contact-item">
-          <span class="icon">✉️</span>
-          <span class="__cf_email__" data-cfemail="295b484f484c45694c51484459454c074a4644">[email&#160;protected]</span>
-        </a>
-        <a href="tel:+14015550100" class="footer-contact-item">
-          <span class="icon">📞</span>
-          (401) 555-0100
-        </a>
-        <div class="footer-contact-item">
-          <span class="icon">📍</span>
-          East Greenwich, Rhode Island
-        </div>
-        <a href="contact.html" class="btn btn-primary" style="margin-top:1rem; font-size:0.7rem; padding:0.6rem 1.4rem;">
-          Hire Me ✦
-        </a>
-      </div>
-
-    </div>
-
-    <!-- Bottom bar -->
-    <div class="footer-bottom">
-      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
-      <span>Designed & Built with ✦ by Rafael</span>
-    </div>
-  </div>
-</footer>
+<!-- ── Shared footer injected by nav.js ── -->
+<div id="site-footer"></div>
 
 
-<!-- ── Scripts ──────────────────�
+<script src="nav.js"></script>
+</body>
+</html>
