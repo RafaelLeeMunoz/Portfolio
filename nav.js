@@ -22,9 +22,7 @@ const _NAV_HTML = `
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="projects.html">Projects</a></li>
-        <li><a href="creative.html">Creative</a></li>
         <li><a href="music.html">Music</a></li>
-        <li><a href="experience.html">Experience</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="contact.html" class="btn btn-primary nav-cta" style="color:#ffffff;">Hire Me</a></li>
       </ul>
@@ -41,9 +39,7 @@ const _NAV_HTML = `
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="projects.html">Projects</a></li>
-      <li><a href="creative.html">Creative</a></li>
       <li><a href="music.html">Music</a></li>
-      <li><a href="experience.html">Experience</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="contact.html" class="nav-mobile-cta">Hire Me</a></li>
     </ul>
@@ -79,9 +75,7 @@ const _FOOTER_HTML = `
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="projects.html">Projects</a></li>
-          <li><a href="creative.html">Creative Work</a></li>
           <li><a href="music.html">My Music</a></li>
-          <li><a href="experience.html">Experience</a></li>
           <li><a href="blog.html">Blog</a></li>
         </ul>
       </div>
