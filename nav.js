@@ -80,19 +80,6 @@ const _FOOTER_HTML = `
         </ul>
       </div>
 
-      <!-- Work column -->
-      <div>
-        <p class="footer-col-title">Work</p>
-        <ul class="footer-links">
-          <li><a href="projects.html#games">Games</a></li>
-          <li><a href="projects.html#apps">Apps</a></li>
-          <li><a href="creative.html#brands">Brands</a></li>
-          <li><a href="creative.html#resin">Resin Art</a></li>
-          <li><a href="music.html">Music</a></li>
-          <li><a href="certifications.html">Certifications</a></li>
-        </ul>
-      </div>
-
       <!-- Contact column -->
       <div>
         <p class="footer-col-title">Get in Touch</p>
