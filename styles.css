@@ -326,12 +326,14 @@ section { padding: var(--sp-xl) 0; }
 /* Mobile CTA in drawer — styled as a compact pill */
 .nav-mobile-cta {
   display: inline-block;
-  margin-top: 0.25rem;
-  padding: 0.45rem 1.2rem;
+  width: fit-content;
+   margin-top: 0.5rem;
+  padding: 0.6rem 1.5rem;
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
   color: #fff !important;
   font-size: 0.75rem;
+   text-align: center;
 }
 
 /* ============================================================
