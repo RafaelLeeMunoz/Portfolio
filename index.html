@@ -71,9 +71,11 @@
     /* Hero needs position:relative so the absolute cue is anchored */
     #hero { position: relative; }
 
-    /* ── Music section — ported from the old dedicated Music page.
-       Only the wave animation + an honest "coming soon" state, per
-       direct request; no fake track list. ── */
+    /* ── Music section — real self-hosted tracks (made with Suno AI,
+       not distributed anywhere else, so no Spotify/embed option).
+       Wave bars only actually animate while a track is playing —
+       driven by JS toggling .playing on .wave-bars, not a constant
+       decorative loop. ── */
     .wave-bars {
       display: flex; align-items: flex-end; justify-content: center;
       gap: 4px; height: 60px; margin: 1.5rem auto 0;
@@ -82,7 +84,10 @@
       width: 5px; border-radius: 3px;
       background: linear-gradient(to top, var(--accent-pink), var(--accent-violet));
       animation: waveBounce 1.2s ease-in-out infinite;
+      animation-play-state: paused;
+      transform: scaleY(.4); opacity: .5;
     }
+    .wave-bars.playing .wave-bar { animation-play-state: running; }
     .wave-bar:nth-child(odd) { animation-delay: .15s; }
     .wave-bar:nth-child(3n)  { animation-delay: .3s;  }
     .wave-bar:nth-child(4n)  { animation-delay: .45s; }
@@ -91,15 +96,37 @@
       50%       { transform: scaleY(1);  opacity: 1;  }
     }
     @media (prefers-reduced-motion: reduce) {
-      .wave-bar { animation: none; transform: scaleY(.6); opacity: .7; }
+      .wave-bar { animation: none !important; transform: scaleY(.6); opacity: .7; }
     }
-    .music-coming-soon {
-      max-width: 480px; margin: var(--sp-md) auto 0;
+
+    .track-list {
+      max-width: 560px; margin: var(--sp-md) auto 0;
+      display: flex; flex-direction: column; gap: .75rem;
+      text-align: left;
+    }
+    .track-row {
+      display: flex; align-items: center; gap: 1rem;
       background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: var(--radius-md); padding: 1.5rem;
-      backdrop-filter: blur(12px); text-align: center;
-      color: var(--text-muted); font-size: .95rem; line-height: 1.7;
+      border-radius: var(--radius-md); padding: .9rem 1.2rem;
+      backdrop-filter: blur(12px); transition: all var(--transition);
     }
+    .track-row:hover { border-color: rgba(155,89,252,.35); }
+    .track-row.is-playing { border-color: var(--accent-pink); background: rgba(240,25,110,.06); }
+    .track-play-btn {
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+      border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
+      color: #fff; font-size: .95rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform var(--transition);
+    }
+    .track-play-btn:hover { transform: scale(1.08); }
+    .track-info { flex: 1; min-width: 0; }
+    .track-name {
+      font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+      color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .track-time { font-size: .8125rem; color: var(--text-muted); margin-top: .15rem; }
   </style>
 </head>
 <body>
@@ -420,18 +447,20 @@
 
 
 <!-- ============================================================
-     MUSIC — ported from the old dedicated Music page. Only the
-     wave animation + an honest "coming soon" note; the old page's
-     fake track list / discography was left behind on purpose.
+     MUSIC — real self-hosted tracks made with Suno AI. Not on
+     Spotify/streaming anywhere else, so a native player is the only
+     option — plain <audio> per track, one shared "only one plays at
+     a time" controller below. Wave bars only animate while
+     something is actually playing.
      ============================================================ -->
 <section id="music">
   <div class="container" style="text-align:center;">
     <p class="section-label" data-reveal>Sound & Production</p>
     <h2 class="section-title display" data-reveal>Latest Tracks</h2>
     <p style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:0.95rem;" data-reveal data-delay="1">
-      Cinematic, atmospheric, and sometimes just plain weird — music is where I process everything else.
+      Cinematic, atmospheric, and sometimes just plain weird — made with Suno AI, music is where I process everything else.
     </p>
-    <div class="wave-bars" data-reveal data-delay="2">
+    <div class="wave-bars" id="wave-bars" data-reveal data-delay="2">
       <div class="wave-bar" style="height:20px"></div><div class="wave-bar" style="height:35px"></div>
       <div class="wave-bar" style="height:50px"></div><div class="wave-bar" style="height:28px"></div>
       <div class="wave-bar" style="height:44px"></div><div class="wave-bar" style="height:58px"></div>
@@ -441,8 +470,43 @@
       <div class="wave-bar" style="height:42px"></div><div class="wave-bar" style="height:36px"></div>
       <div class="wave-bar" style="height:52px"></div><div class="wave-bar" style="height:30px"></div>
     </div>
-    <div class="music-coming-soon" data-reveal data-delay="3">
-      🎧 New tracks coming soon — check back as I connect my releases here.
+
+    <div class="track-list" data-reveal data-delay="3">
+      <div class="track-row" data-src="track-innocence-to-chaos.mp3">
+        <button class="track-play-btn" aria-label="Play Innocence to Chaos">▶</button>
+        <div class="track-info">
+          <div class="track-name">Innocence to Chaos</div>
+          <div class="track-time">--:--</div>
+        </div>
+      </div>
+      <div class="track-row" data-src="track-in-this-love-we-find.mp3">
+        <button class="track-play-btn" aria-label="Play In This Love We Find">▶</button>
+        <div class="track-info">
+          <div class="track-name">In This Love We Find</div>
+          <div class="track-time">--:--</div>
+        </div>
+      </div>
+      <div class="track-row" data-src="track-nights-embrace.mp3">
+        <button class="track-play-btn" aria-label="Play Night's Embrace">▶</button>
+        <div class="track-info">
+          <div class="track-name">Night's Embrace</div>
+          <div class="track-time">--:--</div>
+        </div>
+      </div>
+      <div class="track-row" data-src="track-quiet-blaze.mp3">
+        <button class="track-play-btn" aria-label="Play Quiet Blaze">▶</button>
+        <div class="track-info">
+          <div class="track-name">Quiet Blaze</div>
+          <div class="track-time">--:--</div>
+        </div>
+      </div>
+      <div class="track-row" data-src="track-confetti-on-my-sneakers.mp3">
+        <button class="track-play-btn" aria-label="Play Confetti On My Sneakers">▶</button>
+        <div class="track-info">
+          <div class="track-name">Confetti On My Sneakers</div>
+          <div class="track-time">--:--</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -455,5 +519,67 @@
 
 
 <script src="nav.js"></script>
+<script>
+  /* ── Music player — one shared <audio> so only one track plays
+     at a time, regardless of which row started it. ── */
+  const audio    = new Audio();
+  audio.preload  = 'none';
+  const waveBars = document.getElementById('wave-bars');
+  const rows     = document.querySelectorAll('.track-row');
+  let activeRow  = null;
+
+  function formatTime(sec) {
+    if (!isFinite(sec)) return '--:--';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function setRowPlaying(row, isPlaying) {
+    const btn = row.querySelector('.track-play-btn');
+    row.classList.toggle('is-playing', isPlaying);
+    btn.textContent = isPlaying ? '⏸' : '▶';
+  }
+
+  rows.forEach(row => {
+    const btn      = row.querySelector('.track-play-btn');
+    const timeEl   = row.querySelector('.track-time');
+    const src      = row.dataset.src;
+
+    btn.addEventListener('click', () => {
+      const isThisRowActive = activeRow === row && !audio.paused;
+
+      if (isThisRowActive) {
+        audio.pause();
+        return;
+      }
+
+      if (activeRow && activeRow !== row) setRowPlaying(activeRow, false);
+
+      if (activeRow !== row) {
+        audio.src = src;
+        activeRow = row;
+      }
+      audio.play().catch(() => {
+        // Autoplay/decoding can be blocked by the browser; fail quietly
+        // rather than leave the button stuck on a spinner-less "playing" state.
+        setRowPlaying(row, false);
+      });
+    });
+  });
+
+  audio.addEventListener('play',  () => { if (activeRow) setRowPlaying(activeRow, true);  waveBars.classList.add('playing'); });
+  audio.addEventListener('pause', () => { if (activeRow) setRowPlaying(activeRow, false); waveBars.classList.remove('playing'); });
+  audio.addEventListener('ended', () => { if (activeRow) setRowPlaying(activeRow, false); waveBars.classList.remove('playing'); });
+
+  audio.addEventListener('loadedmetadata', () => {
+    if (activeRow) activeRow.querySelector('.track-time').textContent = formatTime(audio.duration);
+  });
+  audio.addEventListener('timeupdate', () => {
+    if (!activeRow || audio.paused) return;
+    activeRow.querySelector('.track-time').textContent =
+      `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+  });
+</script>
 </body>
 </html>
