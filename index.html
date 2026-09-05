@@ -520,13 +520,12 @@
 
 <script src="nav.js"></script>
 <script>
-  /* ── Music player — one shared <audio> so only one track plays
-     at a time, regardless of which row started it. ── */
-  const audio    = new Audio();
-  audio.preload  = 'none';
+  /* ── Music player — one <audio preload="metadata"> per row so each
+     track's real length shows immediately on load (it's static, no
+     reason to wait for a play click to reveal it) without downloading
+     the full ~19.6MB across all 5 files. Only one track plays at a
+     time: starting one pauses whichever other one was going. ── */
   const waveBars = document.getElementById('wave-bars');
-  const rows     = document.querySelectorAll('.track-row');
-  let activeRow  = null;
 
   function formatTime(sec) {
     if (!isFinite(sec)) return '--:--';
@@ -535,50 +534,51 @@
     return `${m}:${s}`;
   }
 
-  function setRowPlaying(row, isPlaying) {
-    const btn = row.querySelector('.track-play-btn');
-    row.classList.toggle('is-playing', isPlaying);
-    btn.textContent = isPlaying ? '⏸' : '▶';
-  }
+  function anyPlaying(players) { return players.some(p => !p.audio.paused); }
 
-  rows.forEach(row => {
-    const btn      = row.querySelector('.track-play-btn');
-    const timeEl   = row.querySelector('.track-time');
-    const src      = row.dataset.src;
+  const players = [...document.querySelectorAll('.track-row')].map(row => {
+    const audio  = new Audio(row.dataset.src);
+    audio.preload = 'metadata';
+    const btn    = row.querySelector('.track-play-btn');
+    const timeEl = row.querySelector('.track-time');
+    return { row, audio, btn, timeEl };
+  });
 
-    btn.addEventListener('click', () => {
-      const isThisRowActive = activeRow === row && !audio.paused;
-
-      if (isThisRowActive) {
-        audio.pause();
-        return;
-      }
-
-      if (activeRow && activeRow !== row) setRowPlaying(activeRow, false);
-
-      if (activeRow !== row) {
-        audio.src = src;
-        activeRow = row;
-      }
-      audio.play().catch(() => {
-        // Autoplay/decoding can be blocked by the browser; fail quietly
-        // rather than leave the button stuck on a spinner-less "playing" state.
-        setRowPlaying(row, false);
-      });
+  players.forEach(p => {
+    p.audio.addEventListener('loadedmetadata', () => {
+      p.timeEl.textContent = formatTime(p.audio.duration);
     });
-  });
-
-  audio.addEventListener('play',  () => { if (activeRow) setRowPlaying(activeRow, true);  waveBars.classList.add('playing'); });
-  audio.addEventListener('pause', () => { if (activeRow) setRowPlaying(activeRow, false); waveBars.classList.remove('playing'); });
-  audio.addEventListener('ended', () => { if (activeRow) setRowPlaying(activeRow, false); waveBars.classList.remove('playing'); });
-
-  audio.addEventListener('loadedmetadata', () => {
-    if (activeRow) activeRow.querySelector('.track-time').textContent = formatTime(audio.duration);
-  });
-  audio.addEventListener('timeupdate', () => {
-    if (!activeRow || audio.paused) return;
-    activeRow.querySelector('.track-time').textContent =
-      `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    p.audio.addEventListener('play', () => {
+      players.forEach(other => { if (other !== p) other.audio.pause(); });
+      p.row.classList.add('is-playing');
+      p.btn.textContent = '⏸';
+      waveBars.classList.add('playing');
+    });
+    p.audio.addEventListener('pause', () => {
+      p.row.classList.remove('is-playing');
+      p.btn.textContent = '▶';
+      p.timeEl.textContent = formatTime(p.audio.duration);
+      if (!anyPlaying(players)) waveBars.classList.remove('playing');
+    });
+    p.audio.addEventListener('ended', () => {
+      p.timeEl.textContent = formatTime(p.audio.duration);
+    });
+    p.audio.addEventListener('timeupdate', () => {
+      if (p.audio.paused) return;
+      p.timeEl.textContent = `${formatTime(p.audio.currentTime)} / ${formatTime(p.audio.duration)}`;
+    });
+    p.btn.addEventListener('click', () => {
+      if (p.audio.paused) {
+        p.audio.play().catch(() => {
+          // Autoplay/decoding can be blocked by the browser; fail quietly
+          // rather than leave the button stuck on a stale "playing" state.
+          p.row.classList.remove('is-playing');
+          p.btn.textContent = '▶';
+        });
+      } else {
+        p.audio.pause();
+      }
+    });
   });
 </script>
 </body>
