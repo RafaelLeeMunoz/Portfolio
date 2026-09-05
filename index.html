@@ -70,6 +70,36 @@
 
     /* Hero needs position:relative so the absolute cue is anchored */
     #hero { position: relative; }
+
+    /* ── Music section — ported from the old dedicated Music page.
+       Only the wave animation + an honest "coming soon" state, per
+       direct request; no fake track list. ── */
+    .wave-bars {
+      display: flex; align-items: flex-end; justify-content: center;
+      gap: 4px; height: 60px; margin: 1.5rem auto 0;
+    }
+    .wave-bar {
+      width: 5px; border-radius: 3px;
+      background: linear-gradient(to top, var(--accent-pink), var(--accent-violet));
+      animation: waveBounce 1.2s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(odd) { animation-delay: .15s; }
+    .wave-bar:nth-child(3n)  { animation-delay: .3s;  }
+    .wave-bar:nth-child(4n)  { animation-delay: .45s; }
+    @keyframes waveBounce {
+      0%, 100% { transform: scaleY(.4); opacity: .5; }
+      50%       { transform: scaleY(1);  opacity: 1;  }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wave-bar { animation: none; transform: scaleY(.6); opacity: .7; }
+    }
+    .music-coming-soon {
+      max-width: 480px; margin: var(--sp-md) auto 0;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem;
+      backdrop-filter: blur(12px); text-align: center;
+      color: var(--text-muted); font-size: .95rem; line-height: 1.7;
+    }
   </style>
 </head>
 <body>
@@ -251,7 +281,7 @@
           <span class="project-tag tag-brands">Brand</span>
           <h3 class="project-title display">Lumière Studio</h3>
           <p class="project-desc">Full visual identity for a boutique creative studio — logo system, brand guidelines, packaging, and motion assets.</p>
-          <a href="creative.html" class="project-arrow">
+          <a href="projects.html" class="project-arrow">
             View Work
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -383,6 +413,37 @@
 
     </div>
 
+  </div>
+</section>
+
+<hr class="divider" />
+
+
+<!-- ============================================================
+     MUSIC — ported from the old dedicated Music page. Only the
+     wave animation + an honest "coming soon" note; the old page's
+     fake track list / discography was left behind on purpose.
+     ============================================================ -->
+<section id="music">
+  <div class="container" style="text-align:center;">
+    <p class="section-label" data-reveal>Sound & Production</p>
+    <h2 class="section-title display" data-reveal>Latest Tracks</h2>
+    <p style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:0.95rem;" data-reveal data-delay="1">
+      Cinematic, atmospheric, and sometimes just plain weird — music is where I process everything else.
+    </p>
+    <div class="wave-bars" data-reveal data-delay="2">
+      <div class="wave-bar" style="height:20px"></div><div class="wave-bar" style="height:35px"></div>
+      <div class="wave-bar" style="height:50px"></div><div class="wave-bar" style="height:28px"></div>
+      <div class="wave-bar" style="height:44px"></div><div class="wave-bar" style="height:58px"></div>
+      <div class="wave-bar" style="height:38px"></div><div class="wave-bar" style="height:60px"></div>
+      <div class="wave-bar" style="height:48px"></div><div class="wave-bar" style="height:32px"></div>
+      <div class="wave-bar" style="height:55px"></div><div class="wave-bar" style="height:24px"></div>
+      <div class="wave-bar" style="height:42px"></div><div class="wave-bar" style="height:36px"></div>
+      <div class="wave-bar" style="height:52px"></div><div class="wave-bar" style="height:30px"></div>
+    </div>
+    <div class="music-coming-soon" data-reveal data-delay="3">
+      🎧 New tracks coming soon — check back as I connect my releases here.
+    </div>
   </div>
 </section>
 
