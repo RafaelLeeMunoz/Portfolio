@@ -92,15 +92,20 @@
       color: var(--text-muted); cursor: pointer; transition: all var(--transition);
     }
     .tag-cloud-item:hover { background: rgba(155,89,252,.2); color: var(--text-primary); }
-    .newsletter-input-row { display: flex; gap: .5rem; margin-top: .8rem; }
+    /* flex-wrap so the button drops to its own line instead of
+       overflowing the card when the row is too narrow to fit both. */
+    .newsletter-input-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
     .newsletter-input {
-      flex: 1; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      flex: 1 1 160px; min-width: 0; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
       border-radius: var(--radius-xl); padding: .55rem 1rem;
       font-family: var(--font-body); font-size: .8rem; color: var(--text-primary);
       outline: none; transition: border-color var(--transition);
     }
     .newsletter-input::placeholder { color: var(--text-dim); }
     .newsletter-input:focus { border-color: var(--accent-violet); }
+    /* When it wraps to its own line, stretch full width rather than
+       sitting small and left-aligned. */
+    .newsletter-input-row .btn { flex: 1 1 auto; }
 
     @media (max-width: 1024px) { .blog-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
     @media (max-width: 600px)  { .post-row { grid-template-columns: 80px 1fr; } }
