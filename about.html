@@ -152,17 +152,25 @@
 
     /* Thin tiles that all sit on one row at desktop widths — auto-fit
        packs as many as the container allows, so this keeps working if
-       more tools are added later instead of a hardcoded column count. */
-    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: .65rem; }
+       more tools are added later instead of a hardcoded column count.
+       Narrower left/right padding + a taller min-height reads as a
+       slim rounded rectangle rather than a rounded square. Icon pins
+       to the top and the name pins to the bottom (flex space-between)
+       so every tile lines up the same way regardless of label length. */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 96px)); gap: .65rem; justify-content: center; }
     .tool-item {
       background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: var(--radius-md); padding: .9rem .5rem;
+      border-radius: var(--radius-md); padding: .9rem .3rem;
       text-align: center; backdrop-filter: blur(12px);
       transition: all var(--transition); cursor: default;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      min-height: 148px;
     }
     .tool-item:hover { transform: translateY(-5px); border-color: rgba(155,89,252,.35); box-shadow: 0 12px 30px rgba(0,0,0,.35); }
-    .tool-icon { font-size: 1.5rem; margin-bottom: .4rem; display: block; }
-    .tool-icon-img { width: 1.5rem; height: 1.5rem; object-fit: contain; margin: 0 auto .4rem; display: block; }
+    .tool-icon { font-size: 3.75rem; display: block; }
+    .tool-icon-img { width: 3.75rem; height: 3.75rem; object-fit: contain; display: block; }
+    /* Unity's mark ships pure black — invert it so it reads on the dark card. */
+    .tool-icon-invert { filter: invert(1); }
     .tool-name { font-family: var(--font-display); font-size: .75rem; font-weight: 700; letter-spacing: .03em; color: var(--text-muted); line-height: 1.3; }
 
     /* ── Responsive ──────────────────────────────────────── */
@@ -381,15 +389,14 @@
     </div>
 
     <div class="tools-grid">
-      <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">🔷</span><p class="tool-name">Unity</p></div>
+      <div class="tool-item" data-reveal data-delay="1"><img class="tool-icon-img tool-icon-invert" src="logo-unity.png" alt="Unity logo" loading="lazy" /><p class="tool-name">Unity</p></div>
       <div class="tool-item" data-reveal data-delay="2"><img class="tool-icon-img" src="logo-figma.png" alt="Figma logo" loading="lazy" /><p class="tool-name">Figma</p></div>
-      <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">🐍</span><p class="tool-name">Python</p></div>
+      <div class="tool-item" data-reveal data-delay="3"><img class="tool-icon-img" src="logo-python.webp" alt="Python logo" loading="lazy" /><p class="tool-name">Python</p></div>
       <div class="tool-item" data-reveal data-delay="1"><img class="tool-icon-img" src="logo-jira.png" alt="Jira logo" loading="lazy" /><p class="tool-name">Jira</p></div>
-      <div class="tool-item" data-reveal data-delay="2"><span class="tool-icon">🎨</span><p class="tool-name">Illustrator</p></div>
-      <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">📈</span><p class="tool-name">Tableau</p></div>
-      <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">📊</span><p class="tool-name">Power BI</p></div>
-      <div class="tool-item" data-reveal data-delay="2"><img class="tool-icon-img" src="logo-ga.png" alt="Google Analytics logo" loading="lazy" /><p class="tool-name">GA4</p></div>
-      <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">🗄️</span><p class="tool-name">SQL</p></div>
+      <div class="tool-item" data-reveal data-delay="2"><img class="tool-icon-img" src="logo-tableau.png" alt="Tableau logo" loading="lazy" /><p class="tool-name">Tableau</p></div>
+      <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">📊</span><p class="tool-name">Power BI</p></div>
+      <div class="tool-item" data-reveal data-delay="1"><img class="tool-icon-img" src="logo-ga.png" alt="Google Analytics logo" loading="lazy" /><p class="tool-name">GA4</p></div>
+      <div class="tool-item" data-reveal data-delay="2"><img class="tool-icon-img" src="logo-sql.png" alt="SQL logo" loading="lazy" /><p class="tool-name">SQL</p></div>
     </div>
   </div>
 </section>
