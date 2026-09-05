@@ -120,6 +120,45 @@
       background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--text-muted);
     }
 
+    /* ── Certifications & Tools ──────────────────────────── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto var(--sp-lg);
+    }
+    .cert-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.8rem;
+      backdrop-filter: blur(12px); transition: all var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .cert-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--cert-color, linear-gradient(90deg, var(--accent-pink), var(--accent-violet)));
+    }
+    .cert-card:hover { transform: translateY(-6px); border-color: rgba(155,89,252,.35); box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+    .cert-issuer-logo {
+      width: 48px; height: 48px; border-radius: var(--radius-sm);
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 1rem;
+    }
+    .cert-name   { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .3rem; }
+    .cert-issuer { font-size: .8125rem; color: var(--accent-cyan); }
+
+    .tools-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+    .tool-item {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.2rem .8rem;
+      text-align: center; backdrop-filter: blur(12px);
+      transition: all var(--transition); cursor: default;
+    }
+    .tool-item:hover { transform: translateY(-5px); border-color: rgba(155,89,252,.35); box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+    .tool-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+    .tool-name { font-family: var(--font-display); font-size: .8125rem; font-weight: 700; letter-spacing: .05em; color: var(--text-muted); }
+
     /* ── Responsive ──────────────────────────────────────── */
     @media (max-width: 900px) {
       .bio-grid    { grid-template-columns: 1fr; }
@@ -127,10 +166,13 @@
       .values-grid { grid-template-columns: repeat(2,1fr); }
       .exp-card    { grid-template-columns: 1fr; }
       .impact-row  { grid-template-columns: 1fr 1fr; }
+      .tools-grid  { grid-template-columns: repeat(3,1fr); }
     }
     @media (max-width: 600px) {
       .values-grid { grid-template-columns: 1fr; }
       .exp-card    { padding: 1.5rem; }
+      .cert-grid   { grid-template-columns: 1fr; }
+      .tools-grid  { grid-template-columns: repeat(2,1fr); }
     }
   </style>
 </head>
@@ -322,6 +364,38 @@
         <span class="exp-type" style="background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.25);color:var(--accent-gold);">Freelance</span>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CERTIFICATIONS & TOOLS -->
+<section>
+  <div class="container">
+    <div style="text-align:center; margin-bottom:var(--sp-md);" data-reveal>
+      <p class="section-label">Credentials & Toolkit</p>
+      <h2 class="section-title display">Certifications &amp; Tools</h2>
+    </div>
+
+    <div class="cert-grid">
+      <div class="cert-card" style="--cert-color: linear-gradient(90deg,#0a84ff,#5ac8fa);" data-reveal>
+        <div class="cert-issuer-logo">📋</div>
+        <p class="cert-name display">Certified Scrum Product Owner (CSPO)</p>
+        <p class="cert-issuer">Scrum Alliance</p>
+      </div>
+      <div class="cert-card" style="--cert-color: linear-gradient(90deg,#9b59fc,#c084fc);" data-reveal data-delay="1">
+        <div class="cert-issuer-logo">🤖</div>
+        <p class="cert-name display">AI for Product Owners</p>
+      </div>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">🔷</span><p class="tool-name">Unity</p></div>
+      <div class="tool-item" data-reveal data-delay="2"><span class="tool-icon">🖼️</span><p class="tool-name">Figma</p></div>
+      <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">🐍</span><p class="tool-name">Python</p></div>
+      <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">📊</span><p class="tool-name">Jira</p></div>
+      <div class="tool-item" data-reveal data-delay="2"><span class="tool-icon">🎨</span><p class="tool-name">Illustrator</p></div>
     </div>
   </div>
 </section>
