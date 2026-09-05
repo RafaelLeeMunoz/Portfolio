@@ -165,12 +165,16 @@ section { padding: var(--sp-xl) 0; }
 .btn-outline {
   background: transparent;
   color: var(--text-primary);
-  border: 1.5px solid rgba(255,255,255,0.3);
+  /* inset box-shadow instead of a real border — a real border grows
+     the rendered box beyond .btn-primary's (no border), which is
+     exactly why outline buttons ended up a different size next to
+     filled ones. box-shadow draws the same 1.5px ring without
+     affecting layout size at all. */
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.3);
 }
 .btn-outline:hover {
-  border-color: var(--accent-cyan);
   color: var(--accent-cyan);
-  box-shadow: 0 0 20px rgba(0,229,255,0.2);
+  box-shadow: inset 0 0 0 1.5px var(--accent-cyan), 0 0 20px rgba(0,229,255,0.2);
   transform: translateY(-2px);
 }
 
@@ -425,6 +429,13 @@ section { padding: var(--sp-xl) 0; }
   display: flex;
   gap: var(--sp-sm);
   flex-wrap: wrap;
+}
+/* Both CTAs match in size regardless of one having an icon and the
+   other not — same min-width, centered content, so they scale
+   together instead of "See My Work" always running wider. */
+.hero-ctas .btn {
+  min-width: 210px;
+  justify-content: center;
 }
 
 .hero-stats {
