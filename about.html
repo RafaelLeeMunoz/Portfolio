@@ -86,6 +86,17 @@
       margin: -1rem 0 -0.5rem;
     }
     .exp-military-image img { width: 100%; max-width: 480px; height: auto; }
+    /* Operations Chief card only: period/company/location + the term
+       pill sit above the ribbon image, role/desc/bullets/tags below it —
+       per direct request. Each spans the full card width and stacks in
+       document order, unlike the other cards' 2-column auto-placement. */
+    .exp-meta-top {
+      grid-column: 1 / -1;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .exp-meta-top .exp-meta-left { gap: .2rem; }
+    .exp-meta-bottom { grid-column: 1 / -1; }
     .exp-meta-left { display: flex; flex-direction: column; gap: .3rem; }
     .exp-period {
       font-family: var(--font-display); font-size: .875rem; font-weight: 700;
@@ -126,6 +137,7 @@
       border-radius: var(--radius-md); padding: 1.8rem;
       backdrop-filter: blur(12px); transition: all var(--transition);
       position: relative; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
     }
     .cert-card::after {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -135,7 +147,7 @@
     .cert-issuer-logo {
       width: 144px; height: 144px;
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1rem;
+      margin: 0 auto 1rem;
     }
     .cert-issuer-logo img { width: 100%; height: 100%; object-fit: contain; }
     .cert-name   { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .3rem; }
@@ -150,6 +162,7 @@
     }
     .tool-item:hover { transform: translateY(-5px); border-color: rgba(155,89,252,.35); box-shadow: 0 12px 30px rgba(0,0,0,.35); }
     .tool-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+    .tool-icon-img { width: 2rem; height: 2rem; object-fit: contain; margin: 0 auto .5rem; display: block; }
     .tool-name { font-family: var(--font-display); font-size: .8125rem; font-weight: 700; letter-spacing: .05em; color: var(--text-muted); }
 
     /* ── Responsive ──────────────────────────────────────── */
@@ -272,14 +285,19 @@
       </div>
 
       <div class="exp-card" style="--exp-accent:linear-gradient(to bottom,var(--accent-violet),var(--accent-cyan));" data-reveal>
+        <div class="exp-meta-top">
+          <div class="exp-meta-left">
+            <p class="exp-period">Aug 2003 – Aug 2011</p>
+            <p class="exp-company">United States Marine Corps</p>
+            <p class="exp-location">📍 Quantico, VA</p>
+          </div>
+          <span class="exp-type" style="background:rgba(155,89,252,.15);border:1px solid rgba(155,89,252,.3);color:var(--accent-violet);">4 Year Contract x2</span>
+        </div>
         <div class="exp-military-image">
           <img src="military-ribbons.png" alt="Rafael's U.S. Marine Corps military ribbon rack, including Meritorious Mast, Combat Action, and Humanitarian Service ribbons" loading="lazy" />
         </div>
-        <div class="exp-meta-left">
-          <p class="exp-period">Aug 2003 – Aug 2011</p>
+        <div class="exp-meta-bottom">
           <h3 class="exp-role display">Operations Chief</h3>
-          <p class="exp-company">United States Marine Corps</p>
-          <p class="exp-location">📍 Quantico, VA</p>
           <p class="exp-desc">Achieved the rank of Sergeant leading combat and humanitarian aid operations across three combat deployments, then trained thousands of incoming officers in tactics, weapons handling, and leadership fundamentals — delivering high-pressure team leadership and mission-critical decision-making throughout.</p>
           <ul class="exp-bullets">
             <li>Led combat and humanitarian aid operations during three combat deployments (Haiti, Karmah & Ramadi, Iraq), with a focus on logistics, mission planning, and personnel management.</li>
@@ -290,7 +308,6 @@
           </ul>
           <div class="exp-tags"><span class="exp-tag">3 Combat Deployments</span><span class="exp-tag">Officer Instruction (TBS)</span><span class="exp-tag">Leadership Under Pressure</span><span class="exp-tag">Mission-Critical Execution</span><span class="exp-tag">Operational Discipline</span><span class="exp-tag">Meritorious Mast Award</span></div>
         </div>
-        <span class="exp-type" style="background:rgba(155,89,252,.15);border:1px solid rgba(155,89,252,.3);color:var(--accent-violet);">4 Year Contract x2</span>
       </div>
 
       <div class="exp-card" style="--exp-accent:linear-gradient(to bottom,var(--accent-cyan),#43e97b);" data-reveal>
@@ -365,12 +382,12 @@
 
     <div class="tools-grid">
       <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">🔷</span><p class="tool-name">Unity</p></div>
-      <div class="tool-item" data-reveal data-delay="2"><span class="tool-icon">🖼️</span><p class="tool-name">Figma</p></div>
+      <div class="tool-item" data-reveal data-delay="2"><img class="tool-icon-img" src="logo-figma.png" alt="Figma logo" loading="lazy" /><p class="tool-name">Figma</p></div>
       <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">🐍</span><p class="tool-name">Python</p></div>
-      <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">📊</span><p class="tool-name">Jira</p></div>
+      <div class="tool-item" data-reveal data-delay="1"><img class="tool-icon-img" src="logo-jira.png" alt="Jira logo" loading="lazy" /><p class="tool-name">Jira</p></div>
       <div class="tool-item" data-reveal data-delay="2"><span class="tool-icon">🎨</span><p class="tool-name">Illustrator</p></div>
       <div class="tool-item" data-reveal data-delay="3"><span class="tool-icon">📈</span><p class="tool-name">Tableau / Power BI</p></div>
-      <div class="tool-item" data-reveal data-delay="1"><span class="tool-icon">🔍</span><p class="tool-name">GA4 / SQL</p></div>
+      <div class="tool-item" data-reveal data-delay="1"><img class="tool-icon-img" src="logo-ga.png" alt="Google Analytics logo" loading="lazy" /><p class="tool-name">GA4 / SQL</p></div>
     </div>
   </div>
 </section>
