@@ -4,7 +4,7 @@
    ============================================================ */
 
 /* ── Google Fonts ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap');
 
 /* ── Design Tokens ────────────────────────────────────────── */
 :root {
@@ -212,7 +212,8 @@ section { padding: var(--sp-xl) 0; }
   transition: all var(--transition);
 }
 
-#navbar.scrolled {
+#navbar.scrolled,
+#navbar.menu-open {
   background: rgba(3,1,10,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -275,7 +276,7 @@ section { padding: var(--sp-xl) 0; }
 
 .nav-cta {
   padding: 0.55rem 1.4rem;
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   /* Ensure text stays white — btn-primary gradient can be overridden by
      .nav-links a color rule without this explicit declaration */
   color: #ffffff;
@@ -328,11 +329,14 @@ section { padding: var(--sp-xl) 0; }
   display: inline-block;
   width: fit-content;
    margin-top: 0.5rem;
-  padding: 0.6rem 1.5rem;
+  /* !important needed — .nav-mobile a's padding rule has higher
+     specificity (class+element vs. this rule's single class) and was
+     silently winning, leaving this pill with zero horizontal padding. */
+  padding: 0.75rem 1.75rem !important;
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
   color: #fff !important;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
    text-align: center;
 }
 
@@ -433,16 +437,16 @@ section { padding: var(--sp-xl) 0; }
 
 .stat-item { text-align: left; }
 .stat-number {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1.8rem;
-  font-weight: 800;
+  font-weight: 700;
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .stat-label {
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-muted);
   letter-spacing: 0.05em;
@@ -450,6 +454,16 @@ section { padding: var(--sp-xl) 0; }
 
 /* Hero visual */
 .hero-visual {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+/* Groups the orbiting ring + photo so it keeps centering on itself,
+   independent of the credential pills stacked below it. */
+.hero-photo-stack {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -510,41 +524,41 @@ section { padding: var(--sp-xl) 0; }
   animation: morph 8s ease-in-out infinite;
 }
 
-/* Floating badge */
-.hero-badge {
-  position: absolute;
-  bottom: 20px;
-  right: -20px;
-  background: var(--glass);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-md);
-  padding: 0.9rem 1.2rem;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 2;
+/* Credential pills — sit below the photo, static (not floating) */
+.hero-credentials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 440px;
+}
+
+.hero-cred-pill {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  animation: float 4s ease-in-out infinite;
+  gap: 0.65rem;
+  min-height: 6.25rem;
+  background: var(--glass);
+  border: 1px solid var(--card-border);
+  border-left: 2px solid var(--cred-accent, var(--accent-cyan));
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.9rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.hero-badge-icon { font-size: 1.5rem; }
-.hero-badge-text {
+.hero-cred-icon { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+.hero-cred-text {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--text-primary);
-  white-space: nowrap;
+  line-height: 1.3;
 }
-.hero-badge-sub {
-  font-size: 0.65rem;
+.hero-cred-sub {
+  font-size: 0.875rem;
   color: var(--text-muted);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px);  }
-  50%       { transform: translateY(-8px); }
+  margin-top: 0.15rem;
 }
 
 /* Orbiting dots */
@@ -793,17 +807,17 @@ section { padding: var(--sp-xl) 0; }
 }
 
 .skill-card {
-  background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-md);
-  padding: 2rem 1.5rem;
   text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   transition: all var(--transition);
   cursor: default;
   position: relative;
   overflow: hidden;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .skill-card::before {
@@ -816,6 +830,7 @@ section { padding: var(--sp-xl) 0; }
   background: var(--skill-accent, var(--accent-violet));
   transform: scaleX(0);
   transition: transform var(--transition);
+  z-index: 3;
 }
 
 .skill-card:hover::before { transform: scaleX(1); }
@@ -826,13 +841,42 @@ section { padding: var(--sp-xl) 0; }
   box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
 
-.skill-icon {
-  font-size: 2.8rem;
-  margin-bottom: 1rem;
-  display: block;
-  transition: transform 0.4s var(--ease);
+/* Background photo — a real <img> (not a CSS background) so it can be
+   independently scaled on hover and gets a real, accessible src/alt. */
+.skill-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease);
+  z-index: 0;
 }
-.skill-card:hover .skill-icon { transform: scale(1.2) rotate(-5deg); }
+.skill-card:hover .skill-card-img { transform: scale(1.08); }
+
+/* Dark scrim, heaviest at the TOP (title) and BOTTOM (description) where
+   text sits, lighter through the middle so the photo still reads clearly. */
+.skill-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(3,1,10,0.8) 0%,
+    rgba(3,1,10,0.2) 30%,
+    rgba(3,1,10,0.2) 60%,
+    rgba(3,1,10,0.92) 100%
+  );
+  z-index: 1;
+}
+
+.skill-card-top,
+.skill-card-bottom {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.skill-card-top    { padding: 1.5rem 1.5rem 0; }
+.skill-card-bottom { padding: 0 1.5rem 1.75rem; }
 
 .skill-title {
   font-family: var(--font-display);
@@ -840,12 +884,15 @@ section { padding: var(--sp-xl) 0; }
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: var(--text-primary);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.85);
 }
 
 .skill-desc {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  opacity: 0.85;
   line-height: 1.6;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.85);
 }
 
 /* ============================================================
@@ -1010,15 +1057,15 @@ footer {
     gap: var(--sp-lg);
   }
 
-  .hero-content { padding-top: 0; order: 2; }
-  .hero-visual  { order: 1; }
+  .hero-content { padding-top: 0; order: 1; }
+  .hero-visual  { order: 2; }
   .hero-desc    { max-width: 100%; margin-inline: auto; }
   .hero-ctas    { justify-content: center; }
   .hero-stats   { justify-content: center; }
 
   .hero-photo-wrapper { width: 260px; height: 320px; }
   .hero-orbit   { width: 340px; height: 340px; }
-  .hero-badge   { right: -10px; bottom: 10px; }
+  .hero-credentials { max-width: 420px; }
 
   .about-grid { grid-template-columns: 1fr; text-align: center; }
   .about-photo-frame { margin-inline: auto; }
@@ -1044,13 +1091,16 @@ footer {
 
   .hero-photo-wrapper { width: 220px; height: 270px; }
   .hero-orbit { display: none; }
-  .hero-badge { display: none; }
+  .hero-credentials { max-width: calc(100% - 2rem); gap: 0.6rem; }
+  .hero-cred-pill { min-height: 6.75rem; padding: 0.65rem 0.7rem; }
 
   .projects-grid { grid-template-columns: 1fr; }
   .project-card--featured { grid-column: span 1; }
 
   .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-  .skill-card { padding: 1.5rem 1rem; }
+  .skill-card { min-height: 220px; }
+  .skill-card-top    { padding: 1.25rem 1rem 0; }
+  .skill-card-bottom { padding: 0 1rem 1.5rem; }
 
   .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
 

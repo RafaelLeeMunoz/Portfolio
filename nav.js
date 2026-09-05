@@ -142,6 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = mobileMenu.classList.toggle('open');
       hamburger.setAttribute('aria-expanded', String(isOpen));
 
+      // #navbar is position:fixed, so the drawer growing its height doesn't
+      // push page content down — it overlays instead. Force the same solid
+      // background .scrolled uses whenever the drawer is open, regardless
+      // of scroll position, so it never shows hero/page content bleeding
+      // through underneath it.
+      if (navbar) navbar.classList.toggle('menu-open', isOpen);
+
       const bars = hamburger.querySelectorAll('span');
       if (isOpen) {
         bars[0].style.transform = 'translateY(7px) rotate(45deg)';
@@ -156,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
+        if (navbar) navbar.classList.remove('menu-open');
         hamburger.setAttribute('aria-expanded', 'false');
         hamburger.querySelectorAll('span').forEach(b => {
           b.style.transform = ''; b.style.opacity = '';

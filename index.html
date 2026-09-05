@@ -93,7 +93,7 @@
       </div>
 
       <!-- Name -->
-      <h1 class="hero-name display">Rafael<br>L. Muñoz</h1>
+      <h1 class="hero-name display">Rafael<br>Muñoz</h1>
 
       <!-- Rotating tagline -->
       <p class="hero-tagline">
@@ -117,16 +117,16 @@
       <!-- Stats -->
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-number">8+</div>
-          <div class="stat-label">Years of Experience</div>
-        </div>
-        <div class="stat-item">
           <div class="stat-number">30+</div>
-          <div class="stat-label">Projects Shipped</div>
+          <div class="stat-label">Products Shipped</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number">4</div>
-          <div class="stat-label">Creative Disciplines</div>
+          <div class="stat-number">16</div>
+          <div class="stat-label">U.S. States Reached</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">8,000+</div>
+          <div class="stat-label">Marines Trained</div>
         </div>
       </div>
 
@@ -140,20 +140,49 @@
 
     <!-- Visual (right) -->
     <div class="hero-visual">
-      <div class="hero-orbit"></div>
-      <div class="hero-photo-wrapper">
-        <div class="hero-photo-ring"></div>
-        <div class="hero-photo">
-          <img src="Rafael L Munoz.jpeg" alt="Rafael L. Muñoz" loading="eager" />
-        </div>
-        <div class="hero-badge">
-          <div class="hero-badge-icon">🎮</div>
-          <div>
-            <div class="hero-badge-text">Game Dev</div>
-            <div class="hero-badge-sub">Unity · Unreal · Godot</div>
+
+      <div class="hero-photo-stack">
+        <div class="hero-orbit"></div>
+        <div class="hero-photo-wrapper">
+          <div class="hero-photo-ring"></div>
+          <div class="hero-photo">
+            <img src="Rafael L Munoz.jpeg" alt="Rafael L. Muñoz" loading="eager" />
           </div>
         </div>
       </div>
+
+      <!-- Credential pills -->
+      <div class="hero-credentials">
+        <div class="hero-cred-pill" style="--cred-accent: var(--accent-cyan);">
+          <div class="hero-cred-icon">📈</div>
+          <div>
+            <div class="hero-cred-text">Product Management</div>
+            <div class="hero-cred-sub">10+ Years · IGT</div>
+          </div>
+        </div>
+        <div class="hero-cred-pill" style="--cred-accent: var(--accent-pink);">
+          <div class="hero-cred-icon">🕹️</div>
+          <div>
+            <div class="hero-cred-text">Game Design</div>
+            <div class="hero-cred-sub">B.S. · NEIT</div>
+          </div>
+        </div>
+        <div class="hero-cred-pill" style="--cred-accent: var(--accent-violet);">
+          <div class="hero-cred-icon">🎖️</div>
+          <div>
+            <div class="hero-cred-text">U.S. Marine Corps</div>
+            <div class="hero-cred-sub">8 Years · Sergeant</div>
+          </div>
+        </div>
+        <div class="hero-cred-pill" style="--cred-accent: var(--accent-gold);">
+          <div class="hero-cred-icon">🎓</div>
+          <div>
+            <div class="hero-cred-text">M.S. AI &amp; Analytics</div>
+            <div class="hero-cred-sub">Bryant · In Progress</div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -300,7 +329,7 @@
 
     <div class="skills-header" data-reveal>
       <p class="section-label">What I Do</p>
-      <h2 class="section-title display">Skills & Areas</h2>
+      <h2 class="section-title display">Skills &amp; Expertise</h2>
       <p style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:0.95rem;">
         A builder at heart and I move fluidly between strategy, execution, and pure creative expression.
       </p>
@@ -309,27 +338,47 @@
     <div class="skills-grid">
 
       <div class="skill-card card" style="--skill-accent: var(--accent-cyan);" data-reveal data-delay="1">
-        <span class="skill-icon">📋</span>
-        <h3 class="skill-title display">Product Leadership</h3>
-        <p class="skill-desc">Roadmaps, experimentation, and shipping features that drive measurable impact.</p>
+        <img class="skill-card-img" src="skill-product-leadership.jpg" alt="" loading="lazy" />
+        <div class="skill-card-overlay"></div>
+        <div class="skill-card-top">
+          <h3 class="skill-title display">Product Leadership</h3>
+        </div>
+        <div class="skill-card-bottom">
+          <p class="skill-desc">Roadmaps, experimentation, and shipping features that drive measurable impact.</p>
+        </div>
       </div>
 
       <div class="skill-card card" style="--skill-accent: var(--accent-pink);" data-reveal data-delay="2">
-        <span class="skill-icon">🎮</span>
-        <h3 class="skill-title display">Game & Experience Development</h3>
-        <p class="skill-desc">From concept to launch. Building interactive systems, gameplay, and digital experiences.</p>
+        <img class="skill-card-img" src="skill-game-experience.jpg" alt="" loading="lazy" />
+        <div class="skill-card-overlay"></div>
+        <div class="skill-card-top">
+          <h3 class="skill-title display">Game & Experience Development</h3>
+        </div>
+        <div class="skill-card-bottom">
+          <p class="skill-desc">From concept to launch. Building interactive systems, gameplay, and digital experiences.</p>
+        </div>
       </div>
 
       <div class="skill-card card" style="--skill-accent: var(--accent-violet);" data-reveal data-delay="3">
-        <span class="skill-icon">🎨</span>
-        <h3 class="skill-title display">Creative Director</h3>
-        <p class="skill-desc">Branding, visual identity, and storytelling that create memorable impressions.</p>
+        <img class="skill-card-img" src="skill-creative-director.jpg" alt="" loading="lazy" />
+        <div class="skill-card-overlay"></div>
+        <div class="skill-card-top">
+          <h3 class="skill-title display">Creative Director</h3>
+        </div>
+        <div class="skill-card-bottom">
+          <p class="skill-desc">Branding, visual identity, and storytelling that create memorable impressions.</p>
+        </div>
       </div>
 
       <div class="skill-card card" style="--skill-accent: var(--accent-gold);" data-reveal data-delay="4">
-        <span class="skill-icon">🤖</span>
-        <h3 class="skill-title display">AI & Systems Builder</h3>
-        <p class="skill-desc">LLM integrations, automation, and tools that scale products and workflows.</p>
+        <img class="skill-card-img" src="skill-ai-systems.jpg" alt="" loading="lazy" />
+        <div class="skill-card-overlay"></div>
+        <div class="skill-card-top">
+          <h3 class="skill-title display">AI &amp; Systems Builder</h3>
+        </div>
+        <div class="skill-card-bottom">
+          <p class="skill-desc">LLM integrations, automation, and tools that scale products and workflows.</p>
+        </div>
       </div>
 
     </div>
