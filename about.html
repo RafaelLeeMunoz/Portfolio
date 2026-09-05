@@ -61,21 +61,21 @@
     }
     .fact-pill:hover { background: rgba(155,89,252,0.2); color: var(--text-primary); transform: translateY(-2px); }
 
-    /* ── Impact numbers ─────────────────────────────────── */
-    .impact-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; text-align: center; }
-    .impact-item {
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: var(--radius-md); padding: 2rem 1rem;
-      backdrop-filter: blur(12px); transition: all var(--transition);
+    /* ── Impact facts — compact colored pills, matching the blog's
+       category-pill look (uppercase, bold, tinted background/text/border)
+       instead of 4 big cards, per direct request to save vertical space. */
+    .impact-row {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: .6rem; text-align: center;
     }
-    .impact-item:hover { transform: translateY(-5px); border-color: rgba(0,229,255,.3); }
-    .impact-number {
-      font-family: var(--font-display); font-size: 2.4rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: .3rem; display: block;
+    .impact-pill {
+      display: inline-block;
+      font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .55rem 1.2rem; border-radius: var(--radius-xl);
+      transition: transform var(--transition);
     }
-    .impact-label { font-size: .78rem; color: var(--text-muted); line-height: 1.5; }
+    .impact-pill:hover { transform: translateY(-3px); }
 
     /* ── Experience cards ────────────────────────────────── */
     .exp-list { display: flex; flex-direction: column; gap: 2rem; }
@@ -165,7 +165,6 @@
       .bio-sticky  { position: static; }
       .values-grid { grid-template-columns: repeat(2,1fr); }
       .exp-card    { grid-template-columns: 1fr; }
-      .impact-row  { grid-template-columns: 1fr 1fr; }
       .tools-grid  { grid-template-columns: repeat(3,1fr); }
     }
     @media (max-width: 600px) {
@@ -197,22 +196,10 @@
 <section style="padding-bottom:var(--sp-md);">
   <div class="container">
     <div class="impact-row">
-      <div class="impact-item" data-reveal data-delay="1">
-        <span class="impact-number">4</span>
-        <p class="impact-label">Career Chapters: Military, Product, AI &amp; Entrepreneurship</p>
-      </div>
-      <div class="impact-item" data-reveal data-delay="2">
-        <span class="impact-number">2</span>
-        <p class="impact-label">Professional Certifications (CSPO &amp; AI for Product Owners)</p>
-      </div>
-      <div class="impact-item" data-reveal data-delay="3">
-        <span class="impact-number">15+</span>
-        <p class="impact-label">State Digital Lottery Platforms (Wagering/Non-Wagering/Loyalty)</p>
-      </div>
-      <div class="impact-item" data-reveal data-delay="4">
-        <span class="impact-number">3</span>
-        <p class="impact-label">Generations of Product Evolution</p>
-      </div>
+      <span class="impact-pill" style="background:rgba(0,229,255,.1);color:var(--accent-cyan);border:1px solid rgba(0,229,255,.25);" data-reveal data-delay="1">4 Career Chapters</span>
+      <span class="impact-pill" style="background:rgba(240,25,110,.1);color:var(--accent-pink);border:1px solid rgba(240,25,110,.25);" data-reveal data-delay="2">2 Certifications Earned</span>
+      <span class="impact-pill" style="background:rgba(155,89,252,.12);color:var(--accent-violet);border:1px solid rgba(155,89,252,.3);" data-reveal data-delay="3">15+ State Lottery Platforms</span>
+      <span class="impact-pill" style="background:rgba(255,209,102,.1);color:var(--accent-gold);border:1px solid rgba(255,209,102,.25);" data-reveal data-delay="4">3 Generations of Product Evolution</span>
     </div>
   </div>
 </section>
