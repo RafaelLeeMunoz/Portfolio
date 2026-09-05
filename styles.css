@@ -367,7 +367,7 @@ section { padding: var(--sp-xl) 0; }
 
 .hero-eyebrow span {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -652,7 +652,7 @@ section { padding: var(--sp-xl) 0; }
 .project-tag {
   display: inline-block;
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -686,7 +686,7 @@ section { padding: var(--sp-xl) 0; }
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -777,7 +777,7 @@ section { padding: var(--sp-xl) 0; }
 
 .chip {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   padding: 0.3rem 0.9rem;
@@ -944,7 +944,7 @@ footer {
 
 .footer-col-title {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1017,7 +1017,7 @@ footer {
 /* Footer "Hire Me" button — sizing kept out of inline style */
 .footer-hire-btn {
   margin-top: 1rem;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   padding: 0.6rem 1.4rem;
 }
 
