@@ -51,36 +51,6 @@
     .value-title { font-family: var(--font-display); font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
     .value-desc  { font-size: .82rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* ── Timeline ────────────────────────────────────────── */
-    .timeline { position: relative; padding-left: 2rem; margin-top: var(--sp-md); }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--accent-violet), var(--accent-cyan), transparent);
-      border-radius: 2px;
-    }
-    .timeline-item { position: relative; padding-left: 1.5rem; padding-bottom: 2.5rem; }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -2.1rem; top: .35rem;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent-violet);
-      box-shadow: 0 0 12px var(--accent-violet);
-      border: 2px solid var(--bg-deep);
-    }
-    .timeline-year {
-      font-family: var(--font-display); font-size: .68rem; font-weight: 700;
-      letter-spacing: .15em; text-transform: uppercase;
-      color: var(--accent-cyan); margin-bottom: .3rem;
-    }
-    .timeline-role  { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .25rem; }
-    .timeline-org   { font-size: .85rem; color: var(--accent-violet); margin-bottom: .4rem; }
-    .timeline-desc  { font-size: .85rem; color: var(--text-muted); line-height: 1.65; }
-
     /* ── Fun facts ───────────────────────────────────────── */
     .facts-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: var(--sp-md); }
     .fact-pill {
@@ -125,14 +95,14 @@
     .exp-card:hover { transform: translateX(8px); border-color: rgba(155,89,252,.35); box-shadow: 0 16px 50px rgba(0,0,0,.4); }
     .exp-meta-left { display: flex; flex-direction: column; gap: .3rem; }
     .exp-period {
-      font-family: var(--font-display); font-size: .68rem; font-weight: 700;
+      font-family: var(--font-display); font-size: .875rem; font-weight: 700;
       letter-spacing: .15em; text-transform: uppercase; color: var(--accent-cyan);
     }
     .exp-role    { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin: .2rem 0; }
     .exp-company { font-size: .9rem; color: var(--accent-violet); margin-bottom: .3rem; }
     .exp-location{ font-size: .78rem; color: var(--text-dim); }
     .exp-type {
-      font-family: var(--font-display); font-size: .62rem; font-weight: 700;
+      font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
       letter-spacing: .12em; text-transform: uppercase; padding: .25rem .8rem;
       border-radius: var(--radius-xl); white-space: nowrap; height: fit-content;
     }
@@ -145,7 +115,7 @@
     .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent-violet); font-size: .7rem; }
     .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
     .exp-tag {
-      font-size: .62rem; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em;
+      font-size: .8125rem; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em;
       padding: .18rem .6rem; border-radius: var(--radius-xl);
       background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: var(--text-muted);
     }
@@ -187,7 +157,7 @@
     <div class="impact-row">
       <div class="impact-item" data-reveal data-delay="1">
         <span class="impact-number">8</span>
-        <p class="impact-label">Years of service as a Marine Corp Infantryman & Combat Instructor</p>
+        <p class="impact-label">Years of service as a U.S. Marine Corps Sergeant & Operations Chief</p>
       </div>
       <div class="impact-item" data-reveal data-delay="2">
         <span class="impact-number">30+</span>
@@ -297,19 +267,19 @@
 
       <div class="exp-card" style="--exp-accent:linear-gradient(to bottom,var(--accent-violet),var(--accent-cyan));" data-reveal>
         <div class="exp-meta-left">
-          <p class="exp-period">Mar 2021 – Dec 2023</p>
-          <h3 class="exp-role display">Military Service</h3>
-          <p class="exp-company">United States Marine Corp</p>
-          <p class="exp-location">📍 Jacksonville, NC / Quantico, VA</p>
-          <p class="exp-desc">Military professional with experience in leadership, operations, and high pressure decision making. Proven ability to manage teams, execute mission critical objectives, and maintain discipline, accountability, and performance in dynamic environments.</p>
+          <p class="exp-period">Aug 2003 – Aug 2011</p>
+          <h3 class="exp-role display">Operations Chief</h3>
+          <p class="exp-company">United States Marine Corps</p>
+          <p class="exp-location">📍 Quantico, VA</p>
+          <p class="exp-desc">Achieved the rank of Sergeant leading combat and humanitarian aid operations across three combat deployments, then trained thousands of incoming officers in tactics, weapons handling, and leadership fundamentals — delivering high-pressure team leadership and mission-critical decision-making throughout.</p>
           <ul class="exp-bullets">
-            <li>Led and coordinated teams in high pressure, time sensitive environments, ensuring mission success and operational readiness.</li>
-            <li>Developed strong leadership, accountability, and decision making skills under uncertain and rapidly changing conditions.</li>
-            <li>Managed logistics, planning, and execution of operations requiring precision, discipline, and cross-team coordination.</li>
-            <li>Trained and mentored personnel, fostering team cohesion, performance, and resilience.</li>
-            <li>Demonstrated adaptability and problem solving in environments where failure was not an option.</li>
+            <li>Led combat and humanitarian aid operations during three combat deployments (Haiti, Karmah & Ramadi, Iraq), with a focus on logistics, mission planning, and personnel management.</li>
+            <li>Instructed over 8,000 Marine Officers at The Basic School (TBS) in advanced tactics, weapons and personnel handling, and leadership fundamentals.</li>
+            <li>Coordinated logistics and training schedules for the officer training program, maintaining operational databases and performance tracking for personnel readiness.</li>
+            <li>Delivered high-pressure team leadership, situational awareness, and decision-making in complex, mission-critical operational environments.</li>
+            <li>Recognized with the Meritorious Mast Award for excellence in instruction and operational execution under time-sensitive conditions.</li>
           </ul>
-          <div class="exp-tags"><span class="exp-tag">Leadership Under Pressure</span><span class="exp-tag">High-Stakes Operations</span><span class="exp-tag">Mission-Critical Execution</span><span class="exp-tag">Rapid Decision-Making</span><span class="exp-tag">Operational Discipline</span><span class="exp-tag">Cross-Team Coordination</span></div>
+          <div class="exp-tags"><span class="exp-tag">3 Combat Deployments</span><span class="exp-tag">Officer Instruction (TBS)</span><span class="exp-tag">Leadership Under Pressure</span><span class="exp-tag">Mission-Critical Execution</span><span class="exp-tag">Operational Discipline</span><span class="exp-tag">Meritorious Mast Award</span></div>
         </div>
         <span class="exp-type" style="background:rgba(155,89,252,.15);border:1px solid rgba(155,89,252,.3);color:var(--accent-violet);">4 Year Contract x2</span>
       </div>
