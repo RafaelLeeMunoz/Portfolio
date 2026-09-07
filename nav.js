@@ -191,7 +191,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── 4. SMOOTH SCROLL FOR IN-PAGE ANCHORS ──────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', e => {
-      const target = document.querySelector(anchor.getAttribute('href'));
+      const href = anchor.getAttribute('href');
+      if (href.length <= 1) return; // bare "#" placeholder link — nothing to scroll to
+      const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
         const nav    = document.getElementById('navbar');

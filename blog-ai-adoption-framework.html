@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beyond the Tool — Rafael L. Muñoz</title>
+  <meta name="description" content="Responsible AI adoption is less about choosing the right model or platform and more about creating a system that connects business problems, people, data, experimentation, governance, measurement, and continuous improvement." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Article shell ────────────────────────────────────── */
+    .article-hero { padding-top: 8rem; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted);
+      transition: color var(--transition), gap var(--transition);
+      margin-bottom: 1.5rem;
+    }
+    .back-link:hover { color: var(--accent-cyan); gap: .7rem; }
+    .article-title {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.15;
+      max-width: 850px; margin: 1rem 0 1.5rem;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      padding-bottom: 2rem; border-bottom: 1px solid var(--card-border);
+      margin-bottom: 2.5rem;
+    }
+    .article-author-img { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(155,89,252,.3); flex-shrink: 0; }
+    .article-author-img img { width: 100%; height: 100%; object-fit: cover; }
+    .article-author-name { font-family: var(--font-display); font-size: .85rem; font-weight: 700; }
+    .article-date, .article-read { font-size: .875rem; color: var(--text-muted); }
+    .article-hero-thumb {
+      aspect-ratio: 21/9; border-radius: var(--radius-md); overflow: hidden;
+      display: flex; align-items: center; justify-content: center; font-size: 5rem;
+      background: linear-gradient(135deg,#0a1540,#1a0050,#001030);
+      margin-bottom: 3rem; position: relative;
+    }
+    .article-hero-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(3,1,10,.9));
+    }
+
+    /* ── Prose ────────────────────────────────────────────── */
+    .prose-container { width: min(720px, 92vw); margin-inline: auto; }
+    .prose p {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.85;
+      margin-bottom: 1.3rem;
+    }
+    .prose h2 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800;
+      color: var(--text-primary); margin: 3rem 0 1.2rem;
+    }
+    .prose h3 {
+      font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+      color: var(--accent-cyan); margin: 2.2rem 0 .9rem;
+    }
+    .prose ul, .prose ol { margin: 0 0 1.3rem 1.3rem; }
+    .prose li {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.8;
+      margin-bottom: .6rem; padding-left: .3rem;
+    }
+    .prose strong { color: var(--text-primary); }
+
+    /* ── Inline "related article" placeholder ────────────────
+       These three spots in the piece point at posts that don't
+       exist yet — styled honestly as "coming soon" rather than a
+       dead link or a fabricated URL. */
+    .related-callout {
+      display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-left: 3px solid var(--accent-violet);
+      border-radius: var(--radius-sm); padding: .9rem 1.2rem;
+      margin: 0 0 1.6rem;
+    }
+    .related-callout-label {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--accent-violet);
+    }
+    .related-callout-title { font-size: .9rem; color: var(--text-primary); font-weight: 600; }
+    .related-callout-soon { font-size: .8125rem; color: var(--text-muted); font-style: italic; }
+
+    /* ── Visual placeholder diagrams ──────────────────────────
+       Figures 2-5 have no real graphic yet, so they're built as
+       simple, honest flow diagrams from the site's own design
+       language rather than a blank box or a stock photo. Figure 1
+       reuses the real AI Adoption Framework graphic already made
+       for the About page. */
+    .article-visual {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.8rem 1.5rem;
+      margin: 2rem 0; text-align: center;
+    }
+    .article-visual-label {
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 1.1rem;
+    }
+    .article-visual img {
+      width: 100%; border-radius: var(--radius-sm); margin-bottom: 1rem;
+    }
+    .article-visual-flow {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: .5rem; margin-bottom: 1.1rem;
+    }
+    .flow-step {
+      font-family: var(--font-display); font-size: .8rem; font-weight: 700;
+      letter-spacing: .03em; color: var(--text-primary);
+      background: rgba(155,89,252,.1); border: 1px solid rgba(155,89,252,.25);
+      border-radius: var(--radius-sm); padding: .6rem .9rem;
+    }
+    .flow-arrow { color: var(--accent-violet); flex-shrink: 0; }
+    .flow-arrow svg { width: 16px; height: 16px; display: block; }
+    .flow-checkpoints {
+      display: flex; align-items: center; justify-content: center;
+      gap: .6rem; flex-wrap: wrap; margin: -.3rem 0 1.1rem;
+    }
+    .flow-checkpoint {
+      font-size: .75rem; font-weight: 600; color: var(--accent-cyan);
+      background: rgba(0,229,255,.08); border: 1px solid rgba(0,229,255,.2);
+      border-radius: var(--radius-xl); padding: .3rem .7rem;
+    }
+    .flow-note {
+      font-size: .8rem; color: var(--text-dim); margin-bottom: 1.1rem;
+    }
+    .article-visual-caption {
+      font-size: .8125rem; color: var(--text-muted); font-style: italic;
+      line-height: 1.6; max-width: 560px; margin-inline: auto;
+    }
+
+    /* ── Scorecard (Figure 2) ─────────────────────────────── */
+    .scorecard-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem;
+      margin-bottom: 1.1rem;
+    }
+    .scorecard-item {
+      background: rgba(255,255,255,.03); border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm); padding: 1rem .6rem;
+    }
+    .scorecard-item-name {
+      font-family: var(--font-display); font-size: .78rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: .6rem; line-height: 1.3;
+    }
+    .scorecard-scale { display: flex; justify-content: center; gap: .3rem; }
+    .scorecard-pip { width: 8px; height: 8px; border-radius: 50%; background: rgba(155,89,252,.25); }
+    .scorecard-pip.filled { background: var(--accent-violet); }
+
+    /* ── Author card at end of article ───────────────────── */
+    .article-author-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem; margin: 3rem 0 2rem;
+    }
+    .article-author-card img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(155,89,252,.3); flex-shrink: 0; }
+    .article-author-card-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
+    .article-author-card-role { font-size: .85rem; color: var(--text-muted); }
+
+    @media (max-width: 700px) {
+      .scorecard-grid { grid-template-columns: repeat(2, 1fr); }
+      .article-visual-flow { flex-direction: column; }
+      .flow-arrow svg { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Shared nav injected by nav.js ── -->
+<div id="site-nav"></div>
+
+
+<!-- ARTICLE -->
+<article class="article-hero container" data-reveal>
+  <a href="blog.html" class="back-link">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Blog
+  </a>
+  <span class="post-cat" style="display:inline-block;font-family:var(--font-display);font-size:.8125rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .7rem;border-radius:var(--radius-xl);background:rgba(155,89,252,.15);color:var(--accent-violet);border:1px solid rgba(155,89,252,.3);">AI & Product</span>
+  <h1 class="article-title display">Beyond the Tool: Designing a Practical Framework for Responsible AI Adoption</h1>
+  <div class="article-meta">
+    <div class="article-author-img"><img src="Lee.jpeg" alt="Rafael L. Muñoz" /></div>
+    <span class="article-author-name">Rafael L. Muñoz</span>
+    <span class="article-date">Sep 7, 2026</span>
+    <span class="article-read">· 13 min read</span>
+  </div>
+  <div class="article-hero-thumb"><span>🧭</span></div>
+</article>
+
+<div class="prose-container prose">
+
+  <p>A marketing manager uses generative AI to improve a draft. An operations analyst creates an AI-assisted workflow. Another employee discovers a tool that can summarize documents in seconds. Somewhere else, someone quietly uploads company information into an AI service because it is faster than waiting for an approved solution.</p>
+
+  <p>None of those moments necessarily feels like an enterprise AI transformation.</p>
+
+  <p>Together, they already are one.</p>
+
+  <p>That transition interested me.</p>
+
+  <p>Once AI begins working its way into everyday processes, the important questions change. The organization is no longer simply asking, <em>What can AI do?</em></p>
+
+  <p>It has to start asking: Which problems should we solve? What information should AI be allowed to use? Who owns the outcome? Where must a human remain involved? How will we know whether something actually worked? And what happens when the technology changes after we deploy it?</p>
+
+  <p>Those questions became the starting point for the XiguaFox AI Adoption Framework.</p>
+
+  <p>I did not want to create another list of AI tools. I wanted to design a practical operating system for thinking through AI adoption responsibly.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Figure 1</p>
+    <img src="ai-adoption-framework-thumb.jpg" alt="XiguaFox AI Adoption Framework showing six stages: Assess, Prioritize, Pilot, Train, Govern, and Improve." loading="lazy" />
+    <p class="article-visual-caption">XiguaFox AI Adoption Framework showing six stages: Assess, Prioritize, Pilot, Train, Govern, and Improve.</p>
+  </div>
+
+  <h2>The Hard Part of AI Adoption Comes After the Demo</h2>
+
+  <p>AI demonstrations are compelling because they collapse complexity.</p>
+
+  <p>A prompt goes in. Something impressive comes out.</p>
+
+  <p>Organizational adoption is much messier.</p>
+
+  <p>A customer-support copilot, for example, might look straightforward until the organization begins asking what information it can retrieve, whether the answer is grounded in approved sources, how hallucinations are detected, when an employee must override it, what gets logged, and who is accountable if bad information reaches a customer.</p>
+
+  <p>An internal knowledge assistant raises similar questions.</p>
+  <p>So does document summarization.</p>
+  <p>So does workflow automation.</p>
+
+  <p>And the more capable AI becomes — particularly as systems gain access to files, APIs, email, databases, or other tools — the more consequential those questions become.</p>
+
+  <p>That led me to a central conclusion:</p>
+
+  <p><strong>AI adoption is not primarily a tool-selection problem.</strong></p>
+
+  <p>It is a product problem, a people problem, an operating-model problem, a measurement problem, and a governance problem.</p>
+
+  <p>The framework grew around that idea. Its philosophy treats adoption as a people-centered business transformation designed to strengthen human capability rather than eliminate meaningful human judgment. It emphasizes practical adoption, measurable value, accessibility, accountability, education, and governance that enables useful work rather than creating unnecessary friction.</p>
+
+  <div class="related-callout">
+    <span class="related-callout-label">Related</span>
+    <span class="related-callout-title">Responsible AI Governance</span>
+    <span class="related-callout-soon">(article coming soon)</span>
+  </div>
+
+  <h2>A Framework Needed to Answer More Than "Can We Build It?"</h2>
+
+  <p>While designing the framework, I kept returning to a deceptively simple question:</p>
+
+  <p><strong>What has to be true before an AI idea deserves to become an AI implementation?</strong></p>
+
+  <p>Having an interesting use case is not enough.</p>
+
+  <p>A team might have enthusiasm but poor data.<br />
+  It might have good data but no process owner.<br />
+  It might have a technically feasible solution but no plan for how employees will actually incorporate it into their work.<br />
+  Or it might be trying to automate a process that should never be fully automated in the first place.</p>
+
+  <p>The framework therefore begins before implementation. A proposed use case needs a defined business problem, an owner, identified users, usable data, an initial value hypothesis, and an acceptable risk profile before it advances. Ideas that need more work can enter Discovery rather than being prematurely approved or rejected.</p>
+
+  <p>That distinction matters.</p>
+
+  <p>Good AI strategy is not about finding ways to apply AI everywhere. It is about identifying where AI is appropriate — and where it is not.</p>
+
+  <h2>Assess → Prioritize → Pilot → Train → Govern → Improve</h2>
+
+  <p>I organized the framework around six actions:</p>
+
+  <p style="font-family:var(--font-display);font-weight:700;letter-spacing:.05em;color:var(--text-primary);">ASSESS → PRIORITIZE → PILOT → TRAIN → GOVERN → IMPROVE</p>
+
+  <p>They are intentionally operational rather than technological.</p>
+
+  <h3>Assess: enthusiasm is not readiness</h3>
+
+  <p>Before designing a solution, the framework asks whether the underlying environment can support it.</p>
+
+  <p>Is the business process understood? Is the data usable and governed? Can existing systems support the proposed workflow? Is the organization prepared for the change?</p>
+
+  <p>The readiness assessment scores business-process fit, data quality and access, system constraints, and change impact rather than assuming enthusiasm means preparedness.</p>
+
+  <p>This is one of the most useful lessons I took from designing the framework: sometimes the right AI decision is to fix the process first.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Figure 2</p>
+    <div class="scorecard-grid">
+      <div class="scorecard-item">
+        <p class="scorecard-item-name">Business Process Fit</p>
+        <div class="scorecard-scale">
+          <span class="scorecard-pip filled"></span><span class="scorecard-pip filled"></span><span class="scorecard-pip filled"></span><span class="scorecard-pip"></span>
+        </div>
+      </div>
+      <div class="scorecard-item">
+        <p class="scorecard-item-name">Data Quality &amp; Access</p>
+        <div class="scorecard-scale">
+          <span class="scorecard-pip filled"></span><span class="scorecard-pip filled"></span><span class="scorecard-pip"></span><span class="scorecard-pip"></span>
+        </div>
+      </div>
+      <div class="scorecard-item">
+        <p class="scorecard-item-name">System Constraints</p>
+        <div class="scorecard-scale">
+          <span class="scorecard-pip filled"></span><span class="scorecard-pip filled"></span><span class="scorecard-pip filled"></span><span class="scorecard-pip filled"></span>
+        </div>
+      </div>
+      <div class="scorecard-item">
+        <p class="scorecard-item-name">Change Impact</p>
+        <div class="scorecard-scale">
+          <span class="scorecard-pip filled"></span><span class="scorecard-pip"></span><span class="scorecard-pip"></span><span class="scorecard-pip"></span>
+        </div>
+      </div>
+    </div>
+    <p class="article-visual-caption">AI readiness assessment evaluating business process, data, system constraints, and organizational change readiness on a 1–4 scale, with defined remediation thresholds.</p>
+  </div>
+
+  <h3>Prioritize: start with the problem, not the model</h3>
+
+  <p>Not every business problem needs AI.</p>
+
+  <p>And the most technologically interesting opportunity is not automatically the best first use case.</p>
+
+  <p>A strong candidate has meaningful value, manageable scope, available data, ownership, measurable outcomes, and risk that can be controlled.</p>
+
+  <p>That shifts the conversation from "Where can we use AI?" to "Which problem is worth solving, and is AI actually the right approach?"</p>
+
+  <p>That is a much healthier starting point for product decisions.</p>
+
+  <h3>Pilot: make learning inexpensive</h3>
+
+  <p>One principle became especially important to me: reversibility.</p>
+
+  <p>The framework recommends beginning with the smallest footprint capable of producing meaningful evidence. Pilots should have clear success metrics, defined users and scope, a rollback trigger, a rollback plan, and an explicit Go / No-Go / Iterate decision.</p>
+
+  <p>A good pilot is not simply a smaller launch.</p>
+
+  <p>It is a controlled learning mechanism.</p>
+
+  <p>Mistakes should be visible. Assumptions should be testable. The organization should be able to stop without creating unnecessary damage.</p>
+
+  <p>That is very different from rolling out a new tool because the demo looked promising.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Figure 3</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Problem</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Pilot</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Measure</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Learn</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Go / Iterate / No-Go</span>
+    </div>
+    <p class="flow-note">↩ Rollback: a No-Go returns the organization to its current process, not a failed state.</p>
+    <p class="article-visual-caption">Controlled AI pilot lifecycle with measurement, learning, rollback, and Go, Iterate, or No-Go decisions.</p>
+  </div>
+
+  <h2>Measurement Has to Include More Than ROI</h2>
+
+  <p>AI creates another measurement challenge: business value and system performance are not the same thing.</p>
+
+  <p>A workflow might save time while producing unacceptable errors.</p>
+  <p>A highly accurate system might be too expensive to operate.</p>
+  <p>Employees might technically have access to a tool but avoid using it because they do not trust its output.</p>
+
+  <p>So the framework separates measurement into three layers:</p>
+
+  <ul>
+    <li><strong>Business outcomes:</strong> Did the initiative create meaningful organizational value?</li>
+    <li><strong>Operational performance:</strong> Is the workflow actually usable and being adopted?</li>
+    <li><strong>AI-system performance:</strong> Is the model behaving at the quality level the use case requires?</li>
+  </ul>
+
+  <p>That can include measures such as adoption, satisfaction, escalation, hallucination rate, corrective feedback, human-review effort, latency, and cost per query.</p>
+
+  <p>One of the more interesting issues I explored was automation bias.</p>
+
+  <p>Adding a human approval step does not automatically create meaningful oversight. If reviewers begin accepting almost everything, stop challenging recommendations, or become fatigued by repetitive approvals, the human-in-the-loop mechanism can become little more than a checkbox.</p>
+
+  <p>The framework therefore proposes monitoring the quality of human review itself — including override rates, corrections, review time, escalations, audit results, and signs of reviewer fatigue.</p>
+
+  <p>That changed how I thought about human oversight.</p>
+
+  <p>The question is not merely, "Is a human in the loop?"</p>
+
+  <p>It is, "Is the human still meaningfully participating in the decision?"</p>
+
+  <div class="related-callout">
+    <span class="related-callout-label">Related</span>
+    <span class="related-callout-title">AI Work Companion</span>
+    <span class="related-callout-soon">(article coming soon)</span>
+  </div>
+
+  <h2>"Augment, Don't Replace" Has Design Consequences</h2>
+
+  <p>"Augment, don't replace" became more than a slogan in the framework.</p>
+
+  <p>It influenced how I approached system design.</p>
+
+  <p>High-impact or irreversible decisions need meaningful human checkpoints. Users should understand when AI is involved. Systems should expose uncertainty where appropriate. Critical workflows need manual fallbacks. Sensitive data requires deliberate handling. AI-generated external content needs human review. Agentic systems need defined permissions, boundaries, logs, and approval points.</p>
+
+  <p>The same philosophy shaped training.</p>
+
+  <p>Giving someone an AI license is not adoption.</p>
+
+  <p>People need to understand what the system can do, what it cannot do, what information may be entered, how outputs should be verified, and what to do when something goes wrong.</p>
+
+  <p>The framework therefore treats AI literacy as part of implementation, with different levels for general users, power users, builders, and governance leaders.</p>
+
+  <p>That is one reason I think AI adoption is fundamentally human-centered.</p>
+
+  <p>Technology can change rapidly. Organizational confidence takes longer.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Figure 4</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Human intent</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">AI assists</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Human reviews</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Action</span>
+    </div>
+    <div class="flow-checkpoints">
+      <span class="flow-checkpoint">Verify</span>
+      <span class="flow-checkpoint">Override</span>
+      <span class="flow-checkpoint">Escalate</span>
+    </div>
+    <p class="article-visual-caption">Human-in-the-loop AI workflow where people define intent, AI assists, and a human verifies or overrides the output before action.</p>
+  </div>
+
+  <h2>Governance Should Make Good Ideas Easier to Pursue</h2>
+
+  <p>Governance is often presented as the part of AI that says no.</p>
+
+  <p>I wanted to approach it differently.</p>
+
+  <p>Good governance should establish enough clarity that people understand where experimentation is safe.</p>
+
+  <p>What data can be used? Which tools are approved? Who can authorize a pilot? Which actions require human approval? How should an employee disclose an AI workflow they have already created?</p>
+
+  <p>The framework even treats discovery of existing AI usage as something that should be approached non-punitively where possible, so useful experimentation can be identified, evaluated, and brought into approved practices rather than simply driven underground.</p>
+
+  <p>That is especially important because shadow AI is partly a governance issue, but it can also be an enablement signal.</p>
+
+  <p>If employees are finding unofficial AI solutions, there may be a real unmet need hiding underneath the risk.</p>
+
+  <p>The goal should be to understand both.</p>
+
+  <h2>Launch Is the Beginning of the Lifecycle</h2>
+
+  <p>One of the biggest differences between ordinary software thinking and AI-system thinking is that the model underneath a workflow may change independently of the organization using it.</p>
+
+  <p>Vendors update models. Pricing changes. Prompts evolve. Retrieval sources change. User behavior changes. Models are deprecated. Performance can drift.</p>
+
+  <p>That means an AI launch cannot be treated as a finish line.</p>
+
+  <p>The framework includes model-version tracking, regression testing after meaningful changes, rollback planning, cost monitoring, incident review, and explicit decisions about whether systems should remain active, be upgraded, migrated, paused, or retired.</p>
+
+  <p>That lifecycle perspective became one of my strongest conclusions while building the framework:</p>
+
+  <p><strong>responsible AI requires ownership after implementation, not just approval before implementation.</strong></p>
+
+  <div class="related-callout">
+    <span class="related-callout-label">Related</span>
+    <span class="related-callout-title">Master of Many — AI Product Manager</span>
+    <span class="related-callout-soon">(article coming soon)</span>
+  </div>
+
+  <h2>Six Things Leaders Can Do Before Their Next AI Pilot</h2>
+
+  <p>Even without adopting a formal framework, an organization can improve its approach immediately:</p>
+
+  <ol>
+    <li><strong>Inventory the AI already being used.</strong> Approved and unapproved usage both tell you something about where people see value.</li>
+    <li><strong>Start with a documented business problem.</strong> Do not make a vendor or model the use case.</li>
+    <li><strong>Name a human owner.</strong> Someone must own the business outcome — not merely the technology.</li>
+    <li><strong>Define success and failure before testing begins.</strong> Include both performance targets and conditions that should stop the pilot.</li>
+    <li><strong>Decide what data is permitted before connecting AI to real workflows.</strong> Data rules should precede convenience.</li>
+    <li><strong>Plan for what happens after launch.</strong> Define monitoring, training, model-change testing, cost review, escalation, and eventually retirement.</li>
+  </ol>
+
+  <p>The point is not to create paperwork around every experiment.</p>
+
+  <p>It is to make deliberate experimentation possible.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Figure 5</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Foundation</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Pilot</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Expand</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Optimize</span>
+    </div>
+    <p class="article-visual-caption">AI adoption maturity roadmap progressing from Foundation to Pilot, Expand, and Optimize.</p>
+  </div>
+
+  <h2>Structure Can Accelerate Responsible Experimentation</h2>
+
+  <p>The framework now contains far more than the six-stage model. There are readiness assessments, use-case registers, pilot charters, vendor reviews, system cards, decision logs, risk reviews, monitoring guidance, training levels, incident processes, and lifecycle controls.</p>
+
+  <p>But those artifacts are not the real idea.</p>
+
+  <p>The real idea is the system connecting them.</p>
+
+  <p>AI creates enormous opportunities for organizations to improve how people find information, make decisions, create content, analyze problems, and perform repetitive work.</p>
+
+  <p>But access to more capable technology does not remove the need for product thinking.</p>
+
+  <p>It makes product thinking more important.</p>
+
+  <p>Someone still has to decide what problem matters. Someone has to understand the user. Someone has to define value. Someone has to determine acceptable risk. Someone has to measure the result. And someone has to remain accountable when the system gets something wrong.</p>
+
+  <p>That is why I keep coming back to augment, don't replace.</p>
+
+  <p>The most useful AI systems should not simply remove humans from work. They should help people perform that work with greater capability while preserving the judgment, accountability, and context that make the work meaningful.</p>
+
+  <p>The final line of the framework captures where I eventually landed: it is designed to be adapted rather than treated as a static compliance document. Its purpose is the safe, effective, and lasting integration of AI into the work people actually do.</p>
+
+  <p>Good structure does not have to stand in the way of innovation.</p>
+
+  <p>It can be what makes innovation sustainable.</p>
+
+  <div class="article-author-card" data-reveal>
+    <img src="Lee.jpeg" alt="Rafael L. Muñoz" />
+    <div>
+      <p class="article-author-card-name">Rafael L. Muñoz</p>
+      <p class="article-author-card-role">Product Manager · Builder · Marine Corps Veteran — Providence, RI</p>
+    </div>
+  </div>
+
+  <a href="blog.html" class="back-link" style="margin-bottom:4rem;">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Blog
+  </a>
+
+</div>
+
+
+<!-- ── Shared footer injected by nav.js ── -->
+<div id="site-footer"></div>
+
+
+<script src="nav.js"></script>
+</body>
+</html>
