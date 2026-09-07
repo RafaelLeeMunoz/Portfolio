@@ -120,6 +120,27 @@
       padding-left: 1.2rem; position: relative; margin-bottom: .4rem;
     }
     .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent-violet); font-size: .7rem; }
+    /* Inline visual proof-point under a bullet — logo + a "try it" link,
+       for breaking up long text-only lists with something tangible. */
+    .bullet-promo {
+      display: flex; align-items: center; gap: .6rem;
+      margin: .6rem 0 .2rem;
+    }
+    .bullet-promo-logo {
+      width: 68px; height: 68px; border-radius: 50%;
+      object-fit: cover; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .bullet-promo-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--accent-cyan);
+      padding: .35rem .8rem; border-radius: var(--radius-xl);
+      border: 1px solid rgba(0,229,255,.3); background: rgba(0,229,255,.08);
+      transition: all var(--transition);
+    }
+    .bullet-promo-link:hover { background: rgba(0,229,255,.18); gap: .55rem; border-color: rgba(0,229,255,.5); }
+    .bullet-promo-link svg { width: 11px; height: 11px; flex-shrink: 0; }
     .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
     .exp-tag {
       font-size: .8125rem; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em;
@@ -337,7 +358,16 @@
           <p class="exp-location">📍 Providence, Rhode Island</p>
           <p class="exp-desc">Designing and applying AI-driven products, workflows, and frameworks that make complex technology more useful, responsible, and accessible. My work spans AI product development, workflow automation, responsible AI, decision support, and AI literacy.</p>
           <ul class="exp-bullets">
-            <li>Built an AI Product Manager Assistant that transforms product ideas into PRDs, user stories, prioritization frameworks, and structured product deliverables.</li>
+            <li>
+              Built an AI Product Manager Assistant that transforms product ideas into PRDs, user stories, prioritization frameworks, and structured product deliverables.
+              <div class="bullet-promo">
+                <img src="master-of-many-logo.png" alt="Master of Many GPT logo" class="bullet-promo-logo" loading="lazy" />
+                <a href="https://chatgpt.com/g/g-69d7c0510b5481919bd9912ae683f93d-master-of-many" target="_blank" rel="noopener" class="bullet-promo-link">
+                  Try GPT
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </li>
             <li>Developed reusable LLM and prompt-engineering workflows that turn unstructured inputs into consistent, structured business outputs.</li>
             <li>Designed an AI Adoption Framework covering readiness, use-case selection, experimentation, governance, measurement, and responsible scaling.</li>
             <li>Created an AI-assisted promotion system that transforms a single campaign brief into social, email, outreach, web, and promotional content.</li>
