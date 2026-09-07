@@ -144,6 +144,12 @@
       object-fit: cover; flex-shrink: 0;
       border: 1px solid rgba(255,255,255,.12);
     }
+    /* Emblem/badge shapes (shield outlines, coin medallions) — contain,
+       not cover, so the silhouette is never cropped; the transparent
+       PNG background blends straight into the card behind it. */
+    .bullet-promo-badge {
+      width: 96px; height: 116px; object-fit: contain; flex-shrink: 0;
+    }
     .bullet-promo-link {
       display: inline-flex; align-items: center; gap: .35rem;
       font-family: var(--font-display); font-size: .75rem; font-weight: 700;
@@ -289,11 +295,7 @@
           <img src="Lee.jpeg" alt="Rafael L. Muñoz" loading="lazy" />
         </div>
         <div class="bio-social">
-          <a href="#" class="social-link" title="LinkedIn">💼</a>
-          <a href="#" class="social-link" title="GitHub">🐙</a>
-          <a href="#" class="social-link" title="Twitter">🐦</a>
-          <a href="#" class="social-link" title="Instagram">📸</a>
-          <a href="#" class="social-link" title="Spotify">🎵</a>
+          <a href="https://www.linkedin.com/in/rafaelleemunoz/" target="_blank" rel="noopener" class="social-link" title="LinkedIn">💼</a>
         </div>
         <div style="margin-top:1.5rem;">
           <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center;">
@@ -423,8 +425,20 @@
           <h3 class="exp-role display">Operations Chief</h3>
           <p class="exp-desc">Achieved the rank of Sergeant leading combat and humanitarian aid operations across three combat deployments, then trained thousands of incoming officers in tactics, weapons handling, and leadership fundamentals — delivering high-pressure team leadership and mission-critical decision-making throughout.</p>
           <ul class="exp-bullets">
-            <li>Led combat and humanitarian aid operations during three combat deployments (Haiti, Karmah & Ramadi, Iraq), with a focus on logistics, mission planning, and personnel management.</li>
-            <li>Instructed over 8,000 Marine Officers at The Basic School (TBS) in advanced tactics, weapons and personnel handling, and leadership fundamentals.</li>
+            <li class="bullet-split">
+              <div class="bullet-text">Led combat and humanitarian aid operations during three combat deployments (Haiti, Karmah & Ramadi, Iraq), with a focus on logistics, mission planning, and personnel management.</div>
+              <div class="bullet-promo">
+                <img src="emblem-3-8-marines.png" alt="Emblem of 3rd Battalion, 8th Marines" class="bullet-promo-badge" loading="lazy" />
+              </div>
+              <hr class="bullet-divider" />
+            </li>
+            <li class="bullet-split">
+              <div class="bullet-text">Instructed over 8,000 Marine Officers at The Basic School (TBS) in advanced tactics, weapons and personnel handling, and leadership fundamentals.</div>
+              <div class="bullet-promo">
+                <img src="usmc-tbs-badge.png" alt="USMC The Basic School (TBS) coin" class="bullet-promo-badge" loading="lazy" />
+              </div>
+              <hr class="bullet-divider" />
+            </li>
             <li>Coordinated logistics and training schedules for the officer training program, maintaining operational databases and performance tracking for personnel readiness.</li>
             <li>Delivered high-pressure team leadership, situational awareness, and decision-making in complex, mission-critical operational environments.</li>
             <li>Recognized with the Meritorious Mast Award for excellence in instruction and operational execution under time-sensitive conditions.</li>
