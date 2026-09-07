@@ -67,7 +67,7 @@
       background: var(--card-bg); border: 1px solid var(--card-border);
       border-radius: var(--radius-md); padding: 2rem 2.5rem;
       backdrop-filter: blur(12px); transition: all var(--transition);
-      display: grid; grid-template-columns: 1fr auto; gap: 1rem;
+      display: grid; grid-template-columns: 1fr; gap: 1rem;
       position: relative;
     }
     .exp-card::before {
@@ -102,12 +102,19 @@
     .exp-role    { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin: .2rem 0; }
     .exp-company { font-size: .9rem; color: var(--accent-violet); margin-bottom: .3rem; }
     .exp-location{ font-size: .78rem; color: var(--text-muted); }
+    /* Absolutely positioned (not a grid column) so the meta/desc/bullet
+       text below it can use the card's FULL width instead of a 2nd
+       "auto" column permanently reserving space for this pill down the
+       entire height of the card. */
     .exp-type {
       font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
       letter-spacing: .12em; text-transform: uppercase; padding: .25rem .8rem;
       border-radius: var(--radius-xl); white-space: nowrap; height: fit-content;
-      justify-self: start;
+      position: absolute; top: 2rem; right: 2.5rem;
     }
+    /* Operations Chief's pill stays a normal grid item inside its own
+       3-column header row, not plucked out to the card's corner. */
+    .exp-meta-top .exp-type { position: static; }
     /* Tenure pill: make the number read as the headline, the unit as a
        caption — absolute sizes (not em) so the unit never drops below
        the site's 12px floor regardless of the pill's own base size. */
@@ -244,7 +251,7 @@
          markup, so collapsing to 1 column would otherwise push it all
          the way below the bullets/tags — reorder it back to the top
          so it stays visible without scrolling through the whole card. */
-      .exp-card > .exp-type { order: -1; margin-bottom: .75rem; }
+      .exp-card > .exp-type { position: static; order: -1; margin-bottom: .75rem; }
       .exp-meta-top { grid-template-columns: 1fr; }
       .exp-meta-top .exp-type { justify-self: start; }
     }
