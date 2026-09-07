@@ -141,6 +141,17 @@
     }
     .bullet-promo-link:hover { background: rgba(0,229,255,.18); gap: .55rem; border-color: rgba(0,229,255,.5); }
     .bullet-promo-link svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .bullet-promo-caption {
+      font-size: .8rem; font-style: italic; color: var(--text-muted);
+      margin: .5rem 0 0;
+    }
+    /* Same fading gradient line used between the page-hero and the next
+       section — reused here to close out a visual bullet before the
+       next plain one starts. */
+    .bullet-divider {
+      height: 1px; border: none; margin: 1.1rem 0 1.1rem;
+      background: linear-gradient(90deg, transparent, rgba(155,89,252,0.4), rgba(0,229,255,0.3), transparent);
+    }
     .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
     .exp-tag {
       font-size: .8125rem; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em;
@@ -360,6 +371,7 @@
           <ul class="exp-bullets">
             <li>
               Built an AI Product Manager Assistant that transforms product ideas into PRDs, user stories, prioritization frameworks, and structured product deliverables.
+              <p class="bullet-promo-caption">It's called Master of Many, and you can find it on the ChatGPT GPT Store.</p>
               <div class="bullet-promo">
                 <img src="master-of-many-logo.png" alt="Master of Many GPT logo" class="bullet-promo-logo" loading="lazy" />
                 <a href="https://chatgpt.com/g/g-69d7c0510b5481919bd9912ae683f93d-master-of-many" target="_blank" rel="noopener" class="bullet-promo-link">
@@ -367,6 +379,7 @@
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
               </div>
+              <hr class="bullet-divider" />
             </li>
             <li>Developed reusable LLM and prompt-engineering workflows that turn unstructured inputs into consistent, structured business outputs.</li>
             <li>Designed an AI Adoption Framework covering readiness, use-case selection, experimentation, governance, measurement, and responsible scaling.</li>
