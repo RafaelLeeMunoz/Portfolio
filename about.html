@@ -106,7 +106,13 @@
       font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
       letter-spacing: .12em; text-transform: uppercase; padding: .25rem .8rem;
       border-radius: var(--radius-xl); white-space: nowrap; height: fit-content;
+      justify-self: start;
     }
+    /* Tenure pill: make the number read as the headline, the unit as a
+       caption — absolute sizes (not em) so the unit never drops below
+       the site's 12px floor regardless of the pill's own base size. */
+    .exp-type-num  { font-size: 1rem; }
+    .exp-type-unit { font-size: .75rem; opacity: .85; }
     .exp-desc    { font-size: .88rem; color: var(--text-muted); line-height: 1.75; margin: 1rem 0; }
     .exp-bullets { margin: .8rem 0; }
     .exp-bullets li {
@@ -179,6 +185,11 @@
       .bio-sticky  { position: static; }
       .values-grid { grid-template-columns: repeat(2,1fr); }
       .exp-card    { grid-template-columns: 1fr; }
+      /* The pill is a sibling AFTER the (very long) meta block in the
+         markup, so collapsing to 1 column would otherwise push it all
+         the way below the bullets/tags — reorder it back to the top
+         so it stays visible without scrolling through the whole card. */
+      .exp-card > .exp-type { order: -1; margin-bottom: .75rem; }
       .exp-meta-top { grid-template-columns: 1fr; }
       .exp-meta-top .exp-type { justify-self: start; }
     }
@@ -289,7 +300,7 @@
           </ul>
           <div class="exp-tags"><span class="exp-tag">Multi-State Platforms</span><span class="exp-tag">Regulated Industry</span><span class="exp-tag">Mobile + Web Ecosystems</span><span class="exp-tag">Conversion Optimization</span><span class="exp-tag">Revenue Impact</span><span class="exp-tag">Cross Functional Leadership</span></div>
         </div>
-        <span class="exp-type" style="background:rgba(240,25,110,.15);border:1px solid rgba(240,25,110,.3);color:var(--accent-pink);">10+ Yrs.</span>
+        <span class="exp-type" style="background:rgba(240,25,110,.15);border:1px solid rgba(240,25,110,.3);color:var(--accent-pink);"><span class="exp-type-num">10+</span> <span class="exp-type-unit">Yrs.</span></span>
       </div>
 
       <div class="exp-card" style="--exp-accent:linear-gradient(to bottom,var(--accent-violet),var(--accent-cyan));" data-reveal>
