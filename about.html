@@ -131,6 +131,12 @@
       object-fit: cover; flex-shrink: 0;
       border: 1px solid rgba(255,255,255,.12);
     }
+    /* Rectangular document/resource preview, vs. the circular app logo above. */
+    .bullet-promo-thumb {
+      width: 110px; height: auto; border-radius: var(--radius-sm, 8px);
+      object-fit: cover; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,.12);
+    }
     .bullet-promo-link {
       display: inline-flex; align-items: center; gap: .35rem;
       font-family: var(--font-display); font-size: .75rem; font-weight: 700;
@@ -376,7 +382,17 @@
               </div>
               <hr class="bullet-divider" />
             </li>
-            <li>Developed reusable LLM and prompt-engineering workflows that turn unstructured inputs into consistent, structured business outputs.</li>
+            <li>
+              Developed reusable LLM and prompt-engineering workflows that turn unstructured inputs into consistent, structured business outputs.
+              <div class="bullet-promo">
+                <img src="ai-work-companion-quick-sheet.jpg" alt="AI Work Companion Quick Sheet preview" class="bullet-promo-thumb" loading="lazy" />
+                <a href="https://drive.google.com/uc?export=download&amp;id=1ZQyxLcT3W8QTBll3tqkaOZ-vErI2G4yg" class="bullet-promo-link">
+                  Download Now
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+              <hr class="bullet-divider" />
+            </li>
             <li>Designed an AI Adoption Framework covering readiness, use-case selection, experimentation, governance, measurement, and responsible scaling.</li>
             <li>Created an AI-assisted promotion system that transforms a single campaign brief into social, email, outreach, web, and promotional content.</li>
             <li>Developed Responsible AI governance recommendations addressing privacy, human oversight, bias, Shadow AI, acceptable use, and accountability.</li>
