@@ -68,11 +68,14 @@
     .post-date { font-size: .875rem; color: var(--text-muted); }
     .post-read { font-size: .875rem; color: var(--text-dim); }
     .read-more {
-      display: flex; align-items: center; justify-content: flex-end; gap: .4rem; margin-top: 1rem;
+      display: inline-flex; align-items: center; gap: .4rem;
       font-family: var(--font-display); font-size: .875rem; font-weight: 700;
       letter-spacing: .1em; text-transform: uppercase; color: var(--accent-cyan);
-      transition: gap var(--transition);
+      transition: gap var(--transition); white-space: nowrap;
     }
+    /* When it's merged into the meta row (featured card), push it to
+       the far right instead of sitting inline with the rest. */
+    .post-footer-meta .read-more { margin-left: auto; }
     .post-featured:hover .read-more,
     .post-row:hover .read-more { gap: .7rem; }
 
@@ -154,8 +157,8 @@
               <span class="post-author-name">Rafael L. Muñoz</span>
               <span class="post-date">Sep 7, 2026</span>
               <span class="post-read">· 13 min read</span>
+              <span class="read-more">Read Article <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
             </div>
-            <span class="read-more">Read Article <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
