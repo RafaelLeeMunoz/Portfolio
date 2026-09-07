@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beyond AI-Generated Posts — Rafael L. Muñoz</title>
+  <meta name="description" content="The most useful role for AI in marketing may be less about producing more content and more about helping people turn one reliable source of information into coordinated, audience-specific, reviewable, and measurable campaigns." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Article shell ────────────────────────────────────── */
+    .article-hero { padding-top: 8rem; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted);
+      transition: color var(--transition), gap var(--transition);
+      margin-bottom: 1.5rem;
+    }
+    .back-link:hover { color: var(--accent-cyan); gap: .7rem; }
+    .article-title {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.15;
+      max-width: 850px; margin: 1rem 0 1rem;
+    }
+    .article-subtitle {
+      font-size: 1.05rem; color: var(--text-muted); line-height: 1.7;
+      max-width: 700px; margin: 0 0 1.5rem;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      padding-bottom: 2rem; border-bottom: 1px solid var(--card-border);
+      margin-bottom: 2.5rem;
+    }
+    .article-author-img { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(155,89,252,.3); flex-shrink: 0; }
+    .article-author-img img { width: 100%; height: 100%; object-fit: cover; }
+    .article-author-name { font-family: var(--font-display); font-size: .85rem; font-weight: 700; }
+    .article-date, .article-read { font-size: .875rem; color: var(--text-muted); }
+    .article-hero-thumb {
+      border-radius: var(--radius-md); overflow: hidden;
+      margin-bottom: 3rem; border: 1px solid var(--card-border);
+    }
+    .article-hero-thumb img { width: 100%; height: auto; display: block; }
+
+    /* ── Prose ────────────────────────────────────────────── */
+    .prose-container { width: min(720px, 92vw); margin-inline: auto; }
+    .prose p {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.85;
+      margin-bottom: 1.3rem;
+    }
+    .prose h2 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800;
+      color: var(--text-primary); margin: 3rem 0 1.2rem;
+    }
+    .prose strong { color: var(--text-primary); }
+    .prose em { color: var(--text-primary); }
+
+    /* ── Inline "related article" placeholder ─────────────── */
+    .related-callout {
+      display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-left: 3px solid var(--accent-violet);
+      border-radius: var(--radius-sm); padding: .9rem 1.2rem;
+      margin: 0 0 1.6rem;
+    }
+    .related-callout-label {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--accent-violet);
+    }
+    .related-callout-title { font-size: .9rem; color: var(--text-primary); font-weight: 600; }
+    .related-callout-soon { font-size: .8125rem; color: var(--text-muted); font-style: italic; }
+
+    /* ── Visual placeholder diagrams ──────────────────────── */
+    .article-visual {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.8rem 1.5rem;
+      margin: 2rem 0; text-align: center;
+    }
+    .article-visual-label {
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 1.1rem;
+    }
+    .article-visual img { width: 100%; border-radius: var(--radius-sm); margin-bottom: 1rem; }
+    .article-visual-flow {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: .5rem; margin-bottom: 1.1rem;
+    }
+    .flow-step {
+      font-family: var(--font-display); font-size: .8rem; font-weight: 700;
+      letter-spacing: .03em; color: var(--text-primary);
+      background: rgba(155,89,252,.1); border: 1px solid rgba(155,89,252,.25);
+      border-radius: var(--radius-sm); padding: .6rem .9rem;
+    }
+    .flow-arrow { color: var(--accent-violet); flex-shrink: 0; }
+    .flow-arrow svg { width: 16px; height: 16px; display: block; }
+    .flow-checkpoints {
+      display: flex; align-items: center; justify-content: center;
+      gap: .6rem; flex-wrap: wrap; margin: -.3rem 0 1.1rem;
+    }
+    .flow-checkpoint {
+      font-size: .75rem; font-weight: 600; color: var(--accent-cyan);
+      background: rgba(0,229,255,.08); border: 1px solid rgba(0,229,255,.2);
+      border-radius: var(--radius-xl); padding: .3rem .7rem;
+    }
+    .flow-note { font-size: .8rem; color: var(--text-dim); margin-bottom: 1.1rem; }
+    .flow-divider { height: 1px; background: var(--card-border); margin: 1.1rem 0; }
+    .flow-sublabel {
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: .8rem;
+    }
+    .article-visual-caption {
+      font-size: .8125rem; color: var(--text-muted); font-style: italic;
+      line-height: 1.6; max-width: 560px; margin-inline: auto;
+    }
+
+    /* ── Author card at end of article ───────────────────── */
+    .article-author-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem; margin: 3rem 0 2rem;
+    }
+    .article-author-card img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(155,89,252,.3); flex-shrink: 0; }
+    .article-author-card-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
+    .article-author-card-role { font-size: .85rem; color: var(--text-muted); }
+
+    @media (max-width: 700px) {
+      .article-visual-flow { flex-direction: column; }
+      .flow-arrow svg { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Shared nav injected by nav.js ── -->
+<div id="site-nav"></div>
+
+
+<!-- ARTICLE -->
+<article class="article-hero container" data-reveal>
+  <a href="blog.html" class="back-link">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Blog
+  </a>
+  <span class="post-cat" style="display:inline-block;font-family:var(--font-display);font-size:.8125rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .7rem;border-radius:var(--radius-xl);background:rgba(155,89,252,.15);color:var(--accent-violet);border:1px solid rgba(155,89,252,.3);">AI & Product</span>
+  <h1 class="article-title display">Beyond AI-Generated Posts: Designing a Promotion System Around One Source of Truth</h1>
+  <p class="article-subtitle">The most useful role for AI in marketing may be less about producing more content and more about helping people turn one reliable source of information into coordinated, audience-specific, reviewable, and measurable campaigns.</p>
+  <div class="article-meta">
+    <div class="article-author-img"><img src="Lee.jpeg" alt="Rafael L. Muñoz" /></div>
+    <span class="article-author-name">Rafael L. Muñoz</span>
+    <span class="article-date">Sep 7, 2026</span>
+    <span class="article-read">· 10 min read</span>
+  </div>
+  <div class="article-hero-thumb">
+    <img src="ai-promotion-engine-hero.jpg" alt="AI Promotion Engine: turn one campaign brief into every channel — Campaign Brief flows through an AI Engine that plans, creates, and adapts content for Social, Email, Outreach, Web, and Promo." loading="lazy" />
+  </div>
+</article>
+
+<div class="prose-container prose">
+
+  <p>Imagine an organization preparing to promote a new robotics program.</p>
+
+  <p>Someone needs a description for the website. Then a Facebook announcement. An Instagram post. Maybe a Reel. An email to families. A message for schools. Flyer copy. A registration reminder.</p>
+
+  <p>They are different deliverables, but most begin with the same handful of facts: what the program is, who it is for, when it happens, why someone should care, and where to register.</p>
+
+  <p>Then the friction begins.</p>
+
+  <p>A registration link changes. One version describes the program differently from another. A date is copied incorrectly. Someone needs a photo that no one remembered to request. The flyer emphasizes one benefit while the email emphasizes another.</p>
+
+  <p>The organization is producing plenty of content.</p>
+
+  <p>What it may not have is a coordinated campaign.</p>
+
+  <p>That was the problem I wanted to explore while designing an AI-assisted promotion system for the Rhode Island Computer Museum.</p>
+
+  <h2>The First AI Answer Was Too Small</h2>
+
+  <p>The obvious AI solution would have been simple:</p>
+
+  <p>Give a generative AI tool the program information and ask it to write the posts.</p>
+
+  <p>That certainly addresses part of the workload. But content generation was only one piece of the problem.</p>
+
+  <p>It doesn't automatically determine which audience matters most. It doesn't guarantee that the date appearing on Facebook matches the flyer. It doesn't decide who must approve a claim, whether a photograph involving a child can be published, which call to action should dominate the campaign, or what success should be measured afterward.</p>
+
+  <p>The Promotion Engine therefore wasn't designed simply as a social copy generator. Its operating model is built around <strong>one campaign, many channels</strong>, with consistent facts and calls to action but messaging and formatting adapted to each destination.</p>
+
+  <p>That reframed the design question for me.</p>
+
+  <p>Instead of asking, <em>How can AI write more marketing content?</em></p>
+
+  <p>I started asking: <em>How can AI support a repeatable promotional workflow?</em></p>
+
+  <p>That distinction changed the entire system.</p>
+
+  <h2>Start With the Source of Truth, Not the Prompt</h2>
+
+  <p>The Campaign Intake Template became one of the most important parts of the design.</p>
+
+  <p>Before asking the system to create anything, a person provides the campaign information once. The template explicitly allows unknown information to be marked TBD and instructs the user not to guess.</p>
+
+  <p>The intake captures the campaign goal and audience, program logistics, what participants will experience, the primary action, destination link, available creative assets, privacy considerations, channels, timing, partners, success measures, and ownership responsibilities.</p>
+
+  <p>That may sound less exciting than prompt engineering.</p>
+
+  <p>It is also one of the reasons the workflow becomes useful.</p>
+
+  <p>AI output quality is not just a function of how clever the prompt is. It depends heavily on whether the system has reliable context, knows which information is authoritative, and understands what it is not allowed to invent.</p>
+
+  <p>I wanted uncertainty to remain visible.</p>
+
+  <p>The Promotion Engine therefore separates confirmed facts, missing information, and assumptions before campaign generation. Dates, prices, registration links, locations, capacity, age ranges, testimonials, statistics, partnerships, and outcomes cannot simply be filled in because a polished sentence needs them. Missing critical information gets surfaced for confirmation instead.</p>
+
+  <p>That is a small design decision with a larger implication: a good AI workflow should not become more convincing as its information becomes less certain.</p>
+
+  <div class="related-callout">
+    <span class="related-callout-label">Related</span>
+    <span class="related-callout-title">AI Work Companion</span>
+    <span class="related-callout-soon">(article coming soon)</span>
+  </div>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Graphic 4</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Campaign Brief</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">AI Promotion Engine</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Channels</span>
+    </div>
+    <div class="flow-checkpoints">
+      <span class="flow-checkpoint">Social</span>
+      <span class="flow-checkpoint">Email</span>
+      <span class="flow-checkpoint">Outreach</span>
+      <span class="flow-checkpoint">Web</span>
+      <span class="flow-checkpoint">Promo</span>
+    </div>
+    <p class="article-visual-caption">The workflow starts with one structured campaign brief, then uses AI to prepare coordinated outputs for each communication channel.</p>
+  </div>
+
+  <h2>One Campaign Should Not Mean One Piece of Copy Everywhere</h2>
+
+  <p>Once the strategy is established, the system can move from one source of truth to multiple executions.</p>
+
+  <p>Consider a hypothetical robotics program. The intake might contain the dates, age group, participant experience, registration link, primary benefit, available robot footage, and one primary CTA.</p>
+
+  <p>From that same campaign brief, the workflow can prepare website copy, Facebook content, an Instagram caption, a short-form video concept, an email announcement, school outreach, and flyer language.</p>
+
+  <p>But the important word is adapt, not duplicate.</p>
+
+  <p>The website serves as the authoritative information source. Facebook can give families more context. Instagram emphasizes visual storytelling. TikTok favors curiosity and demonstration. Email supports relationship building and conversion. School outreach emphasizes educational relevance and the next step. Print needs to communicate its essential information almost immediately.</p>
+
+  <p>The campaign strategy stays stable.</p>
+
+  <p>The execution changes because the environment changes.</p>
+
+  <p>This is one reason I think "write this for every platform" is often the wrong abstraction for AI marketing. A coordinated system should preserve the facts, objective, and primary CTA while changing the length, structure, emphasis, visual concept, and tone to fit how people use each channel.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Graphic 2</p>
+    <p class="flow-sublabel">Content Pillars</p>
+    <div class="flow-checkpoints">
+      <span class="flow-checkpoint">Museum &amp; Computer History</span>
+      <span class="flow-checkpoint">STEM &amp; Robotics in Action</span>
+      <span class="flow-checkpoint">Programs &amp; Events</span>
+      <span class="flow-checkpoint">Education &amp; Schools</span>
+      <span class="flow-checkpoint">Community &amp; Impact</span>
+    </div>
+    <div class="flow-divider"></div>
+    <p class="flow-sublabel">One Campaign, Many Channels</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Robotics Campaign</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </div>
+    <div class="flow-checkpoints">
+      <span class="flow-checkpoint">Website</span>
+      <span class="flow-checkpoint">Facebook</span>
+      <span class="flow-checkpoint">Instagram</span>
+      <span class="flow-checkpoint">TikTok</span>
+      <span class="flow-checkpoint">YouTube</span>
+      <span class="flow-checkpoint">X</span>
+      <span class="flow-checkpoint">Email</span>
+      <span class="flow-checkpoint">Schools</span>
+      <span class="flow-checkpoint">Flyers / QR</span>
+    </div>
+    <p class="article-visual-caption">One campaign brief can support multiple channels while maintaining a consistent message and primary call to action.</p>
+  </div>
+
+  <h2>Promotion Is a Loop, Not a Post</h2>
+
+  <p>The project also pushed me to think beyond individual campaigns.</p>
+
+  <p>The promotion strategy treats the RICM website as a central digital hub. Discovery can happen through social media, search, email, schools, community organizations, flyers, partners, or events. From there, people move toward program information and an appropriate registration or action destination.</p>
+
+  <p>But the workflow does not end when someone registers.</p>
+
+  <p>The resulting experience can produce photographs, short videos, student projects, demonstrations, approved testimonials, educator feedback, or behind-the-scenes stories. Those assets can then support the next cycle of promotion.</p>
+
+  <p>That creates a much healthier model:</p>
+
+  <p style="font-family:var(--font-display);font-weight:700;letter-spacing:.03em;color:var(--text-primary);">Discovery → Digital Hub → Program → Experience → Capture the Story → New Promotion</p>
+
+  <p>Instead of asking an organization to constantly invent something new to say, the system helps it recognize that real activity is already creating potential stories.</p>
+
+  <p>The goal is not endless posting. It is building a sustainable content loop around authentic organizational activity.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Graphic 1</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Discovery</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Digital Hub</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Program</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Experience</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Capture the Story</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">New Promotion</span>
+    </div>
+    <p class="flow-note">↩ New Promotion feeds back into Discovery, continuing the cycle.</p>
+    <p class="article-visual-caption">Promotion as a connected cycle: discovery leads to a digital hub and experience, while the experience itself creates authentic material for future promotion.</p>
+  </div>
+
+  <h2>Content Pillars Prevent the Feed From Becoming an Ad Catalog</h2>
+
+  <p>Campaign coordination solves one problem. Ongoing communication introduces another.</p>
+
+  <p>If every post says register, register, register, an organization's digital presence can quickly become little more than an advertising channel.</p>
+
+  <p>The strategy therefore organizes ongoing communication around five content pillars: Museum &amp; Computer History, STEM &amp; Robotics in Action, Programs &amp; Events, Education &amp; Schools, and Community &amp; Impact. The Promotion Engine specifically calls for variety so RICM's channels do not become continuous advertisements.</p>
+
+  <p>That principle is useful far beyond museums.</p>
+
+  <p>People often need to understand an organization's expertise, personality, mission, and impact before they are ready to attend something, register, partner, volunteer, or donate.</p>
+
+  <p>A healthy content system creates that context before every interaction becomes a transaction.</p>
+
+  <h2>AI Can Do More Without Being Put on Autopilot</h2>
+
+  <p>One of the most important design choices was defining where AI responsibility ends.</p>
+
+  <p>The workflow can validate an intake, identify gaps, establish campaign strategy, adapt approved information across channels, recommend creative assets, organize timing, and prepare measurement plans.</p>
+
+  <p>But publication remains a human decision.</p>
+
+  <p>Dates need confirmation. Prices need confirmation. Registration links need to work. Claims and media need approval. When identifiable children are involved, permissions need to be verified rather than assumed. The system explicitly treats child-media privacy as a campaign consideration and prohibits fabricating student quotes or testimonials.</p>
+
+  <p>The same philosophy applies to accessibility.</p>
+
+  <p>The workflow includes plain language, descriptive headings, sufficient contrast, readable visuals, captions for spoken video, alt-text recommendations, descriptive links, and information that does not depend on color alone.</p>
+
+  <p>These aren't cleanup tasks added after AI creates something.</p>
+
+  <p>They are part of the system specification.</p>
+
+  <p>That is an important distinction in responsible automation. Keeping humans involved does not mean the automation failed. The purpose can be to remove repetitive transformation work while preserving human judgment where judgment matters.</p>
+
+  <div class="related-callout">
+    <span class="related-callout-label">Related</span>
+    <span class="related-callout-title">Responsible AI Governance</span>
+    <span class="related-callout-soon">(article coming soon)</span>
+  </div>
+
+  <h2>Measure Movement, Not the Number of Things You Made</h2>
+
+  <p>AI makes it easy to generate a lot.</p>
+
+  <p>That makes measurement even more important.</p>
+
+  <p>Thirty posts are not automatically better than ten. A full calendar is not the same thing as an effective campaign.</p>
+
+  <p>The RICM framework instead follows a progression from Awareness → Interest → Action → Growth.</p>
+
+  <p>Awareness might include reach, views, followers, or website visitors. Interest can include program-page visits, email signups, QR scans, or social engagement. Action moves toward registration clicks, registrations, museum visits, and inquiries. Growth looks further ahead toward returning families, partnerships, volunteers, sponsors, and donors.</p>
+
+  <p>The framework also includes post-campaign review: what performed, which channels created interest or action, what messaging and visuals worked, and what should change next time.</p>
+
+  <p>That turns the system into more than a generation pipeline.</p>
+
+  <p>It creates the beginnings of a learning loop.</p>
+
+  <p>The proposed 30-day pilot reflects the same thinking:</p>
+
+  <p style="font-family:var(--font-display);font-weight:700;letter-spacing:.03em;color:var(--text-primary);">Audit → Build → Promote → Measure</p>
+
+  <p>Rather than attempting a massive transformation immediately, test the workflow, observe what happens, and improve the next cycle.</p>
+
+  <div class="article-visual" data-reveal>
+    <p class="article-visual-label">Graphic 3</p>
+    <p class="flow-sublabel">Success Measures</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Awareness</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Interest</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Action</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Growth</span>
+    </div>
+    <div class="flow-divider"></div>
+    <p class="flow-sublabel">30-Day Pilot</p>
+    <div class="article-visual-flow">
+      <span class="flow-step">Audit</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Build</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Promote</span>
+      <span class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      <span class="flow-step">Measure</span>
+    </div>
+    <p class="article-visual-caption">The proposed measurement model follows movement from awareness to interest, action, and longer-term growth, supported by a small test-and-learn pilot.</p>
+  </div>
+
+  <h2>What This Project Changed About How I Think About AI Workflows</h2>
+
+  <p>Designing this system reinforced several ideas that extend well beyond marketing.</p>
+
+  <p><strong>Structured inputs matter as much as sophisticated prompts.</strong> If a workflow begins with incomplete, conflicting, or unreliable information, better prose does not solve the underlying problem.</p>
+
+  <p><strong>Automation needs a source of truth.</strong> When one approved campaign brief feeds multiple outputs, consistency becomes something the system can support rather than something people have to remember manually.</p>
+
+  <p><strong>The destination should shape the output.</strong> Good automation does not just create variations. It understands why an email, website page, TikTok video, school message, and flyer serve different purposes.</p>
+
+  <p><strong>Governance can live inside the workflow.</strong> Accuracy checks, privacy questions, accessibility requirements, placeholders, approval states, and pre-publication review do not have to exist in a separate policy document nobody looks at.</p>
+
+  <p><strong>Measurement should be designed before publishing.</strong> A system becomes much more useful when it knows what movement it is intended to create.</p>
+
+  <p>And perhaps most importantly, AI does not have to replace an entire job to create meaningful value.</p>
+
+  <p>Sometimes the better opportunity is coordinating the work that already exists: collecting information once, transforming it intelligently, surfacing uncertainty, reducing repetitive effort, and helping people make better decisions.</p>
+
+  <p>That is where this project became interesting to me.</p>
+
+  <p>The deliverable wasn't simply better marketing copy.</p>
+
+  <p>It was a model for designing AI around people, process, information, governance, and outcomes.</p>
+
+  <div class="article-author-card" data-reveal>
+    <img src="Lee.jpeg" alt="Rafael L. Muñoz" />
+    <div>
+      <p class="article-author-card-name">Rafael L. Muñoz</p>
+      <p class="article-author-card-role">Product Manager · Builder · Marine Corps Veteran — Providence, RI</p>
+    </div>
+  </div>
+
+  <a href="blog.html" class="back-link" style="margin-bottom:4rem;">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Blog
+  </a>
+
+</div>
+
+
+<!-- ── Shared footer injected by nav.js ── -->
+<div id="site-footer"></div>
+
+
+<script src="nav.js"></script>
+</body>
+</html>
