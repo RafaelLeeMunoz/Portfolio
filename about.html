@@ -154,6 +154,27 @@
       height: 1px; border: none; margin: 1.1rem 0 1.1rem;
       background: linear-gradient(90deg, transparent, rgba(155,89,252,0.4), rgba(0,229,255,0.3), transparent);
     }
+    /* Trial layout: bullet text in a ~70% left column, image + CTA in a
+       ~30% right column, instead of the promo stacking below the text.
+       .bullet-divider still spans the full width beneath both columns. */
+    .bullet-split {
+      display: grid; grid-template-columns: 7fr 3fr;
+      gap: 1.5rem; align-items: start;
+    }
+    /* Grid resolves the arrow marker's "auto" position differently than
+       the plain block bullets (it drifts toward the row's vertical
+       center) — pin it back to the top so it sits at the first line,
+       matching every other bullet. */
+    .bullet-split::before { top: 0; }
+    .bullet-split .bullet-promo {
+      flex-direction: column; align-items: center; text-align: center;
+      margin: 0;
+    }
+    .bullet-split .bullet-divider { grid-column: 1 / -1; }
+    @media (max-width: 700px) {
+      .bullet-split { grid-template-columns: 1fr; }
+      .bullet-split .bullet-promo { flex-direction: row; text-align: left; margin: .6rem 0 .2rem; }
+    }
     .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
     .exp-tag {
       font-size: .8125rem; font-family: var(--font-display); font-weight: 600; letter-spacing: .08em;
@@ -245,7 +266,7 @@
   <p class="section-label">The Person Behind the Work</p>
   <h1 class="page-hero-title display">About <em style="color:var(--accent-pink);">Me</em></h1>
   <p style="color:var(--text-muted);max-width:520px;margin:1rem auto 0;font-size:1rem;line-height:1.75;">
-    Builder, creator, dreamer. I've spent the last decade proving that one person can wear many hats without dropping any of them.
+    I build products, systems, and experiences that turn complex ideas into useful, human-centered solutions. My work blends product leadership, AI, design, and education with a focus on practical impact.
   </p>
 </div>
 
@@ -371,8 +392,8 @@
           <p class="exp-location">📍 Providence, Rhode Island</p>
           <p class="exp-desc">Designing and applying AI-driven products, workflows, and frameworks that make complex technology more useful, responsible, and accessible. My work spans AI product development, workflow automation, responsible AI, decision support, and AI literacy.</p>
           <ul class="exp-bullets">
-            <li>
-              Built an AI Product Manager Assistant that transforms product ideas into PRDs, user stories, prioritization frameworks, and structured product deliverables. It's called Master of Many, and you can find it on the ChatGPT GPT Store.
+            <li class="bullet-split">
+              <div class="bullet-text">Built an AI Product Manager Assistant that transforms product ideas into PRDs, user stories, prioritization frameworks, and structured product deliverables. It's called Master of Many, and you can find it on the ChatGPT GPT Store.</div>
               <div class="bullet-promo">
                 <img src="master-of-many-logo.png" alt="Master of Many GPT logo" class="bullet-promo-logo" loading="lazy" />
                 <a href="https://chatgpt.com/g/g-69d7c0510b5481919bd9912ae683f93d-master-of-many" target="_blank" rel="noopener" class="bullet-promo-link">
