@@ -33,15 +33,10 @@
     .article-author-name { font-family: var(--font-display); font-size: .85rem; font-weight: 700; }
     .article-date, .article-read { font-size: .875rem; color: var(--text-muted); }
     .article-hero-thumb {
-      aspect-ratio: 21/9; border-radius: var(--radius-md); overflow: hidden;
-      display: flex; align-items: center; justify-content: center; font-size: 5rem;
-      background: linear-gradient(135deg,#0a1540,#1a0050,#001030);
-      margin-bottom: 3rem; position: relative;
+      border-radius: var(--radius-md); overflow: hidden;
+      margin-bottom: 3rem; border: 1px solid var(--card-border);
     }
-    .article-hero-thumb::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 40%, rgba(3,1,10,.9));
-    }
+    .article-hero-thumb img { width: 100%; height: auto; display: block; }
 
     /* ── Prose ────────────────────────────────────────────── */
     .prose-container { width: min(720px, 92vw); margin-inline: auto; }
@@ -184,7 +179,9 @@
     <span class="article-date">Sep 7, 2026</span>
     <span class="article-read">· 13 min read</span>
   </div>
-  <div class="article-hero-thumb"><span>🧭</span></div>
+  <div class="article-hero-thumb">
+    <img src="ai-adoption-framework-hero.jpg" alt="From Possibility to Impact: a structured guide for responsible AI adoption — Assess, Prioritize, Pilot, Train, Govern, Improve — plus a Readiness Scorecard, Use Case Intake, Pilot Charter, and Risk & Ethics Checklist." loading="lazy" />
+  </div>
 </article>
 
 <div class="prose-container prose">
