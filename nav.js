@@ -59,10 +59,8 @@ const _FOOTER_HTML = `
           building things that matter.
         </p>
         <div class="social-links">
-          <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
-          <a href="#" class="social-link" aria-label="GitHub">🐙</a>
-          <a href="#" class="social-link" aria-label="Twitter / X">🐦</a>
-          <a href="#" class="social-link" aria-label="Instagram">📸</a>
+          <a href="https://www.linkedin.com/in/rafaelleemunoz/" target="_blank" rel="noopener"
+             class="social-link" aria-label="LinkedIn">💼</a>
         </div>
       </div>
 
@@ -77,21 +75,11 @@ const _FOOTER_HTML = `
         </ul>
       </div>
 
-      <!-- Contact column -->
+      <!-- Contact column — no email, phone, or address on purpose:
+           personal details stay private. Visitors reach Rafael through
+           the contact page form. -->
       <div>
         <p class="footer-col-title">Get in Touch</p>
-        <a href="mailto:hello@rafaelm.com" class="footer-contact-item">
-          <span class="icon">✉️</span>
-          hello@rafaelm.com
-        </a>
-        <a href="tel:+14015550100" class="footer-contact-item">
-          <span class="icon">📞</span>
-          (401) 555-0100
-        </a>
-        <div class="footer-contact-item">
-          <span class="icon">📍</span>
-          East Greenwich, Rhode Island
-        </div>
         <a href="contact.html" class="btn btn-primary footer-hire-btn">
           Hire Me ✦
         </a>

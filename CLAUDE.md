@@ -14,6 +14,8 @@ Personal portfolio for Rafael L. Muñoz: product manager, game developer, creati
 - Keep it plain HTML, CSS and JavaScript. Don't add frameworks, build tools, npm or CDN libraries unless asked.
 - **Never make up content.** Don't invent projects, stats, dates, quotes or links. Several placeholders are still on the site (see below), and the direction of the work has been to *replace* fake content with real content, not to add more.
 - Prefer real assets (photos, logos, graphics) over emoji placeholders when Rafael supplies them.
+- **Privacy: never put Rafael's email address, phone number or town/address anywhere on the site, including in `mailto:` links or page code.** Visitors reach him only through the contact form. Saying he's based in Rhode Island is fine.
+- **Social media: LinkedIn only** (https://www.linkedin.com/in/rafaelleemunoz/). He doesn't use any other social accounts, so don't add icons or links for them.
 
 ### Commit messages
 
@@ -96,8 +98,7 @@ The five `track-*.mp3` files are Rafael's own tracks made with Suno AI. They are
 
 Problems found in the Nov 2026 review, in priority order. Work through them one at a time, one commit each, and tick them off here as they're done. Anything needing real content (links, emails, projects, wording) waits until Rafael supplies it. Never fill it in with made-up text.
 
-- [ ] **2. Make the contact form actually send.** It validates, then shows "Message Sent!" without delivering anything. Needs a form service (Formspree, etc.) or a `mailto:` fallback. Rafael chooses which.
-- [ ] **3. Replace the placeholder contact details** in the footer (`nav.js`) and `contact.html`: `hello@rafaelm.com`, the 555 phone number, the social links (`href="#"`) and the made-up handles. The only real link so far is LinkedIn: https://www.linkedin.com/in/rafaelleemunoz/ (used on `about.html`). Rafael supplies the rest.
+- [ ] **2. Make the contact form actually send.** It validates, then shows "Message Sent!" without delivering anything. Plan: a form service (Formspree recommended) that forwards to Rafael's Gmail, so the address never appears on the site. No `mailto:` fallback, since that would expose the address. Waiting on Rafael to create the form and share its ID. Also: move the "I'm interested in…" checkboxes inside the `<form>`, give every field a `name`, and show "Message Sent!" only on a real success.
 - [ ] **4. Replace the homepage Featured Projects.** "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails. Swap in real projects (CCCRI, the blog work) or remove them.
 - [ ] **5. Clean up the blog listing.** The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them.
 - [ ] **6. Connect or remove the newsletter signup** on `blog.html`. It currently does nothing.
@@ -106,4 +107,5 @@ Problems found in the Nov 2026 review, in priority order. Work through them one 
 
 Done:
 - [x] Footer copyright year: `nav.js` now prints the current year automatically.
+- [x] **3. Placeholder contact details.** Email, phone and town were removed from the footer and contact page on purpose (privacy). The footer's "Get in Touch" column keeps only the Hire Me button, and LinkedIn is the only social link, in both the footer and on the contact page.
 - [x] **1. Broken links on `cccri.html`.** It now uses the shared `nav.js` nav and footer, the breadcrumb and call-to-action links point to the right pages, and the "Next Project: FlowTrack PM" strip (a placeholder project with no page) was removed.
