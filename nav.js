@@ -101,7 +101,7 @@ const _FOOTER_HTML = `
 
     <!-- Bottom bar -->
     <div class="footer-bottom">
-      <span>© 2025 Rafael L. Muñoz. All rights reserved.</span>
+      <span>© ${new Date().getFullYear()} Rafael L. Muñoz. All rights reserved.</span>
       <span>Designed &amp; Built with ✦ by Rafael</span>
     </div>
   </div>
