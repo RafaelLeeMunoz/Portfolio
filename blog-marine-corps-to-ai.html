@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lessons That Outlast the Uniform — Rafael L. Muñoz</title>
+  <meta name="description" content="On Veterans Day 2026, Bryant University featured my path from the Marine Corps to product management and AI. Here is that story in my own words." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Article shell (same as the other posts) ──────────── */
+    .article-hero { padding-top: 8rem; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-display); font-size: .8125rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted);
+      transition: color var(--transition), gap var(--transition);
+      margin-bottom: 1.5rem;
+    }
+    .back-link:hover { color: var(--accent-cyan); gap: .7rem; }
+    .post-cat {
+      display: inline-block; font-family: var(--font-display); font-size: .8125rem;
+      font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      padding: .2rem .7rem; border-radius: var(--radius-xl);
+      background: rgba(255,209,102,.1); color: var(--accent-gold);
+      border: 1px solid rgba(255,209,102,.3);
+    }
+    .article-title {
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 800; line-height: 1.2;
+      max-width: 1150px; margin: 1rem 0 1rem;
+    }
+    .article-subtitle {
+      font-size: 1.05rem; color: var(--text-muted); line-height: 1.7;
+      max-width: 700px; margin: 0 0 1.5rem;
+    }
+    .article-meta {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      padding-bottom: 2rem; border-bottom: 1px solid var(--card-border);
+      margin-bottom: 2.5rem;
+    }
+    .article-author-img { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(155,89,252,.3); flex-shrink: 0; }
+    .article-author-img img { width: 100%; height: 100%; object-fit: cover; }
+    .article-author-name { font-family: var(--font-display); font-size: .85rem; font-weight: 700; }
+    .article-date, .article-read { font-size: .875rem; color: var(--text-muted); }
+
+    /* ── Hero: Rafael's own ribbon rack on a dark panel (no stock
+       photo). The same panel is reused as the card thumbnail on
+       blog.html, so keep the two in sync if this changes. ── */
+    .service-hero {
+      position: relative; aspect-ratio: 21 / 9;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-md); overflow: hidden;
+      border: 1px solid var(--card-border); margin-bottom: 3rem;
+      background:
+        radial-gradient(ellipse 55% 70% at 50% 55%, rgba(204,32,48,.28) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255,209,102,.14) 0%, transparent 70%),
+        linear-gradient(160deg, #0a1a4a 0%, #0d0528 55%, #03010a 100%);
+    }
+    .service-hero img {
+      width: min(62%, 640px); height: auto;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.6));
+    }
+
+    /* ── Prose ────────────────────────────────────────────── */
+    .prose-container { width: min(720px, 92vw); margin-inline: auto; }
+    .prose p {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.85;
+      margin-bottom: 1.3rem;
+    }
+    .prose h2 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800;
+      color: var(--text-primary); margin: 3rem 0 1.2rem;
+    }
+    .prose strong { color: var(--text-primary); }
+    .prose ul { margin: 0 0 1.3rem 1.3rem; }
+    .prose li {
+      font-size: 1rem; color: var(--text-muted); line-height: 1.8;
+      margin-bottom: .35rem;
+    }
+    .prose li::marker { color: var(--accent-gold); }
+
+    /* ── Link to the original Bryant feature ─────────────── */
+    .source-callout {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: var(--radius-sm); padding: 1rem 1.25rem;
+      margin: 0 0 2rem; transition: border-color var(--transition), background var(--transition);
+    }
+    .source-callout:hover { border-color: rgba(255,209,102,.45); background: rgba(255,209,102,.04); }
+    .source-callout-text { flex: 1; min-width: 0; }
+    .source-callout-label {
+      display: block; font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--accent-gold);
+      margin-bottom: .2rem;
+    }
+    .source-callout-title { display: block; font-size: .95rem; font-weight: 600; color: var(--text-primary); line-height: 1.5; }
+    .source-callout-sub { display: block; font-size: .8125rem; color: var(--text-muted); margin-top: .15rem; }
+    .source-callout svg { flex-shrink: 0; color: var(--accent-gold); }
+
+    /* ── Unit emblems figure ──────────────────────────────── */
+    .emblem-figure {
+      display: flex; justify-content: center; gap: clamp(1.5rem, 6vw, 4rem);
+      flex-wrap: wrap; background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.8rem 1.5rem; margin: 2rem 0;
+    }
+    .emblem-figure figure { text-align: center; width: 170px; }
+    .emblem-figure img {
+      height: 130px; width: auto; margin: 0 auto .9rem;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,.5));
+    }
+    .emblem-figure figcaption { font-size: .8125rem; color: var(--text-muted); line-height: 1.5; }
+    .emblem-figure figcaption strong { display: block; color: var(--text-primary); font-family: var(--font-display); font-size: .85rem; }
+
+    /* ── Pull quote ───────────────────────────────────────── */
+    .pull-quote {
+      margin: 2.2rem 0; padding: 1.4rem 1.6rem;
+      border-left: 3px solid var(--accent-gold);
+      background: rgba(255,209,102,.05);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .pull-quote p {
+      font-family: var(--font-display); font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+      font-weight: 700; line-height: 1.5; color: var(--text-primary);
+      margin-bottom: .6rem;
+    }
+    .pull-quote cite { font-style: normal; font-size: .8125rem; color: var(--text-muted); }
+
+    /* ── Author card at end of article ───────────────────── */
+    .article-author-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.5rem; margin: 3rem 0 2rem;
+    }
+    .article-author-card img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(155,89,252,.3); flex-shrink: 0; }
+    .article-author-card-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: .2rem; }
+    .article-author-card-role { font-size: .85rem; color: var(--text-muted); }
+
+    @media (max-width: 600px) {
+      .service-hero { aspect-ratio: 16 / 10; }
+      .service-hero img { width: 82%; }
+      .emblem-figure img { height: 110px; }
+    }
+  </style>
+</head>
+<body data-nav-page="blog.html">
+
+<!-- ── Shared nav injected by nav.js ── -->
+<div id="site-nav"></div>
+
+
+<!-- ARTICLE -->
+<article class="article-hero container" data-reveal>
+  <a href="blog.html" class="back-link">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Blog
+  </a>
+  <span class="post-cat">Service &amp; Leadership</span>
+  <h1 class="article-title display">Lessons That Outlast the Uniform: From the Marine Corps to AI</h1>
+  <p class="article-subtitle">On Veterans Day, Bryant University featured my path from the Marine Corps to product management and artificial intelligence. Here is that story in my own words, and what service still teaches me about leadership.</p>
+  <div class="article-meta">
+    <div class="article-author-img"><img src="Lee.jpeg" alt="Rafael L. Muñoz" /></div>
+    <span class="article-author-name">Rafael L. Muñoz</span>
+    <span class="article-date">Nov 15, 2026</span>
+    <span class="article-read">· 4 min read</span>
+  </div>
+  <div class="service-hero">
+    <img src="military-ribbons.png" alt="Rafael's U.S. Marine Corps ribbon rack" />
+  </div>
+</article>
+
+<div class="prose-container prose">
+
+  <p>This Veterans Day, Bryant University Graduate Programs published a feature on graduate students who have served in the military, and I was honored to be one of them. Reading it reminded me how much the Marine Corps still shapes the way I lead, learn, and build, so I wanted to keep a version of that story here, told in my own words.</p>
+
+  <a class="source-callout" href="https://www.linkedin.com/pulse/beyond-uniform-how-two-bryant-graduate-dq0me" target="_blank" rel="noopener">
+    <span class="source-callout-text">
+      <span class="source-callout-label">Originally featured by Bryant University</span>
+      <span class="source-callout-title">Beyond the Uniform: How Two Bryant Graduate Students Are Turning Military Experience Into What's Next</span>
+      <span class="source-callout-sub">Bryant University Graduate Programs on LinkedIn · Nov 11, 2026</span>
+    </span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+  </a>
+
+  <h2>Eight Years in the Marine Corps</h2>
+
+  <p>I served in the United States Marine Corps for eight years, from 2003 to 2011. I started as an infantry rifleman with Lima Company, 3rd Battalion, 8th Marines, and deployed overseas three times: once to Haiti and twice to Iraq.</p>
+
+  <p>My first deployment took me to Port-au-Prince, Haiti, where my unit supported humanitarian operations, getting food, water, and other essentials to families in impoverished communities. My two deployments to Iraq followed, with humanitarian and combat operations near Fallujah and in Ramadi.</p>
+
+  <div class="emblem-figure" data-reveal>
+    <figure>
+      <img src="emblem-3-8-marines.png" alt="3rd Battalion, 8th Marines emblem" loading="lazy" />
+      <figcaption><strong>3rd Battalion, 8th Marines</strong>Infantry rifleman, Lima Company</figcaption>
+    </figure>
+    <figure>
+      <img src="usmc-tbs-badge.png" alt="The Basic School emblem" loading="lazy" />
+      <figcaption><strong>The Basic School</strong>Combat Instructor, Quantico, VA</figcaption>
+    </figure>
+  </div>
+
+  <h2>Teaching the Next Generation of Officers</h2>
+
+  <p>When I came home, I chose to reenlist and serve in a different way. I became a Combat Instructor at The Basic School in Quantico, Virginia, where newly commissioned Marine officers are trained for the responsibility of leading Marines.</p>
+
+  <p>For four years, I taught combat tactics and military operations, along with practical lessons I had learned firsthand on deployment. Teaching new officers deepened my appreciation for leadership, mentorship, and education, and those lessons still guide my work and my studies today.</p>
+
+  <blockquote class="pull-quote">
+    <p>“Effective leadership requires empathy, responsibility, and a willingness to understand the people around you.”</p>
+    <cite>— Rafael L. Muñoz, as quoted by Bryant University</cite>
+  </blockquote>
+
+  <p>To me, leading has never only meant giving instructions or making the call. It means supporting the people around you, passing on what you know, and helping others build the confidence and skills to succeed on their own.</p>
+
+  <h2>From Game Design to Product Management</h2>
+
+  <p>After the Marine Corps, I earned a bachelor's degree in Game Design and Development. I then spent about 11 years as a Product Manager at GTECH/IGT, helping develop lottery apps and websites for state lotteries across the country, including the Rhode Island Lottery app.</p>
+
+  <p>That work is where my interest in data analytics and artificial intelligence took hold. I kept seeing how they could lead to better business decisions, better products, and better experiences for customers.</p>
+
+  <h2>Why Business Analytics and AI</h2>
+
+  <p>When I started looking at graduate programs, I wanted one that brought technology, analytics, and business together. I found that combination in Bryant's Master of Science in Business Analytics and Artificial Intelligence (MSBAAI).</p>
+
+  <p>I wasn't looking for one more credential. I wanted an education that would build on the experience I already had, challenge me intellectually, and prepare me for where technology is heading. The program has expanded my knowledge of:</p>
+
+  <ul>
+    <li>Databases and SQL</li>
+    <li>Machine learning</li>
+    <li>Retrieval-augmented generation (RAG) systems</li>
+    <li>AI governance</li>
+    <li>Exploratory data analysis</li>
+  </ul>
+
+  <p>I'll complete my coursework in December 2026. My goal is to bring product management, leadership, business analytics, and AI together to help organizations innovate and grow.</p>
+
+  <h2>Sharing What I've Learned: The STEAM Design Program</h2>
+
+  <p>Education has been a passion of mine for a long time, and recently I've been putting it into practice. I developed the STEAM Design Program, an initiative that introduces elementary and middle school students to science, technology, engineering, art, and mathematics through hands-on learning.</p>
+
+  <p>Drawing on my background in technology and product development, along with what I've learned in graduate school, I designed interactive activities that encourage curiosity, creativity, and problem-solving.</p>
+
+  <p>In October 2026, the program piloted successfully at the Rhode Island Computer Museum, and the museum invited it back to offer monthly STEAM workshops for students. It brings together the things I care about most, technology, education, and mentorship, while helping young students discover their own potential.</p>
+
+  <h2>What Comes Next</h2>
+
+  <p>My ambitions aren't tied to a single job title or industry. I want to keep learning, creating, and contributing in ways that make a positive difference. Whether that's helping a company embrace emerging technology or encouraging a young student to discover a passion for science, the goal is the same: share what I've learned and use my experience to help others succeed.</p>
+
+  <p>Thank you to Bryant University Graduate Programs for sharing my story, and to every veteran carrying the lessons of service into whatever comes next.</p>
+
+  <div class="article-author-card" data-reveal>
+    <img src="Lee.jpeg" alt="Rafael L. Muñoz" />
+    <div>
+      <p class="article-author-card-name">Rafael L. Muñoz</p>
+      <p class="article-author-card-role">Product Manager · Builder · Marine Corps Veteran — Rhode Island</p>
+    </div>
+  </div>
+
+  <a href="blog.html" class="back-link" style="margin-bottom:4rem;">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Blog
+  </a>
+
+</div>
+
+
+<!-- ── Shared footer injected by nav.js ── -->
+<div id="site-footer"></div>
+
+
+<script src="nav.js"></script>
+</body>
+</html>

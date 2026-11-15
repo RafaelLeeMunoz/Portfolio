@@ -47,6 +47,7 @@ Everything sits flat in the repo root. There are no subfolders, and images, audi
 | `cccri.html` | Long case study: Chinese Christian Church of Rhode Island website redesign. Uses `nav.js` but **not** `styles.css` (see below) |
 | `blog.html` | Blog listing: featured post, post list, sidebar (newsletter, topics, popular posts, author) |
 | `blog-ai-adoption-framework.html` | Article: *Beyond the Tool: Designing a Practical Framework for Responsible AI Adoption* |
+| `blog-marine-corps-to-ai.html` | Article: *Lessons That Outlast the Uniform: From the Marine Corps to AI*. Rafael's own-voice version of Bryant University's Veterans Day 2026 LinkedIn feature, linking back to it. Bryant's text isn't copied (it's their copyright), only the facts from Rafael's section plus one short quote. The hero is his ribbon rack on a CSS gradient panel, reused as the blog card thumbnail |
 | `blog-promotion-system.html` | Article: *Beyond AI-Generated Posts: Designing a Promotion System Around One Source of Truth* |
 | `contact.html` | "Hire Me": contact form (sends through Formspree to Rafael's Gmail), response-time and LinkedIn cards, FAQ |
 
@@ -109,7 +110,8 @@ The five `track-*.mp3` files are Rafael's own tracks made with Suno AI. They are
 Problems found in the Nov 2026 review, in priority order. Work through them one at a time, one commit each, and tick them off here as they're done. Anything needing real content (links, emails, projects, wording) waits until Rafael supplies it. Never fill it in with made-up text.
 
 - [ ] **Content first: write more blog posts and projects (Rafael).** This decides what #4 and #5 end up showing, so those two wait until there's real content to point to. Ideas so far:
-  - His school posted about him on Veterans Day. That could become a highlight, a project/press entry, or a blog post.
+  - ~~His school posted about him on Veterans Day~~ → done as `blog-marine-corps-to-ai.html` (Nov 2026). It could also become a homepage highlight later.
+  - The STEAM Design Program (piloted at the Rhode Island Computer Museum, Oct 2026, now monthly workshops) could become a project page.
   - *(add more ideas here as they come up)*
 - [ ] **4. Replace the homepage Featured Projects** *(on hold until the content above exists; leave the section alone for now)*. "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails.
 - [ ] **5. Clean up the blog listing** *(on hold until the content above exists)*. The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them. Replace them with real posts as they're written.
