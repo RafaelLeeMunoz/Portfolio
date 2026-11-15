@@ -98,8 +98,11 @@ The five `track-*.mp3` files are Rafael's own tracks made with Suno AI. They are
 
 Problems found in the Nov 2026 review, in priority order. Work through them one at a time, one commit each, and tick them off here as they're done. Anything needing real content (links, emails, projects, wording) waits until Rafael supplies it. Never fill it in with made-up text.
 
-- [ ] **4. Replace the homepage Featured Projects.** "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails. Swap in real projects (CCCRI, the blog work) or remove them.
-- [ ] **5. Clean up the blog listing.** The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them.
+- [ ] **Content first: write more blog posts and projects (Rafael).** This decides what #4 and #5 end up showing, so those two wait until there's real content to point to. Ideas so far:
+  - His school posted about him on Veterans Day. That could become a highlight, a project/press entry, or a blog post.
+  - *(add more ideas here as they come up)*
+- [ ] **4. Replace the homepage Featured Projects** *(on hold until the content above exists; leave the section alone for now)*. "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails.
+- [ ] **5. Clean up the blog listing** *(on hold until the content above exists)*. The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them. Replace them with real posts as they're written.
 - [ ] **6. Connect or remove the newsletter signup** on `blog.html`. It currently does nothing.
 - [ ] **7. Update the contact page availability line:** "Taking on select engagements starting Q1 2025" is out of date. Needs Rafael's new wording.
 - [ ] **8. (Tidy-up) Replace the inline `style` on the `<em>` accent** in each `.page-hero-title` with a shared class.
