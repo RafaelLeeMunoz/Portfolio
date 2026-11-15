@@ -44,8 +44,18 @@
     textarea.form-control { resize: vertical; min-height: 140px; }
 
     /* ── Service checkboxes ──────────────────────────────── */
+    .service-fieldset { border: none; padding: 0; margin: 0; min-width: 0; }
+    .service-fieldset legend { padding: 0; }
     .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-bottom: 1.5rem; }
-    .service-option { display: none; }
+    /* Visually hidden but still focusable — display:none would make the
+       checkboxes unreachable by keyboard (Tab + Space). */
+    .service-option {
+      position: absolute; width: 1px; height: 1px; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    .service-option:focus-visible + .service-label {
+      outline: 2px solid var(--accent-cyan); outline-offset: 2px;
+    }
     .service-label {
       display: flex; align-items: center; gap: .6rem;
       background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.1);
@@ -71,6 +81,16 @@
       transform: translateX(-100%); transition: transform 0.5s var(--ease);
     }
     .submit-btn:hover::after { transform: translateX(100%); }
+    .submit-btn:disabled { opacity: .6; cursor: wait; transform: none; }
+
+    /* ── Send error ──────────────────────────────────────── */
+    .form-error {
+      display: none; margin-bottom: 1rem; padding: .75rem 1rem;
+      border-radius: var(--radius-sm); font-size: .85rem; line-height: 1.6;
+      color: var(--text-primary); background: rgba(240,25,110,.1);
+      border: 1px solid rgba(240,25,110,.35);
+    }
+    .form-error.show { display: block; }
 
     /* ── Success message ─────────────────────────────────── */
     .form-success { display: none; text-align: center; padding: 2rem; }
@@ -156,57 +176,71 @@
             What can I help you with?
           </h2>
 
-          <p class="form-label">I'm interested in…</p>
-          <div class="service-grid">
-            <div>
-              <input type="checkbox" class="service-option" id="svc-pm" name="service" value="pm">
-              <label class="service-label" for="svc-pm">📋 Product Strategy</label>
-            </div>
-            <div>
-              <input type="checkbox" class="service-option" id="svc-game" name="service" value="game">
-              <label class="service-label" for="svc-game">🎮 Game Development</label>
-            </div>
-            <div>
-              <input type="checkbox" class="service-option" id="svc-brand" name="service" value="brand">
-              <label class="service-label" for="svc-brand">✦ Brand & Design</label>
-            </div>
-            <div>
-              <input type="checkbox" class="service-option" id="svc-ai" name="service" value="ai">
-              <label class="service-label" for="svc-ai">🤖 AI Integration</label>
-            </div>
-            <div>
-              <input type="checkbox" class="service-option" id="svc-music" name="service" value="music">
-              <label class="service-label" for="svc-music">🎵 Music / Score</label>
-            </div>
-            <div>
-              <input type="checkbox" class="service-option" id="svc-other" name="service" value="other">
-              <label class="service-label" for="svc-other">💬 Just Saying Hi</label>
-            </div>
-          </div>
+          <!-- Messages go through Formspree, which forwards them to
+               Rafael's inbox. His address lives only in the Formspree
+               account, never in this page. Each field's `name` is the
+               label it gets in the email. -->
+          <form id="contact-form" action="https://formspree.io/f/mbgogkrw" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="New message from your portfolio site" />
+            <!-- Honeypot: hidden from people, bots fill it in, and
+                 Formspree silently drops any submission where it's set. -->
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+                   style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);border:0;padding:0;" />
 
-          <form id="contact-form" novalidate>
+            <fieldset class="service-fieldset">
+              <legend class="form-label">I'm interested in…</legend>
+              <div class="service-grid">
+                <div>
+                  <input type="checkbox" class="service-option" id="svc-pm" name="Interested in" value="Product Strategy">
+                  <label class="service-label" for="svc-pm">📋 Product Strategy</label>
+                </div>
+                <div>
+                  <input type="checkbox" class="service-option" id="svc-game" name="Interested in" value="Game Development">
+                  <label class="service-label" for="svc-game">🎮 Game Development</label>
+                </div>
+                <div>
+                  <input type="checkbox" class="service-option" id="svc-brand" name="Interested in" value="Brand & Design">
+                  <label class="service-label" for="svc-brand">✦ Brand & Design</label>
+                </div>
+                <div>
+                  <input type="checkbox" class="service-option" id="svc-ai" name="Interested in" value="AI Integration">
+                  <label class="service-label" for="svc-ai">🤖 AI Integration</label>
+                </div>
+                <div>
+                  <input type="checkbox" class="service-option" id="svc-music" name="Interested in" value="Music / Score">
+                  <label class="service-label" for="svc-music">🎵 Music / Score</label>
+                </div>
+                <div>
+                  <input type="checkbox" class="service-option" id="svc-other" name="Interested in" value="Just Saying Hi">
+                  <label class="service-label" for="svc-other">💬 Just Saying Hi</label>
+                </div>
+              </div>
+            </fieldset>
+
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" for="fname">First Name</label>
-                <input type="text" id="fname" class="form-control" placeholder="Alex" required />
+                <input type="text" id="fname" name="First name" class="form-control" placeholder="Alex" autocomplete="given-name" required />
               </div>
               <div class="form-group">
                 <label class="form-label" for="lname">Last Name</label>
-                <input type="text" id="lname" class="form-control" placeholder="Johnson" />
+                <input type="text" id="lname" name="Last name" class="form-control" placeholder="Johnson" autocomplete="family-name" />
               </div>
             </div>
             <div class="form-group">
               <label class="form-label" for="email">Email Address</label>
-              <input type="email" id="email" class="form-control" placeholder="alex@company.com" required />
+              <!-- name="email" (lowercase) lets Formspree set it as the
+                   reply-to, so hitting Reply in Gmail answers the sender. -->
+              <input type="email" id="email" name="email" class="form-control" placeholder="alex@company.com" autocomplete="email" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="company">Company / Project (optional)</label>
-              <input type="text" id="company" class="form-control" placeholder="Acme Studio" />
+              <input type="text" id="company" name="Company / project" class="form-control" placeholder="Acme Studio" autocomplete="organization" />
             </div>
             <div class="form-group">
               <label class="form-label" for="budget">Project Budget (optional)</label>
-              <select id="budget" class="form-control" style="cursor:pointer;">
-                <option value="" disabled selected style="background:#0d0528;">Select a range…</option>
+              <select id="budget" name="Budget" class="form-control" style="cursor:pointer;">
+                <option value="" selected style="background:#0d0528;">Select a range…</option>
                 <option style="background:#0d0528;">Under $5k</option>
                 <option style="background:#0d0528;">$5k – $15k</option>
                 <option style="background:#0d0528;">$15k – $50k</option>
@@ -216,10 +250,11 @@
             </div>
             <div class="form-group" style="margin-bottom:1.5rem;">
               <label class="form-label" for="message">Tell Me About Your Project</label>
-              <textarea id="message" class="form-control" placeholder="Share as much or as little as you'd like — the more context, the better I can help…" required></textarea>
+              <textarea id="message" name="Message" class="form-control" placeholder="Share as much or as little as you'd like — the more context, the better I can help…" required></textarea>
             </div>
+            <p class="form-error" id="form-error" role="alert"></p>
             <button type="submit" class="btn btn-primary submit-btn">
-              Send Message
+              <span class="submit-label">Send Message</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
             </button>
           </form>
@@ -323,28 +358,57 @@
 
 <script src="nav.js"></script>
 <script>
-  /* ── Contact form submit handler ────────────────────────── */
-  const form    = document.getElementById('contact-form');
-  const success = document.getElementById('form-success');
+  /* ── Contact form → Formspree ───────────────────────────────
+     Sends with fetch so visitors stay on this page. "Message Sent!"
+     shows only when Formspree confirms it received the message;
+     otherwise the form stays filled in and an error explains what
+     to do, so nobody loses what they typed. ── */
+  const form     = document.getElementById('contact-form');
+  const success  = document.getElementById('form-success');
+  const errorBox = document.getElementById('form-error');
 
-  if (form && success) {
-    form.addEventListener('submit', e => {
+  if (form && success && errorBox) {
+    const submitBtn   = form.querySelector('.submit-btn');
+    const submitLabel = form.querySelector('.submit-label');
+
+    const showError = msg => {
+      errorBox.textContent = msg;
+      errorBox.classList.add('show');
+    };
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      // Basic required-field check
-      const required = form.querySelectorAll('[required]');
+      errorBox.classList.remove('show');
+
+      // Required-field + email-format check
       let valid = true;
-      required.forEach(field => {
-        if (!field.value.trim()) {
-          field.style.borderColor = 'var(--accent-pink)';
-          valid = false;
-        } else {
-          field.style.borderColor = '';
-        }
+      form.querySelectorAll('[required]').forEach(field => {
+        const ok = field.value.trim() !== '' && field.checkValidity();
+        field.style.borderColor = ok ? '' : 'var(--accent-pink)';
+        if (!ok) valid = false;
       });
-      if (!valid) return;
-      // Show success state
-      form.style.display = 'none';
-      success.classList.add('show');
+      if (!valid) {
+        showError('Please fill in your first name, a valid email address, and a message.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitLabel.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(`Formspree responded ${res.status}`);
+        form.style.display = 'none';
+        success.classList.add('show');
+      } catch (err) {
+        showError('Sorry, your message didn’t go through. Please try again in a moment, or reach out on LinkedIn.');
+        submitBtn.disabled = false;
+        submitLabel.textContent = 'Send Message';
+      }
     });
   }
 </script>
