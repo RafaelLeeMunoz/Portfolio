@@ -26,17 +26,16 @@
     .bio-photo img { width: 100%; object-fit: cover; display: block; }
     .bio-social { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
 
-    /* ── Core Values — illustrated banner cards ──────────────
-       Each card is a full-width banner: the illustration fills the
-       card and the text sits as real HTML over its dark left side
-       (the art is generated with that side left empty on purpose).
-       Text lives in HTML, not baked into the image, so it stays
-       readable on phones and to screen readers. Each card sets its
-       own --value-accent (border, icon, tagline) and --value-title.
-       On phones the art moves above the text instead of behind it. ── */
+    /* ── Core Values — illustrated cards ─────────────────────
+       Two columns on desktop (halves the scrolling vs. full-width
+       banners), one column at ≤900px. Each card: illustration on top,
+       real HTML text below — text is never baked into the image, so
+       it stays readable on phones and to screen readers. Each card
+       sets its own --value-accent (border, icon, tagline) and
+       --value-title. ── */
     .values-list {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.5rem;
       margin-top: var(--sp-lg);
     }
@@ -45,7 +44,7 @@
       --value-title: var(--text-primary);
       position: relative;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       overflow: hidden;
       border-radius: var(--radius-lg);
       border: 1px solid color-mix(in srgb, var(--value-accent) 45%, transparent);
@@ -56,60 +55,51 @@
       transition: opacity .7s var(--ease), transform .7s var(--ease),
                   border-color var(--transition), box-shadow var(--transition);
     }
-    /* Zero-width spacer that sets a minimum 12:5 banner shape (padding %
-       is a share of the card's width). Unlike aspect-ratio, it never
-       clips: if the text needs more room the card simply grows. */
-    .value-card::before {
-      content: '';
-      flex: 0 0 0;
-      padding-top: 41.667%;
-    }
     .value-card:hover {
       transform: translateY(-4px);
       border-color: color-mix(in srgb, var(--value-accent) 80%, transparent);
       box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 50px color-mix(in srgb, var(--value-accent) 18%, transparent);
     }
+    /* Whole illustration at its native 2:1 shape. */
     .value-art {
-      position: absolute;
-      inset: 0;
+      display: block;
       width: 100%;
-      height: 100%;
+      height: auto;
+      aspect-ratio: 2 / 1;
       object-fit: cover;
-      /* Bias the crop upward a little so the sun/symbol near the top
-         of each illustration never gets cut off. */
-      object-position: 50% 35%;
       transition: transform .8s var(--ease);
     }
     .value-card:hover .value-art { transform: scale(1.03); }
-    /* Extra darkening behind the text, fading out before the subject. */
-    .value-scrim {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg,
-        rgba(3,1,10,.6) 0%,
-        rgba(3,1,10,.35) 38%,
-        transparent 58%);
-    }
+    /* Text panel — fills the rest of the card so cards in the same
+       row end at the same height. Icon sits beside the title (grid
+       row 1); everything else spans the full width below it. */
     .value-content {
       position: relative;
       z-index: 1;
-      width: min(48%, 560px);
-      padding: clamp(1.5rem, 3.5vw, 3rem);
+      flex: 1;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: .85rem;
+      align-items: center;
+      align-content: start;
+      padding: 1.5rem 1.75rem 1.75rem;
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--value-accent) 8%, var(--bg-deep)) 0%, var(--bg-deep) 100%);
     }
+    .value-content > :not(.value-icon):not(.value-title) { grid-column: 1 / -1; }
     .value-icon {
       display: block;
-      width: clamp(2.25rem, 3.5vw, 2.9rem);
-      height: clamp(2.25rem, 3.5vw, 2.9rem);
+      width: 2.1rem;
+      height: 2.1rem;
       color: var(--value-accent);
       filter: drop-shadow(0 0 12px color-mix(in srgb, var(--value-accent) 45%, transparent));
-      margin-bottom: 1.1rem;
     }
     .value-icon svg { width: 100%; height: 100%; display: block; }
     .value-title {
       font-family: var(--font-display);
-      /* Syne is a very wide face — kept modest so titles stay on one
-         line on desktop like the original card designs. */
-      font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+      /* Syne is a very wide face — sized so every title stays on one
+         line at half width on desktop. */
+      font-size: clamp(1.2rem, 1.9vw, 1.6rem);
       font-weight: 800;
       line-height: 1.1;
       color: var(--value-title);
@@ -122,17 +112,17 @@
       border-radius: 2px;
       background: var(--value-title);
       opacity: .8;
-      margin: 1.1rem 0;
+      margin: 1rem 0 .9rem;
     }
     .value-desc {
-      font-size: clamp(.95rem, 1.35vw, 1.1rem);
+      font-size: 1rem;
       line-height: 1.7;
       color: var(--text-primary);
       opacity: .88;
       text-shadow: 0 1px 10px rgba(0,0,0,.6);
     }
     .value-tagline {
-      margin-top: 1.4rem;
+      margin-top: 1.1rem;
       font-family: var(--font-display);
       font-size: .8rem;
       font-weight: 700;
@@ -150,38 +140,17 @@
     .value-card--action      { --value-accent: #ff5a5a; --value-title: #ffe3e0; }
     .value-card--craft       { --value-accent: #ff9a5c; --value-title: #ffe6d6; }
 
-    /* Small laptops: text column gets a bit more of the width */
-    @media (max-width: 1100px) {
-      .value-content { width: 54%; }
-      .value-scrim {
-        background: linear-gradient(90deg,
-          rgba(3,1,10,.7) 0%, rgba(3,1,10,.45) 42%, transparent 66%);
-      }
-    }
-    /* Tablet and phone: art on top, text below on a solid dark panel —
-       never text over busy art once the card gets narrow. */
+    /* Tablet: one card per row. */
     @media (max-width: 900px) {
-      .value-card { flex-direction: column; align-items: stretch; }
-      .value-card::before { display: none; }
-      .value-art {
-        position: static;
-        height: auto;
-        aspect-ratio: 2 / 1;          /* tablet: the whole illustration */
-        object-position: 50% 50%;
-      }
-      .value-scrim { display: none; }
-      .value-content {
-        width: 100%;
-        padding: 1.6rem 1.75rem 1.9rem;
-        background: linear-gradient(180deg,
-          color-mix(in srgb, var(--value-accent) 8%, var(--bg-deep)) 0%, var(--bg-deep) 100%);
-      }
+      .values-list { grid-template-columns: 1fr; }
+      .value-title { font-size: 1.5rem; }
     }
     /* Phone: taller crop that zooms toward the subject on the right
        (the empty left side of the art isn't needed when text is below). */
     @media (max-width: 600px) {
       .value-art { aspect-ratio: 4 / 3; object-position: 72% 40%; }
-      .value-content { padding: 1.4rem 1.3rem 1.7rem; }
+      .value-content { padding: 1.3rem 1.3rem 1.6rem; }
+      .value-title { font-size: 1.3rem; }
       .value-tagline { letter-spacing: .24em; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -705,7 +674,6 @@
 
       <article class="value-card value-card--craft" data-reveal>
         <img class="value-art" src="value-craft-over-output.webp" alt="" loading="lazy" width="1774" height="887" />
-        <div class="value-scrim"></div>
         <div class="value-content">
           <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span>
           <h3 class="value-title">Craft Over Output</h3>
@@ -717,7 +685,6 @@
 
       <article class="value-card value-card--systems" data-reveal>
         <img class="value-art" src="value-think-in-systems.webp" alt="" loading="lazy" width="1774" height="887" />
-        <div class="value-scrim"></div>
         <div class="value-content">
           <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
           <h3 class="value-title">Think in Systems</h3>
@@ -729,7 +696,6 @@
 
       <article class="value-card value-card--curiosity" data-reveal>
         <img class="value-art" src="value-curiosity-first.webp" alt="" loading="lazy" width="1774" height="887" />
-        <div class="value-scrim"></div>
         <div class="value-content">
           <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
           <h3 class="value-title">Curiosity First</h3>
@@ -741,7 +707,6 @@
 
       <article class="value-card value-card--people" data-reveal>
         <img class="value-art" src="value-people-over-process.webp" alt="" loading="lazy" width="1774" height="887" />
-        <div class="value-scrim"></div>
         <div class="value-content">
           <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           <h3 class="value-title">People Over Process</h3>
@@ -753,7 +718,6 @@
 
       <article class="value-card value-card--action" data-reveal>
         <img class="value-art" src="value-bias-toward-action.webp" alt="" loading="lazy" width="1774" height="887" />
-        <div class="value-scrim"></div>
         <div class="value-content">
           <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
           <h3 class="value-title">Bias Toward Action</h3>
@@ -765,7 +729,6 @@
 
       <article class="value-card value-card--intentional" data-reveal>
         <img class="value-art" src="value-intentional-design.webp" alt="" loading="lazy" width="1774" height="887" />
-        <div class="value-scrim"></div>
         <div class="value-content">
           <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <h3 class="value-title">Intentional Design</h3>
