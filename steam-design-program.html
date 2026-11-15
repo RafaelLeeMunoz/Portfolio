@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XiguaFox STEAM Design Program — Rafael L. Muñoz</title>
-  <meta name="description" content="Case study: a hands-on STEAM workshop program that helps elementary and middle-school students think, design, build, test, and improve — piloted at the Rhode Island Computer Museum in October 2026." />
+  <meta name="description" content="Case study: a hands-on STEAM workshop program that helps elementary and middle-school students think, design, build, test, and improve — first run as a backyard demo, now offered monthly at the Rhode Island Computer Museum." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="styles.css" />
@@ -13,7 +13,9 @@
        All content comes from Rafael's own program materials (flyer,
        program overview, journal pages, Unit 1 timeline, pilot flyer)
        and the Bryant feature. Pricing and the XiguaFox email are left
-       off on purpose — visitors reach him through contact.html. ── */
+       off on purpose — visitors reach him through contact.html.
+       Photos: only Rafael's own children, or the back-view shot where
+       no faces show. Other families' children are never used. ── */
     .prose-width { width: min(760px, 92vw); margin-inline: auto; }
 
     /* Breadcrumb */
@@ -130,6 +132,17 @@
       background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
       border-radius: var(--radius-xl); padding: .3rem .8rem;
     }
+    /* Egg Drop photos (backyard demo) */
+    .session-photos { display: grid; gap: 1rem; margin-top: 1.5rem; }
+    .session-photos figure { margin: 0; }
+    .session-photos img {
+      width: 100%; height: auto; display: block; object-fit: cover;
+      border-radius: var(--radius-md); border: 1px solid var(--card-border);
+    }
+    .photo-wide img { aspect-ratio: 2 / 1; }
+    .photo-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .photo-row img { aspect-ratio: 3 / 4; }
+    .session-photos figcaption { font-size: .85rem; color: var(--text-muted); line-height: 1.55; margin-top: .6rem; }
     .phases { list-style: none; display: flex; flex-direction: column; gap: .7rem; counter-reset: phase; }
     .phases li {
       counter-increment: phase; position: relative;
@@ -277,6 +290,9 @@
       .categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .session-card { grid-template-columns: 1fr; }
       .labs { grid-template-columns: 1fr; }
+      .photo-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-row figure:last-child { grid-column: 1 / -1; }
+      .photo-row figure:last-child img { aspect-ratio: 4 / 3; object-position: 50% 30%; }
       .principles, .formats { grid-template-columns: 1fr; }
     }
     @media (max-width: 700px) {
@@ -320,7 +336,7 @@
     <div class="fact"><p class="fact-label">Role</p><p class="fact-value">Founder &amp; Lead STEAM Instructor</p></div>
     <div class="fact"><p class="fact-label">Audience</p><p class="fact-value">Elementary &amp; middle-school learners</p></div>
     <div class="fact"><p class="fact-label">Format</p><p class="fact-value">90-minute workshops or a 6-week series</p></div>
-    <div class="fact"><p class="fact-label">Pilot</p><p class="fact-value">Oct 2026 · Rhode Island Computer Museum</p></div>
+    <div class="fact"><p class="fact-label">Museum Debut</p><p class="fact-value">Oct 2026 · Rhode Island Computer Museum</p></div>
     <div class="fact"><p class="fact-label">Status</p><p class="fact-value">Monthly museum workshops</p></div>
   </div>
 </header>
@@ -335,7 +351,7 @@
       <p class="section-label">Overview</p>
       <h2 class="display">The Program</h2>
       <p>The XiguaFox STEAM Design Program is a structured, hands-on learning experience that introduces students to science, technology, engineering, art, and mathematics through engaging challenges and experiments. In every challenge, students work through the same repeatable design process: learn a concept, plan an approach, build or experiment, test their ideas, and improve their results.</p>
-      <p>Each challenge comes with a student <strong>STEAM Design Journal</strong> and instructor lesson materials, so the experience stays consistent wherever it's delivered: classrooms, after-school programs, camps, museums, and community programs. The program travels to the hosting school or organization, and I bring the activities, materials, safety equipment, setup, and cleanup.</p>
+      <p>Each challenge comes with a student <strong>STEAM Design Journal</strong> and instructor lesson materials, so the experience stays consistent wherever it's delivered: classrooms, after-school programs, camps, museums, and community programs. The program travels to the hosting school or organization, and I bring the activities, materials, safety equipment, setup, and cleanup. I lead each workshop with my classroom assistant, Yanci Tong.</p>
 
       <h2 class="display" style="margin-top:2.5rem;">Why I Built It</h2>
       <p>Education has been a passion of mine for a long time. As a Combat Instructor in the Marine Corps, I instructed more than 8,000 Marine officers, and as a product leader I managed 30+ digital solutions across 16 states. Both taught me how to turn complex challenges into engaging, well-structured experiences.</p>
@@ -398,7 +414,7 @@
     <div class="section-intro">
       <p class="section-label">Inside a Session</p>
       <h2 class="display">Built for the Instructor, Too</h2>
-      <p>Every challenge has an instructor timeline that lays out what happens, what materials each student needs, and what each step is meant to teach. Here's how one session runs.</p>
+      <p>Every challenge has an instructor timeline that lays out what happens, what materials each student needs, and what each step is meant to teach. Unit 1: Egg Drop is where it all started. I first ran it as a demo in my own backyard, before taking the program to the museum.</p>
     </div>
     <div class="session-card" data-reveal>
       <div class="session-summary">
@@ -418,6 +434,27 @@
         <li><strong>Round 2, redesign &amp; final test:</strong> new materials (more paper and straws, craft sticks, string, and parachute material) and a second drop.</li>
         <li><strong>Discussion, journal reflection &amp; cleanup:</strong> students explain why certain designs succeeded.</li>
       </ol>
+    </div>
+
+    <div class="session-photos">
+      <figure class="photo-wide" data-reveal>
+        <img src="steam-egg-drop-backyard.jpg" alt="Four students working at an outdoor table, seen from behind, facing a whiteboard titled Egg Drop (Unit 1) with key terms, next to a ladder for the drop test" loading="lazy" width="1600" height="800" />
+        <figcaption>The first demo: Unit 1: Egg Drop in my backyard, with the key concepts on the whiteboard and the drop ladder ready.</figcaption>
+      </figure>
+      <div class="photo-row">
+        <figure data-reveal>
+          <img src="steam-egg-drop-cutting.jpg" alt="A student in safety goggles cutting paper at a table covered with straws, tape, and a ruler" loading="lazy" width="900" height="1200" />
+          <figcaption>Cutting paper for a Round 1 design.</figcaption>
+        </figure>
+        <figure data-reveal data-delay="1">
+          <img src="steam-egg-drop-parachute.jpg" alt="A student in safety goggles tying string to a plastic parachute" loading="lazy" width="900" height="1200" />
+          <figcaption>Building a parachute for Round 2.</figcaption>
+        </figure>
+        <figure data-reveal data-delay="2">
+          <img src="steam-egg-drop-string.jpg" alt="A student cutting string at a table with straws, glue, and colored paper" loading="lazy" width="900" height="1200" />
+          <figcaption>Cutting string for a parachute.</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
@@ -484,9 +521,9 @@
 <section class="case-section">
   <div class="container">
     <div class="section-intro">
-      <p class="section-label">The Pilot</p>
+      <p class="section-label">At the Museum</p>
       <h2 class="display">First Workshop at the Rhode Island Computer Museum</h2>
-      <p>I piloted the program at the Rhode Island Computer Museum with a 90-minute, hands-on life science workshop that included journal pages and three activities.</p>
+      <p>After the backyard demo, I brought the program to the Rhode Island Computer Museum with a 90-minute, hands-on life science workshop that included journal pages and three activities.</p>
     </div>
     <div class="pilot-card" data-reveal>
       <div class="pilot-head">
@@ -504,7 +541,7 @@
       </div>
       <div class="pilot-outcome">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-        <p><strong>Outcome:</strong> after the pilot, the museum invited the program back to offer monthly STEAM workshops for students.</p>
+        <p><strong>Outcome:</strong> after this first museum workshop, the museum invited the program back to offer monthly STEAM workshops for students.</p>
       </div>
     </div>
   </div>
