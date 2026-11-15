@@ -99,20 +99,11 @@
       color: var(--text-muted); cursor: pointer; transition: all var(--transition);
     }
     .tag-cloud-item:hover { background: rgba(155,89,252,.2); color: var(--text-primary); }
-    /* flex-wrap so the button drops to its own line instead of
-       overflowing the card when the row is too narrow to fit both. */
-    .newsletter-input-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
-    .newsletter-input {
-      flex: 1 1 160px; min-width: 0; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--radius-xl); padding: .55rem 1rem;
-      font-family: var(--font-body); font-size: .8rem; color: var(--text-primary);
-      outline: none; transition: border-color var(--transition);
-    }
-    .newsletter-input::placeholder { color: var(--text-dim); }
-    .newsletter-input:focus { border-color: var(--accent-violet); }
-    /* When it wraps to its own line, stretch full width rather than
-       sitting small and left-aligned. */
-    .newsletter-input-row .btn { flex: 1 1 auto; }
+    /* "Follow along" box — stands in for a newsletter. LinkedIn is
+       where new posts get shared, so following there is the way to
+       keep up; no email list to collect or manage. */
+    .follow-text { font-size: .82rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 1rem; }
+    .follow-btn  { width: 100%; padding: .65rem 1rem; font-size: .8125rem; }
 
     @media (max-width: 1024px) { .blog-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
     @media (max-width: 600px)  { .post-row { grid-template-columns: 80px 1fr; } }
@@ -228,14 +219,13 @@
       <aside class="sidebar">
 
         <div class="sidebar-widget" data-reveal>
-          <p class="widget-title">Newsletter</p>
-          <p style="font-size:.82rem;color:var(--text-muted);line-height:1.65;margin-bottom:.5rem;">
-            New posts, projects, and thoughts — straight to your inbox. No spam, ever.
+          <p class="widget-title">Follow Along</p>
+          <p class="follow-text">
+            I share every new post and project on LinkedIn. Follow me there to catch the next one.
           </p>
-          <div class="newsletter-input-row">
-            <input type="email" class="newsletter-input" placeholder="your@email.com" />
-            <button class="btn btn-primary" style="padding:.55rem 1rem;font-size:.8125rem;white-space:nowrap;">Subscribe</button>
-          </div>
+          <a href="https://www.linkedin.com/in/rafaelleemunoz/" target="_blank" rel="noopener" class="btn btn-primary follow-btn">
+            💼 Follow on LinkedIn
+          </a>
         </div>
 
         <div class="sidebar-widget" data-reveal>

@@ -103,12 +103,12 @@ Problems found in the Nov 2026 review, in priority order. Work through them one 
   - *(add more ideas here as they come up)*
 - [ ] **4. Replace the homepage Featured Projects** *(on hold until the content above exists; leave the section alone for now)*. "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails.
 - [ ] **5. Clean up the blog listing** *(on hold until the content above exists)*. The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them. Replace them with real posts as they're written.
-- [ ] **6. Connect or remove the newsletter signup** on `blog.html`. It currently does nothing.
 - [ ] **7. Update the contact page availability line:** "Taking on select engagements starting Q1 2025" is out of date. Needs Rafael's new wording.
 - [ ] **8. (Tidy-up) Replace the inline `style` on the `<em>` accent** in each `.page-hero-title` with a shared class.
 
 Done:
 - [x] Footer copyright year: `nav.js` now prints the current year automatically.
 - [x] **2. Contact form now sends.** It posts to Formspree (`https://formspree.io/f/mbgogkrw`, Rafael's account), which forwards to his Gmail. The address lives only in Formspree. The checkboxes are inside the form, every field has a readable `name`, there's a `_gotcha` spam honeypot, and "Message Sent!" appears only when Formspree confirms. Otherwise an error shows and the visitor keeps what they typed.
+- [x] **6. Newsletter signup.** Replaced with a "Follow Along" box on `blog.html` that links to LinkedIn, since that's where new posts get shared. A real newsletter (e.g. Buttondown or Mailchimp) can come back once posts are regular and there's an audience to send to.
 - [x] **3. Placeholder contact details.** Email, phone and town were removed from the footer and contact page on purpose (privacy). The footer's "Get in Touch" column keeps only the Hire Me button, and LinkedIn is the only social link, in both the footer and on the contact page.
 - [x] **1. Broken links on `cccri.html`.** It now uses the shared `nav.js` nav and footer, the breadcrumb and call-to-action links point to the right pages, and the "Next Project: FlowTrack PM" strip (a placeholder project with no page) was removed.
