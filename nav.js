@@ -171,7 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ── 3. ACTIVE NAV LINK (by current page filename) ─────────── */
-  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  // Pages not in the menu (e.g. a case study) can light up their parent
+  // section instead: <body data-nav-page="projects.html">
+  const currentPage = document.body.dataset.navPage
+    || location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a, .nav-mobile a').forEach(link => {
     const href = link.getAttribute('href');
     // Strip any hash from href before comparing

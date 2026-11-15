@@ -42,7 +42,7 @@ Everything sits flat in the repo root. There are no subfolders, and images, audi
 | `index.html` | Home: hero with rotating tagline, stats and credential pills; Featured Projects; About preview; Skills cards; **Latest Tracks** music player |
 | `about.html` | Full story: experience cards, certifications, tools grid, AI & Innovation bullets with promo thumbnails, core values |
 | `projects.html` | Filterable project grid (All / Games / Apps / AI / Brands / Craft). Currently one real project: CCCRI |
-| `cccri.html` | Long case study: Chinese Christian Church of Rhode Island website redesign. **Standalone page** (see below) |
+| `cccri.html` | Long case study: Chinese Christian Church of Rhode Island website redesign. Uses `nav.js` but **not** `styles.css` (see below) |
 | `blog.html` | Blog listing: featured post, post list, sidebar (newsletter, topics, popular posts, author) |
 | `blog-ai-adoption-framework.html` | Article: *Beyond the Tool: Designing a Practical Framework for Responsible AI Adoption* |
 | `blog-promotion-system.html` | Article: *Beyond AI-Generated Posts: Designing a Promotion System Around One Source of Truth* |
@@ -51,13 +51,14 @@ Everything sits flat in the repo root. There are no subfolders, and images, audi
 ### Shared pieces
 
 - **`styles.css`** is the single source of truth for design tokens and shared components (buttons, cards, nav, footer, hero, page-hero, reveal animations, breakpoints). It also loads the Google Fonts.
-- **`nav.js`** injects the shared nav and footer and runs the shared behavior. Every page except `cccri.html` needs:
+- **`cccri.html` doesn't load `styles.css`.** Its own hero and card classes share names with the homepage's (`.hero-eyebrow`, `.hero-visual`, …) and would clash. It has its own copy of the design tokens, plus nav and footer rules copied from `styles.css`. **If you change the shared nav or footer styling, copy the change into `cccri.html` too.** Future case-study pages should follow the same pattern.
+- **`nav.js`** injects the shared nav and footer and runs the shared behavior. Every page, including `cccri.html`, needs:
   ```html
   <div id="site-nav"></div>      <!-- top of <body> -->
   <div id="site-footer"></div>   <!-- bottom of <body> -->
   <script src="nav.js"></script>  <!-- before any page-specific script -->
   ```
-  `nav.js` also handles the scrolled-nav background, the mobile hamburger drawer, the active nav link (matched by filename), smooth scrolling for `#anchor` links, `data-reveal` scroll animations and the homepage typewriter tagline. **To change nav or footer links, edit `nav.js` once.** Don't edit them per page.
+  A page that isn't in the menu can highlight its parent section with `<body data-nav-page="projects.html">` (`cccri.html` does this). `nav.js` also handles the scrolled-nav background, the mobile hamburger drawer, the active nav link (matched by filename), smooth scrolling for `#anchor` links, `data-reveal` scroll animations and the homepage typewriter tagline. **To change nav or footer links, edit `nav.js` once.** Don't edit them per page.
 - **Page-specific CSS** lives in a `<style>` block in that page's `<head>`. Put a style in `styles.css` only if more than one page uses it.
 
 ### Adding a new page
@@ -95,7 +96,6 @@ The five `track-*.mp3` files are Rafael's own tracks made with Suno AI. They are
 
 Problems found in the Nov 2026 review, in priority order. Work through them one at a time, one commit each, and tick them off here as they're done. Anything needing real content (links, emails, projects, wording) waits until Rafael supplies it. Never fill it in with made-up text.
 
-- [ ] **1. Fix the broken links on `cccri.html`.** The page carries its own CSS and its own hard-coded nav and footer instead of using `nav.js`. All 28 of its internal links (nav, breadcrumb, closing call-to-action buttons, footer) use `../` paths, which on GitHub Pages leave the `/Portfolio/` site. Some also point to pages that no longer exist (`creative.html`, `music.html`, `experience.html`, `projects/flowtrack.html`). Likely fix: switch it to the shared `nav.js` nav and footer and drop the `../`.
 - [ ] **2. Make the contact form actually send.** It validates, then shows "Message Sent!" without delivering anything. Needs a form service (Formspree, etc.) or a `mailto:` fallback. Rafael chooses which.
 - [ ] **3. Replace the placeholder contact details** in the footer (`nav.js`) and `contact.html`: `hello@rafaelm.com`, the 555 phone number, the social links (`href="#"`) and the made-up handles. The only real link so far is LinkedIn: https://www.linkedin.com/in/rafaelleemunoz/ (used on `about.html`). Rafael supplies the rest.
 - [ ] **4. Replace the homepage Featured Projects.** "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails. Swap in real projects (CCCRI, the blog work) or remove them.
@@ -105,4 +105,5 @@ Problems found in the Nov 2026 review, in priority order. Work through them one 
 - [ ] **8. (Tidy-up) Replace the inline `style` on the `<em>` accent** in each `.page-hero-title` with a shared class.
 
 Done:
-- [x] Footer copyright year: `nav.js` now prints the current year automatically. `cccri.html`'s own footer is set to 2026 until fix #1 moves it onto `nav.js`.
+- [x] Footer copyright year: `nav.js` now prints the current year automatically.
+- [x] **1. Broken links on `cccri.html`.** It now uses the shared `nav.js` nav and footer, the breadcrumb and call-to-action links point to the right pages, and the "Next Project: FlowTrack PM" strip (a placeholder project with no page) was removed.

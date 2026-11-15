@@ -123,12 +123,16 @@
       -webkit-backdrop-filter: blur(12px); transition: all var(--transition); overflow: hidden;
     }
 
-    /* ── NAV (identical to global) ─────────────────────────── */
+    /* ── NAV — markup comes from nav.js. This page doesn't load
+       styles.css (its own hero/card classes share names with the
+       homepage's and would clash), so these rules are copied from
+       styles.css. Keep them in sync if the shared nav styling changes. ── */
     #navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       padding: 0; transition: all var(--transition);
     }
-    #navbar.scrolled {
+    #navbar.scrolled,
+    #navbar.menu-open {
       background: rgba(3,1,10,0.85); backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -142,7 +146,7 @@
     .nav-logo span { color: var(--accent-pink); }
     .nav-links { display: flex; align-items: center; gap: var(--sp-md); }
     .nav-links a {
-      font-family: var(--font-display); font-size: 0.75rem; font-weight: 600;
+      font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
       letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
       transition: color var(--transition); position: relative;
     }
@@ -153,13 +157,20 @@
     }
     .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
     .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
-    .nav-cta { padding: 0.55rem 1.4rem; font-size: 0.72rem; }
+    .nav-cta { padding: 0.55rem 1.4rem; font-size: 0.9rem; color: #ffffff; }
+    .nav-cta:hover { color: #ffffff; }
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
     .hamburger span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all var(--transition); }
     .nav-mobile { display: none; flex-direction: column; gap: var(--sp-sm); padding: var(--sp-sm) 0 var(--sp-md); border-top: 1px solid rgba(255,255,255,0.06); }
     .nav-mobile.open { display: flex; }
     .nav-mobile a { font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding: 0.4rem 0; transition: color var(--transition); }
-    .nav-mobile a:hover { color: var(--text-primary); }
+    .nav-mobile a:hover, .nav-mobile a.active { color: var(--text-primary); }
+    .nav-mobile-cta {
+      display: inline-block; width: fit-content; margin-top: 0.5rem;
+      padding: 0.75rem 1.75rem !important; border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
+      color: #fff !important; font-size: 0.9rem; text-align: center;
+    }
 
     /* ── BREADCRUMB ─────────────────────────────────────────── */
     .breadcrumb-bar {
@@ -574,38 +585,26 @@
     .cta-sub   { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.4rem; }
     .cta-buttons { display: flex; gap: 1rem; flex-shrink: 0; flex-wrap: wrap; }
 
-    /* ── NEXT PROJECT STRIP ─────────────────────────────────── */
-    .next-project {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: var(--sp-lg) 0; border-top: 1px solid var(--card-border);
-      gap: 1rem;
-    }
-    .next-label { font-family: var(--font-display); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.3rem; }
-    .next-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
-    .next-arrow {
-      width: 48px; height: 48px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; justify-content: center;
-      transition: all var(--transition); flex-shrink: 0;
-    }
-    .next-arrow:hover { border-color: var(--accent-cyan); background: rgba(0,229,255,0.08); transform: translateX(4px); }
-
-    /* ── FOOTER ─────────────────────────────────────────────── */
+    /* ── FOOTER — markup comes from nav.js; rules copied from
+       styles.css (see the NAV note above). ── */
     footer { border-top: 1px solid var(--card-border); background: rgba(3,1,10,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
     .footer-inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--sp-lg); padding: var(--sp-xl) 0 var(--sp-lg); }
     .footer-brand .footer-logo { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 0.8rem; }
     .footer-brand .footer-logo span { color: var(--accent-pink); }
     .footer-tagline { font-size: 0.85rem; color: var(--text-muted); max-width: 280px; line-height: 1.7; margin-bottom: var(--sp-sm); }
-    .footer-col-title { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1rem; }
+    .footer-col-title { font-family: var(--font-display); font-size: 0.875rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1rem; }
     .footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
     .footer-links a { font-size: 0.88rem; color: var(--text-muted); transition: color var(--transition); }
     .footer-links a:hover { color: var(--text-primary); }
-    .footer-contact-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.7rem; }
+    .footer-contact-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.7rem; transition: color var(--transition); }
+    .footer-contact-item:hover { color: var(--text-primary); }
+    .footer-contact-item .icon { font-size: 1rem; }
     .social-links { display: flex; gap: 0.8rem; margin-top: 1rem; }
     .social-link { width: 38px; height: 38px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all var(--transition); }
-    .social-link:hover { border-color: var(--accent-cyan); background: rgba(0,229,255,0.08); transform: translateY(-3px); }
+    .social-link:hover { border-color: var(--accent-cyan); background: rgba(0,229,255,0.08); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,229,255,0.2); }
     .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0; border-top: 1px solid var(--card-border); font-size: 0.78rem; color: var(--text-dim); }
     .footer-bottom a { color: var(--accent-cyan); }
+    .footer-hire-btn { margin-top: 1rem; font-size: 0.9rem; padding: 0.6rem 1.4rem; }
 
     /* ── SCROLL REVEALS ─────────────────────────────────────── */
     [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
@@ -664,41 +663,12 @@
     }
   </style>
 </head>
-<body>
+<body data-nav-page="projects.html">
 
 <!-- ═══════════════════════════════════════════════
      NAVIGATION
 ════════════════════════════════════════════════ -->
-<nav id="navbar">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="../index.html" class="nav-logo display">Rafael<span>.</span></a>
-      <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../about.html">About</a></li>
-        <li><a href="../projects.html" class="active">Projects</a></li>
-        <li><a href="../creative.html">Creative</a></li>
-        <li><a href="../music.html">Music</a></li>
-        <li><a href="../experience.html">Experience</a></li>
-        <li><a href="../blog.html">Blog</a></li>
-        <li><a href="../contact.html" class="btn btn-primary nav-cta">Hire Me</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <ul class="nav-mobile" id="nav-mobile">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="../about.html">About</a></li>
-      <li><a href="../projects.html">Projects</a></li>
-      <li><a href="../creative.html">Creative</a></li>
-      <li><a href="../music.html">Music</a></li>
-      <li><a href="../experience.html">Experience</a></li>
-      <li><a href="../blog.html">Blog</a></li>
-      <li><a href="../contact.html">Contact</a></li>
-    </ul>
-  </div>
-</nav>
+<div id="site-nav"></div>
 
 <!-- ═══════════════════════════════════════════════
      BREADCRUMB
@@ -706,9 +676,9 @@
 <div class="breadcrumb-bar">
   <div class="container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="../index.html">Home</a>
+      <a href="index.html">Home</a>
       <span class="sep">›</span>
-      <a href="../projects.html">Projects</a>
+      <a href="projects.html">Projects</a>
       <span class="sep">›</span>
       <span class="current">CCCRI Redesign</span>
     </nav>
@@ -1389,19 +1359,9 @@
         <p class="cta-sub">Whether you have a product problem, a team that needs direction, or a site that needs a reset — I'm interested.</p>
       </div>
       <div class="cta-buttons">
-        <a href="../contact.html" class="btn btn-primary">Get in Touch ✦</a>
-        <a href="../projects.html" class="btn btn-outline">← All Projects</a>
+        <a href="contact.html" class="btn btn-primary">Get in Touch ✦</a>
+        <a href="projects.html" class="btn btn-outline">← All Projects</a>
       </div>
-    </div>
-
-    <div class="next-project" data-reveal>
-      <div>
-        <div class="next-label">Next Project</div>
-        <div class="next-title">FlowTrack PM — AI-Powered Project Management</div>
-      </div>
-      <a href="../projects/flowtrack.html" class="next-arrow" aria-label="Next project">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
     </div>
   </div>
 </section>
@@ -1409,94 +1369,10 @@
 <!-- ═══════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════════ -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo display">Rafael<span>.</span></div>
-        <p class="footer-tagline">Product manager, game developer, creative director, and AI builder.</p>
-        <div class="social-links">
-          <a href="#" class="social-link">💼</a>
-          <a href="#" class="social-link">🐙</a>
-          <a href="#" class="social-link">🐦</a>
-          <a href="#" class="social-link">📸</a>
-        </div>
-      </div>
-      <div>
-        <p class="footer-col-title">Navigation</p>
-        <ul class="footer-links">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../about.html">About</a></li>
-          <li><a href="../projects.html">Projects</a></li>
-          <li><a href="../creative.html">Creative</a></li>
-          <li><a href="../experience.html">Experience</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-col-title">Projects</p>
-        <ul class="footer-links">
-          <li><a href="#">CCCRI Redesign</a></li>
-          <li><a href="#">FlowTrack PM</a></li>
-          <li><a href="#">NarratorAI</a></li>
-          <li><a href="#">GrowthOS</a></li>
-          <li><a href="#">PromptForge</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-col-title">Contact</p>
-        <div class="footer-contact-item"><span>✉️</span><span>hello@rafael.pm</span></div>
-        <div class="footer-contact-item"><span>📍</span><span>Rhode Island</span></div>
-        <a href="../contact.html" class="btn btn-primary" style="margin-top:1rem;font-size:.7rem;padding:.6rem 1.4rem;">Hire Me ✦</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Rafael L. Muñoz. All rights reserved.</span>
-      <span>Designed & Built with ✦ by Rafael</span>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
-<!-- ═══════════════════════════════════════════════
-     SCRIPTS
-════════════════════════════════════════════════ -->
-<script>
-  /* Nav scroll */
-  const navbar = document.getElementById('navbar');
-  const onScroll = () => { navbar.classList.toggle('scrolled', window.scrollY > 40); };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  /* Hamburger */
-  const hamburger  = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('nav-mobile');
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', isOpen);
-    const bars = hamburger.querySelectorAll('span');
-    if (isOpen) {
-      bars[0].style.transform = 'translateY(7px) rotate(45deg)';
-      bars[1].style.opacity   = '0';
-      bars[2].style.transform = 'translateY(-7px) rotate(-45deg)';
-    } else {
-      bars.forEach(b => { b.style.transform = ''; b.style.opacity = ''; });
-    }
-  });
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      hamburger.querySelectorAll('span').forEach(b => { b.style.transform = ''; b.style.opacity = ''; });
-    });
-  });
-
-  /* Scroll reveals */
-  const reveals = document.querySelectorAll('[data-reveal]');
-  if (reveals.length) {
-    const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target); } }),
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-    );
-    reveals.forEach(el => observer.observe(el));
-  }
-</script>
+<!-- nav.js injects the shared nav + footer and runs the scrolled-nav,
+     hamburger, and scroll-reveal behavior this page used to duplicate. -->
+<script src="nav.js"></script>
 </body>
 </html>
