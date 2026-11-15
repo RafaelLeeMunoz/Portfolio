@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XiguaFox STEAM Design Program — Rafael L. Muñoz</title>
+  <meta name="description" content="Case study: a hands-on STEAM workshop program that helps elementary and middle-school students think, design, build, test, and improve — piloted at the Rhode Island Computer Museum in October 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Project page: XiguaFox STEAM Design Program ────────
+       All content comes from Rafael's own program materials (flyer,
+       program overview, journal pages, Unit 1 timeline, pilot flyer)
+       and the Bryant feature. Pricing and the XiguaFox email are left
+       off on purpose — visitors reach him through contact.html. ── */
+    .prose-width { width: min(760px, 92vw); margin-inline: auto; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-family: var(--font-display); font-size: .78rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.75rem;
+    }
+    .breadcrumb a { color: var(--text-dim); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--accent-cyan); }
+    .breadcrumb .sep { color: var(--text-dim); }
+    .breadcrumb .current { color: var(--accent-cyan); }
+
+    /* Hero */
+    .project-hero { padding-top: 7.5rem; padding-bottom: var(--sp-lg); }
+    .hero-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+    .hero-tag {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: .25rem .8rem; border-radius: var(--radius-xl);
+    }
+    .hero-tag--pink   { background: rgba(240,25,110,.12); color: var(--accent-pink);   border: 1px solid rgba(240,25,110,.3); }
+    .hero-tag--cyan   { background: rgba(0,229,255,.08);  color: var(--accent-cyan);   border: 1px solid rgba(0,229,255,.25); }
+    .hero-tag--gold   { background: rgba(255,209,102,.1); color: var(--accent-gold);   border: 1px solid rgba(255,209,102,.3); }
+    .project-title {
+      font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 800; line-height: 1.05;
+      margin-bottom: 1.1rem;
+    }
+    .project-title .steam {
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet), var(--accent-pink), var(--accent-gold));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .project-lede { font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; max-width: 680px; }
+
+    /* Quick facts */
+    .facts {
+      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .fact {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.1rem 1.2rem;
+    }
+    .fact-label {
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: .35rem;
+    }
+    .fact-value { font-size: .95rem; font-weight: 600; color: var(--text-primary); line-height: 1.45; }
+
+    /* Sections */
+    .case-section { padding: var(--sp-xl) 0 0; }
+    .case-section:last-of-type { padding-bottom: var(--sp-xl); }
+    .case-section h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; margin-bottom: 1.1rem; }
+    .case-section p { font-size: 1.02rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 1.2rem; }
+    .case-section p strong { color: var(--text-primary); }
+    .section-intro { max-width: 760px; }
+
+    /* Six-step student experience */
+    .steps {
+      display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem;
+      margin-top: 2rem; counter-reset: step;
+    }
+    .step {
+      --step-accent: var(--accent-cyan);
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-top: 3px solid var(--step-accent);
+      border-radius: var(--radius-md); padding: 1.25rem 1.1rem 1.35rem;
+    }
+    .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; border-radius: 50%;
+      font-family: var(--font-display); font-weight: 800; font-size: .9rem;
+      color: var(--bg-deep); background: var(--step-accent); margin-bottom: .75rem;
+    }
+    .step h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: .4rem; }
+    .step p { font-size: .88rem; line-height: 1.6; margin: 0; }
+    .step:nth-child(1) { --step-accent: #4fb3ff; }
+    .step:nth-child(2) { --step-accent: #ff7eb6; }
+    .step:nth-child(3) { --step-accent: #ffd166; }
+    .step:nth-child(4) { --step-accent: #00e5ff; }
+    .step:nth-child(5) { --step-accent: #a78bfa; }
+    .step:nth-child(6) { --step-accent: #5ee0a0; }
+
+    /* Journal gallery */
+    .journal-gallery {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .journal-page {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1rem; margin: 0;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+    .journal-page:hover { transform: translateY(-4px); border-color: rgba(155,89,252,.35); }
+    .journal-page img {
+      width: 100%; aspect-ratio: 3 / 4; object-fit: contain;
+      background: #fff; border-radius: var(--radius-sm);
+    }
+    .journal-page figcaption { font-size: .85rem; color: var(--text-muted); line-height: 1.55; margin-top: .85rem; }
+    .journal-page figcaption strong { display: block; color: var(--text-primary); font-family: var(--font-display); font-size: .9rem; margin-bottom: .15rem; }
+
+    /* Session phases (Unit 1: Egg Drop) */
+    .session-card {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 2rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: 2rem; margin-top: 2rem;
+    }
+    .session-summary h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: .6rem; }
+    .session-summary p { font-size: .95rem; }
+    .session-meta { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .session-meta span {
+      font-size: .8rem; font-weight: 600; color: var(--text-primary);
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-xl); padding: .3rem .8rem;
+    }
+    .phases { list-style: none; display: flex; flex-direction: column; gap: .7rem; counter-reset: phase; }
+    .phases li {
+      counter-increment: phase; position: relative;
+      padding: .8rem 1rem .8rem 3.2rem; border-radius: var(--radius-sm);
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      font-size: .92rem; color: var(--text-muted); line-height: 1.6;
+    }
+    .phases li::before {
+      content: counter(phase); position: absolute; left: .9rem; top: .8rem;
+      width: 1.6rem; height: 1.6rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: .78rem; font-weight: 800;
+      color: var(--bg-deep); background: var(--accent-gold);
+    }
+    .phases li strong { color: var(--text-primary); }
+
+    /* Activity categories + collection */
+    .categories {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem;
+      margin-top: 2rem;
+    }
+    .category {
+      --cat-accent: var(--accent-cyan);
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.25rem;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .category:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--cat-accent) 50%, transparent); }
+    .category svg { width: 2rem; height: 2rem; color: var(--cat-accent); margin-bottom: .7rem; display: block; }
+    .category h3 { font-size: 1rem; font-weight: 800; margin-bottom: .3rem; }
+    .category p { font-size: .85rem; line-height: 1.55; margin: 0; }
+    .category--engineering { --cat-accent: #4fb3ff; }
+    .category--art         { --cat-accent: #a78bfa; }
+    .category--chemistry   { --cat-accent: #ff9a5c; }
+    .category--life        { --cat-accent: #5ee0a0; }
+    .category--robotics    { --cat-accent: #00e5ff; }
+    .category--ai          { --cat-accent: #c084fc; }
+    .category--electronics { --cat-accent: #ffd166; }
+    .category--physics     { --cat-accent: #ff7eb6; }
+
+    .activity-list {
+      display: flex; flex-wrap: wrap; gap: .55rem; list-style: none;
+      margin-top: 1.25rem;
+    }
+    .activity-list li {
+      font-size: .85rem; font-weight: 600; color: var(--text-primary);
+      background: rgba(155,89,252,.08); border: 1px solid rgba(155,89,252,.22);
+      border-radius: var(--radius-xl); padding: .4rem .9rem;
+    }
+    .case-section .subhead {
+      font-family: var(--font-display); font-size: .8rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--accent-cyan);
+      line-height: 1.4; margin: 2.5rem 0 0;
+    }
+
+    /* Pilot */
+    .pilot-card {
+      background:
+        radial-gradient(ellipse 60% 80% at 0% 0%, rgba(240,25,110,.12) 0%, transparent 60%),
+        var(--card-bg);
+      border: 1px solid rgba(240,25,110,.28); border-radius: var(--radius-lg);
+      padding: 2rem; margin-top: 2rem;
+    }
+    .pilot-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: baseline; margin-bottom: 1.25rem; }
+    .pilot-head h3 { font-size: 1.4rem; font-weight: 800; }
+    .pilot-head h3 span { display: block; font-size: 1rem; color: var(--accent-pink); margin-top: .2rem; }
+    .pilot-meta { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .pilot-meta span {
+      font-size: .8rem; font-weight: 600; color: var(--text-primary);
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-xl); padding: .3rem .8rem;
+    }
+    .labs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .lab {
+      background: rgba(3,1,10,.35); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius-md); padding: 1.2rem;
+    }
+    .lab h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 800; margin-bottom: .3rem; }
+    .lab p { font-size: .88rem; margin: 0; }
+    .pilot-outcome {
+      display: flex; gap: .8rem; align-items: flex-start; margin-top: 1.5rem;
+      padding: 1rem 1.2rem; border-radius: var(--radius-sm);
+      background: rgba(94,224,160,.07); border: 1px solid rgba(94,224,160,.28);
+    }
+    .pilot-outcome svg { flex-shrink: 0; width: 1.4rem; height: 1.4rem; color: #5ee0a0; margin-top: .15rem; }
+    .pilot-outcome p { margin: 0; color: var(--text-primary); font-size: .98rem; }
+
+    /* Skills */
+    .skills-chips { display: flex; flex-wrap: wrap; gap: .55rem; list-style: none; margin-top: 1.5rem; }
+    .skills-chips li {
+      font-size: .85rem; font-weight: 600; color: var(--accent-cyan);
+      background: rgba(0,229,255,.06); border: 1px solid rgba(0,229,255,.2);
+      border-radius: var(--radius-xl); padding: .4rem .9rem;
+    }
+
+    /* Formats */
+    .formats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .format {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: 1.75rem;
+    }
+    .format h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: .3rem; }
+    .format .format-length { font-family: var(--font-display); font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: .9rem; }
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .check-list li { position: relative; padding-left: 1.6rem; font-size: .92rem; color: var(--text-muted); line-height: 1.6; }
+    .check-list li::before {
+      content: ''; position: absolute; left: 0; top: .45rem; width: .9rem; height: .5rem;
+      border-left: 2px solid #5ee0a0; border-bottom: 2px solid #5ee0a0; transform: rotate(-45deg);
+    }
+    .included {
+      margin-top: 1.25rem; background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: 1.75rem;
+    }
+    .included h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; }
+    .included .check-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem 1.5rem; }
+
+    /* Product-thinking list */
+    .principles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .principle {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-left: 3px solid var(--accent-violet);
+      border-radius: var(--radius-sm); padding: 1.2rem 1.35rem;
+    }
+    .principle h3 { font-size: 1rem; font-weight: 800; margin-bottom: .35rem; }
+    .principle p { font-size: .9rem; line-height: 1.65; margin: 0; }
+
+    /* Closing CTA */
+    .cta-box {
+      text-align: center; margin-top: 2.5rem; padding: 2.5rem 2rem;
+      border-radius: var(--radius-lg); border: 1px solid rgba(155,89,252,.3);
+      background:
+        radial-gradient(ellipse 60% 90% at 50% 0%, rgba(155,89,252,.16) 0%, transparent 70%),
+        var(--card-bg);
+    }
+    .cta-box h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; margin-bottom: .6rem; }
+    .cta-box p { max-width: 540px; margin: 0 auto 1.5rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      .categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .session-card { grid-template-columns: 1fr; }
+      .labs { grid-template-columns: 1fr; }
+      .principles, .formats { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      .journal-gallery { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; }
+      .included .check-list { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .session-card, .pilot-card { padding: 1.4rem; }
+    }
+    @media (max-width: 400px) {
+      .categories, .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-nav-page="projects.html">
+
+<!-- ── Shared nav injected by nav.js ── -->
+<div id="site-nav"></div>
+
+
+<!-- HERO -->
+<header class="project-hero container" data-reveal>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="sep">›</span>
+    <a href="projects.html">Projects</a>
+    <span class="sep">›</span>
+    <span class="current">STEAM Design Program</span>
+  </nav>
+  <div class="hero-tags">
+    <span class="hero-tag hero-tag--gold">Education</span>
+    <span class="hero-tag hero-tag--pink">Program Design</span>
+    <span class="hero-tag hero-tag--cyan">Curriculum</span>
+  </div>
+  <h1 class="project-title display">XiguaFox <span class="steam">STEAM</span> Design Program</h1>
+  <p class="project-lede">Hands-on STEAM challenges that help elementary and middle-school students think, design, build, test, and improve.</p>
+
+  <div class="facts">
+    <div class="fact"><p class="fact-label">Role</p><p class="fact-value">Founder &amp; Lead STEAM Instructor</p></div>
+    <div class="fact"><p class="fact-label">Audience</p><p class="fact-value">Elementary &amp; middle-school learners</p></div>
+    <div class="fact"><p class="fact-label">Format</p><p class="fact-value">90-minute workshops or a 6-week series</p></div>
+    <div class="fact"><p class="fact-label">Pilot</p><p class="fact-value">Oct 2026 · Rhode Island Computer Museum</p></div>
+    <div class="fact"><p class="fact-label">Status</p><p class="fact-value">Monthly museum workshops</p></div>
+  </div>
+</header>
+
+<hr class="divider" />
+
+
+<!-- OVERVIEW -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Overview</p>
+      <h2 class="display">The Program</h2>
+      <p>The XiguaFox STEAM Design Program is a structured, hands-on learning experience that introduces students to science, technology, engineering, art, and mathematics through engaging challenges and experiments. In every challenge, students work through the same repeatable design process: learn a concept, plan an approach, build or experiment, test their ideas, and improve their results.</p>
+      <p>Each challenge comes with a student <strong>STEAM Design Journal</strong> and instructor lesson materials, so the experience stays consistent wherever it's delivered: classrooms, after-school programs, camps, museums, and community programs. The program travels to the hosting school or organization, and I bring the activities, materials, safety equipment, setup, and cleanup.</p>
+
+      <h2 class="display" style="margin-top:2.5rem;">Why I Built It</h2>
+      <p>Education has been a passion of mine for a long time. As a Combat Instructor in the Marine Corps, I instructed more than 8,000 Marine officers, and as a product leader I managed 30+ digital solutions across 16 states. Both taught me how to turn complex challenges into engaging, well-structured experiences.</p>
+      <p>XiguaFox brings those skills into the classroom, drawing on my background in technology and product development and what I've learned in graduate school, to help young learners imagine, experiment, build, and discover what's possible.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- STUDENT EXPERIENCE -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">How It Works</p>
+      <h2 class="display">The Student Experience</h2>
+      <p>Every workshop follows the same six-step learning and design process, so students practice the same way of thinking in every challenge, whether they're building a bridge or extracting DNA.</p>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal><span class="step-num">1</span><h3 class="display">Learn</h3><p>Discover a STEAM concept, ask questions, and make observations.</p></div>
+      <div class="step" data-reveal data-delay="1"><span class="step-num">2</span><h3 class="display">Plan</h3><p>Develop ideas, make predictions, and sketch possible solutions.</p></div>
+      <div class="step" data-reveal data-delay="2"><span class="step-num">3</span><h3 class="display">Create</h3><p>Build, experiment, investigate, or create something new.</p></div>
+      <div class="step" data-reveal data-delay="3"><span class="step-num">4</span><h3 class="display">Test</h3><p>Observe results, collect evidence, and compare with predictions.</p></div>
+      <div class="step" data-reveal data-delay="4"><span class="step-num">5</span><h3 class="display">Improve</h3><p>Refine and iterate, using what they learned to adjust designs or test new ideas.</p></div>
+      <div class="step" data-reveal data-delay="5"><span class="step-num">6</span><h3 class="display">Reflect</h3><p>Record observations, explain discoveries, and consider what to explore next.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- JOURNAL -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Every Student Gets One</p>
+      <h2 class="display">The STEAM Design Journal</h2>
+      <p>Each workshop includes an individual STEAM Design Journal that guides students through the process. They use it to record their ideas, plan their designs, document their results, and reflect on what they learned.</p>
+      <p>The journal goes home with the student, so it becomes a lasting record of discovery and a tangible takeaway for parents and caregivers.</p>
+    </div>
+    <div class="journal-gallery">
+      <figure class="journal-page" data-reveal>
+        <img src="steam-journal-engineers-think.webp" alt="Journal page: How Engineers Think — Ask, Imagine, Plan, Create, Test, Improve" loading="lazy" />
+        <figcaption><strong>How Engineers Think</strong>A simple six-step process students can use in every challenge.</figcaption>
+      </figure>
+      <figure class="journal-page" data-reveal data-delay="1">
+        <img src="steam-journal-lab-safety.webp" alt="Journal page: Lab Safety and Smart Builder Tips" loading="lazy" />
+        <figcaption><strong>Lab Safety + Smart Builder Tips</strong>Six reminders to stay safe, focused, and ready to build.</figcaption>
+      </figure>
+      <figure class="journal-page" data-reveal data-delay="2">
+        <img src="steam-journal-open-lab.webp" alt="Journal page: Open Lab — My Own Experiment, with spaces for a big question, materials, prediction, sketch, and results" loading="lazy" />
+        <figcaption><strong>Open Lab: My Own Experiment</strong>A page for students to design and test their own STEAM idea.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- INSIDE A SESSION -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Inside a Session</p>
+      <h2 class="display">Built for the Instructor, Too</h2>
+      <p>Every challenge has an instructor timeline that lays out what happens, what materials each student needs, and what each step is meant to teach. Here's how one session runs.</p>
+    </div>
+    <div class="session-card" data-reveal>
+      <div class="session-summary">
+        <h3 class="display">Unit 1: Egg Drop</h3>
+        <p>Students design a system to protect an egg from a drop, in a two-round build, test, and improve challenge.</p>
+        <div class="session-meta">
+          <span>90 minutes</span>
+          <span>Planned for 8 students</span>
+          <span>1 instructor + 1 assistant</span>
+        </div>
+      </div>
+      <ol class="phases">
+        <li><strong>Welcome &amp; core concepts:</strong> gravity, impact, force, protection, and air resistance.</li>
+        <li><strong>Safety &amp; drop-zone setup:</strong> safe testing rules and fair procedures, with an adult doing every drop.</li>
+        <li><strong>Round 1, plan &amp; build:</strong> tight design constraints of 3 sheets of paper, 4 straws, 18 inches of masking tape, and an egg in a zip bag.</li>
+        <li><strong>Round 1 drop test, then reflect:</strong> testing shows what works, and failure provides data for the redesign.</li>
+        <li><strong>Round 2, redesign &amp; final test:</strong> new materials (more paper and straws, craft sticks, string, and parachute material) and a second drop.</li>
+        <li><strong>Discussion, journal reflection &amp; cleanup:</strong> students explain why certain designs succeeded.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+
+<!-- ACTIVITIES -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Think · Build · Test · Improve</p>
+      <h2 class="display">A Growing Activity Collection</h2>
+      <p>The program offers a growing collection of hands-on activities across eight learning categories. Workshop availability and recommended grade levels vary by activity.</p>
+    </div>
+
+    <!-- Icons adapted from Lucide (lucide.dev, ISC license) -->
+    <div class="categories">
+      <div class="category category--engineering" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        <h3 class="display">Engineering</h3><p>Design, build, and test creative solutions to real-world challenges.</p>
+      </div>
+      <div class="category category--art" data-reveal data-delay="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+        <h3 class="display">Art &amp; Design</h3><p>Explore creativity, visual design, and artistic expression.</p>
+      </div>
+      <div class="category category--chemistry" data-reveal data-delay="2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>
+        <h3 class="display">Chemistry</h3><p>Investigate materials, mixtures, and chemical reactions.</p>
+      </div>
+      <div class="category category--life" data-reveal data-delay="3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        <h3 class="display">Life Science</h3><p>Discover living organisms, ecosystems, and biological systems.</p>
+      </div>
+      <div class="category category--robotics" data-reveal>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+        <h3 class="display">Robotics</h3><p>Explore mechanisms, movement, and automation.</p>
+      </div>
+      <div class="category category--ai" data-reveal data-delay="1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+        <h3 class="display">AI &amp; Computing</h3><p>Discover computational thinking, logic, and emerging technology.</p>
+      </div>
+      <div class="category category--electronics" data-reveal data-delay="2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <h3 class="display">Electronics</h3><p>Experiment with circuits, sensors, and electricity.</p>
+      </div>
+      <div class="category category--physics" data-reveal data-delay="3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></svg>
+        <h3 class="display">Physics</h3><p>Investigate fundamental forces, motion, and energy.</p>
+      </div>
+    </div>
+
+    <p class="subhead">The current collection</p>
+    <ul class="activity-list" aria-label="Current activities">
+      <li>Eruption Lab</li><li>Bridge &amp; Tower Build</li><li>Robotics Challenge</li><li>AI Explorer Challenge</li><li>Electronics Builder</li>
+      <li>Advanced Structures Lab</li><li>Chain Reaction Lab</li><li>Air &amp; Water Power Lab</li><li>Intro Robotics Lab</li><li>Invention Lab</li>
+      <li>Team Engineering Showcase</li><li>Hopping Marshmallow</li><li>Helping Hands</li><li>Package Smart</li><li>Cool Spaces</li>
+      <li>Sound Booster Studio</li><li>Game Design Studio</li><li>XiguaFox Invention Studio</li><li>Color Lab</li><li>Perspective Drawing</li>
+      <li>Printmaking Studio</li><li>Clay &amp; Pottery</li><li>Optical Illusion</li><li>Strawberry DNA Lab</li><li>Stethoscope Sound Lab</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- PILOT -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">The Pilot</p>
+      <h2 class="display">First Workshop at the Rhode Island Computer Museum</h2>
+      <p>I piloted the program at the Rhode Island Computer Museum with a 90-minute, hands-on life science workshop that included journal pages and three activities.</p>
+    </div>
+    <div class="pilot-card" data-reveal>
+      <div class="pilot-head">
+        <h3 class="display">Life Science Lab<span>DNA, Heartbeats &amp; Sound</span></h3>
+        <div class="pilot-meta">
+          <span>Saturday, Oct 17, 2026</span>
+          <span>90 minutes</span>
+          <span>Ages 7–13</span>
+        </div>
+      </div>
+      <div class="labs">
+        <div class="lab"><h4>Strawberry DNA Lab</h4><p>Extract DNA you can see.</p></div>
+        <div class="lab"><h4>Stethoscope Sound Lab</h4><p>Build and test a listening tool.</p></div>
+        <div class="lab"><h4>Hopping Marshmallow</h4><p>See your pulse in action.</p></div>
+      </div>
+      <div class="pilot-outcome">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <p><strong>Outcome:</strong> after the pilot, the museum invited the program back to offer monthly STEAM workshops for students.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SKILLS -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">What Students Take Away</p>
+      <h2 class="display">Skills Students Practice</h2>
+    </div>
+    <ul class="skills-chips" data-reveal>
+      <li>Scientific inquiry</li><li>Critical thinking</li><li>Creative problem-solving</li><li>Engineering design</li>
+      <li>Observation &amp; data analysis</li><li>Experimentation</li><li>Measurement &amp; math</li><li>Technology exploration</li>
+      <li>Testing &amp; iteration</li><li>Communication</li><li>Collaboration</li><li>Learning from failure</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- FORMATS -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Flexible by Design</p>
+      <h2 class="display">Program Formats</h2>
+      <p>Workshops run for schools, libraries, museums, and community programs, with a recommended group size of 8–24 students depending on the activity and age group.</p>
+    </div>
+    <div class="formats">
+      <div class="format" data-reveal>
+        <h3 class="display">Single Workshop</h3>
+        <p class="format-length">90 minutes · 1–3 activities</p>
+        <ul class="check-list">
+          <li>Ideal for special events, school assemblies, family programs, and enrichment days</li>
+          <li>Choose from the full activity collection</li>
+        </ul>
+      </div>
+      <div class="format" data-reveal data-delay="1">
+        <h3 class="display">6-Week Series</h3>
+        <p class="format-length">Six weekly 90-minute sessions</p>
+        <ul class="check-list">
+          <li>1–3 activities per session for deeper learning and skill building</li>
+          <li>A STEAM Design Journal for every student</li>
+        </ul>
+      </div>
+    </div>
+    <div class="included" data-reveal>
+      <h3 class="display">What's Included</h3>
+      <ul class="check-list">
+        <li>Instructor-led, interactive activities</li>
+        <li>All required materials and supplies</li>
+        <li>Safety equipment</li>
+        <li>Activity setup and cleanup handled by the instructor</li>
+        <li>An individual STEAM Design Journal for every participant</li>
+        <li>Completed creations to take home, when applicable</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRODUCT THINKING -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Reflection</p>
+      <h2 class="display">Designed Like a Product</h2>
+      <p>I built XiguaFox the way I'd build a product, with the same attention to the people using it and the system behind it.</p>
+    </div>
+    <div class="principles">
+      <div class="principle" data-reveal>
+        <h3 class="display">A repeatable process</h3>
+        <p>Every activity follows the same six steps, so students practice one way of thinking across chemistry, robotics, art, and everything in between.</p>
+      </div>
+      <div class="principle" data-reveal data-delay="1">
+        <h3 class="display">A consistent, portable experience</h3>
+        <p>Journals, instructor lesson plans, timelines, and materials are organized around each challenge, so a workshop runs the same in a classroom, a camp, or a museum.</p>
+      </div>
+      <div class="principle" data-reveal>
+        <h3 class="display">Iteration built in</h3>
+        <p>Two-round challenges like the Egg Drop make failure part of the plan. In the journal's words: mistakes help engineers learn.</p>
+      </div>
+      <div class="principle" data-reveal data-delay="1">
+        <h3 class="display">Something for every stakeholder</h3>
+        <p>Students build and discover, hosts get setup and cleanup handled, and the journal goes home so parents and caregivers can see what their child learned.</p>
+      </div>
+      <div class="principle" data-reveal>
+        <h3 class="display">A modular catalog</h3>
+        <p>New activities plug into the same structure, so the program can keep expanding into additional STEM and STEAM units.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHAT'S NEXT -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">What's Next</p>
+      <h2 class="display">Growing the Program</h2>
+      <p>Monthly workshops at the Rhode Island Computer Museum are the next step, and the program is built to keep growing into new units and new places: schools, libraries, museums, and community programs.</p>
+    </div>
+    <div class="cta-box" data-reveal>
+      <h3 class="display">Bring a STEAM workshop to your school or organization</h3>
+      <p>Tell me about your group, your dates, and the activities you're interested in.</p>
+      <div class="cta-buttons">
+        <a href="contact.html" class="btn btn-primary">Get in Touch ✦</a>
+        <a href="projects.html" class="btn btn-outline">← All Projects</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Shared footer injected by nav.js ── -->
+<div id="site-footer"></div>
+
+
+<script src="nav.js"></script>
+</body>
+</html>
