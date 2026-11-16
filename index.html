@@ -281,19 +281,24 @@
       <a href="projects.html" class="btn btn-outline" data-reveal data-delay="2">View All Projects →</a>
     </div>
 
-    <!-- The three real case studies, newest first. Thumbnails match the
-         emoji + gradient style of the cards on projects.html. -->
+    <!-- Hierarchy: one primary (featured) card — large, with a real
+         photo — on the left spanning two rows, and medium cards stacked
+         on the right. To change which project leads, move the
+         project-card--featured class + photo thumb to another card. -->
     <div class="projects-grid">
 
-      <article class="project-card card" data-reveal>
-        <div class="project-thumb" style="background: linear-gradient(135deg, #1a1400, #3a1a40, #002a3a);">
-          <span style="font-size:3.5rem; opacity:0.75;">🧪</span>
+      <article class="project-card project-card--featured card" data-reveal>
+        <div class="project-thumb project-thumb--photo">
+          <img src="steam-egg-drop-backyard.jpg" alt="Students working at an outdoor table during the first Egg Drop workshop, facing a whiteboard of key concepts" loading="lazy" width="1600" height="800" />
           <div class="project-thumb-overlay"></div>
         </div>
         <div class="project-body">
           <span class="project-tag tag-education">Education</span>
           <h3 class="project-title display">XiguaFox STEAM Design Program</h3>
           <p class="project-desc">Hands-on STEAM workshops where elementary and middle-school students learn, plan, build, test, improve, and reflect. Started as a backyard demo; now runs monthly at the Rhode Island Computer Museum.</p>
+          <ul class="project-highlights" aria-label="Program highlights">
+            <li>6-step design process</li><li>25 activities</li><li>8 learning categories</li><li>A journal for every student</li>
+          </ul>
           <a href="steam-design-program.html" class="project-arrow">
             Case Study
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>

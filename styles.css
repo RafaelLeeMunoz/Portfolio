@@ -633,8 +633,11 @@ section { padding: var(--sp-xl) 0; }
   box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(155,89,252,0.2);
 }
 
+/* Primary (featured) card: 2 columns wide and 2 rows tall, so the
+   medium cards stack beside it — a clear hierarchy of importance. */
 .project-card--featured {
   grid-column: span 2;
+  grid-row: span 2;
 }
 
 .project-thumb {
@@ -649,7 +652,26 @@ section { padding: var(--sp-xl) 0; }
   font-size: 4rem;
 }
 
-.project-card--featured .project-thumb { aspect-ratio: 21/9; }
+/* Featured thumb grows to fill the height of the two stacked cards. */
+.project-card--featured .project-thumb {
+  aspect-ratio: auto;
+  flex: 1 1 auto;
+  min-height: 300px;
+}
+/* Medium cards get a shorter thumb so the column stays compact. */
+.projects-grid > .project-card:not(.project-card--featured) .project-thumb { aspect-ratio: 2 / 1; }
+
+/* Real photo thumbnail (fills the thumb, zooms slightly on hover) */
+.project-thumb--photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% 45%;
+  transition: transform 0.6s var(--ease);
+}
+.project-card:hover .project-thumb--photo img { transform: scale(1.04); }
 
 .project-thumb-overlay {
   position: absolute;
@@ -668,6 +690,25 @@ section { padding: var(--sp-xl) 0; }
   align-items: flex-start;
 }
 .project-body .project-arrow { margin-top: auto; }
+.project-card--featured .project-body { flex: 0 0 auto; padding: 1.6rem 2rem 2rem; }
+
+/* Quick-fact chips on the featured card */
+.project-highlights {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+.project-highlights li {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-xl);
+  padding: 0.3rem 0.75rem;
+}
 
 .project-tag {
   display: inline-block;
@@ -700,7 +741,8 @@ section { padding: var(--sp-xl) 0; }
   margin-bottom: 1rem;
 }
 
-.project-card--featured .project-title { font-size: 1.4rem; }
+.project-card--featured .project-title { font-size: clamp(1.4rem, 2.4vw, 1.75rem); }
+.project-card--featured .project-desc { font-size: 0.95rem; max-width: 62ch; }
 
 .project-arrow {
   display: inline-flex;
@@ -1095,11 +1137,9 @@ footer {
   .about-chips { justify-content: center; }
 
   .projects-grid { grid-template-columns: 1fr 1fr; }
-  .project-card--featured { grid-column: span 2; }
-  /* An odd card left alone on the last row spans the full width
-     instead of leaving an empty slot beside it. */
-  .projects-grid > .project-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
-  .projects-grid > .project-card:last-child:nth-child(odd) .project-thumb { aspect-ratio: 21 / 9; }
+  /* Tablet: featured card runs full width on top, mediums sit side by side below. */
+  .project-card--featured { grid-column: 1 / -1; grid-row: auto; }
+  .project-card--featured .project-thumb { flex: none; min-height: 0; aspect-ratio: 21 / 9; }
 
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -1122,6 +1162,8 @@ footer {
 
   .projects-grid { grid-template-columns: 1fr; }
   .project-card--featured { grid-column: span 1; }
+  .project-card--featured .project-thumb { aspect-ratio: 16 / 10; }
+  .project-card--featured .project-body { padding: 1.25rem 1.5rem 1.5rem; }
 
   .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .skill-card { min-height: 220px; }
