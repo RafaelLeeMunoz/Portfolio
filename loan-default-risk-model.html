@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Default Risk Model — Rafael L. Muñoz</title>
+  <meta name="description" content="Capstone case study: a leakage-controlled machine learning pipeline for loan default risk across 350,000 loans — and the evidence-backed recommendation not to deploy it." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Project page: Loan Default Risk Model (Bryant MSBA capstone) ──
+       All facts and numbers come from the final capstone report
+       (Aug 3, 2026), the model-selection deck, and the first-run
+       cleaning notes. Charts are the report's own figures. Teammate
+       and instructor are not named (no permission yet). ── */
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-family: var(--font-display); font-size: .78rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.75rem;
+    }
+    .breadcrumb a { color: var(--text-dim); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--accent-cyan); }
+    .breadcrumb .sep { color: var(--text-dim); }
+    .breadcrumb .current { color: var(--accent-cyan); }
+
+    /* Hero */
+    .project-hero { padding-top: 7.5rem; padding-bottom: var(--sp-lg); }
+    .hero-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+    .hero-tag {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: .25rem .8rem; border-radius: var(--radius-xl);
+    }
+    .hero-tag--gold   { background: rgba(255,209,102,.1); color: var(--accent-gold);   border: 1px solid rgba(255,209,102,.3); }
+    .hero-tag--cyan   { background: rgba(0,229,255,.08);  color: var(--accent-cyan);   border: 1px solid rgba(0,229,255,.25); }
+    .hero-tag--violet { background: rgba(155,89,252,.12); color: var(--accent-violet); border: 1px solid rgba(155,89,252,.3); }
+    .project-title {
+      font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 800; line-height: 1.05;
+      margin-bottom: 1.1rem;
+    }
+    .project-title em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .project-lede { font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; max-width: 720px; }
+
+    .facts {
+      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .fact {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.1rem 1.2rem;
+    }
+    .fact-label {
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: .35rem;
+    }
+    .fact-value { font-size: .95rem; font-weight: 600; color: var(--text-primary); line-height: 1.45; }
+
+    /* Sections */
+    .case-section { padding: var(--sp-xl) 0 0; }
+    .case-section:last-of-type { padding-bottom: var(--sp-xl); }
+    .case-section h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; margin-bottom: 1.1rem; }
+    .case-section p { font-size: 1.02rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 1.2rem; }
+    .case-section p strong { color: var(--text-primary); }
+    .section-intro { max-width: 780px; }
+
+    /* Big-number stats */
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1.75rem; }
+    .stat {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1.25rem;
+    }
+    .stat-num {
+      font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.1; margin-bottom: .35rem;
+    }
+    .case-section .stat p { font-size: .88rem; line-height: 1.55; margin: 0; }
+
+    /* Checklist cards */
+    .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.75rem; }
+    .info-card {
+      --card-accent: var(--accent-cyan);
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-left: 3px solid var(--card-accent);
+      border-radius: var(--radius-sm); padding: 1.2rem 1.35rem;
+    }
+    .info-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: .4rem; }
+    .case-section .info-card p { font-size: .9rem; line-height: 1.65; margin: 0; }
+    .card-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .info-card--violet { --card-accent: var(--accent-violet); }
+    .info-card--gold   { --card-accent: var(--accent-gold); }
+    .info-card--pink   { --card-accent: var(--accent-pink); }
+    .info-card--green  { --card-accent: #5ee0a0; }
+
+    /* Callout */
+    .callout {
+      display: flex; gap: 1rem; align-items: flex-start; margin-top: 1.75rem;
+      padding: 1.25rem 1.4rem; border-radius: var(--radius-md);
+      background: rgba(240,25,110,.06); border: 1px solid rgba(240,25,110,.28);
+    }
+    .callout svg { flex-shrink: 0; width: 1.5rem; height: 1.5rem; color: var(--accent-pink); margin-top: .2rem; }
+    .case-section .callout p { margin: 0; font-size: .95rem; }
+
+    /* Charts: white figures from the report, shown on a light panel */
+    .chart {
+      margin: 2rem 0 0; background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-md); padding: 1rem;
+    }
+    .chart img { width: 100%; height: auto; display: block; background: #fff; border-radius: var(--radius-sm); }
+    .chart figcaption { font-size: .85rem; color: var(--text-muted); line-height: 1.6; margin-top: .8rem; }
+    .chart figcaption strong { color: var(--text-primary); }
+
+    /* Results table */
+    .table-wrap {
+      margin-top: 1.75rem; overflow-x: auto; border-radius: var(--radius-md);
+      border: 1px solid var(--card-border); background: var(--card-bg);
+    }
+    .results-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+    .results-table th, .results-table td { padding: .85rem 1.1rem; text-align: right; font-size: .92rem; }
+    .results-table th:first-child, .results-table td:first-child { text-align: left; }
+    .results-table thead th {
+      font-family: var(--font-display); font-size: .75rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .results-table tbody td { color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,.05); font-variant-numeric: tabular-nums; }
+    .results-table tbody tr:last-child td { border-bottom: none; }
+    .results-table tbody td:first-child { color: var(--text-primary); font-weight: 600; }
+    .results-table .flag { color: var(--accent-pink); font-weight: 700; }
+    .table-note { font-size: .82rem; color: var(--text-dim); margin-top: .7rem; }
+
+    /* Evidence list */
+    .evidence { list-style: none; counter-reset: ev; display: flex; flex-direction: column; gap: .8rem; margin-top: 1.75rem; }
+    .evidence li {
+      counter-increment: ev; position: relative;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm); padding: 1rem 1.2rem 1rem 3.4rem;
+      font-size: .95rem; color: var(--text-muted); line-height: 1.65;
+    }
+    .evidence li::before {
+      content: counter(ev); position: absolute; left: 1rem; top: 1rem;
+      width: 1.7rem; height: 1.7rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: .8rem; font-weight: 800;
+      color: var(--bg-deep); background: var(--accent-cyan);
+    }
+    .evidence li strong { color: var(--text-primary); }
+
+    /* Funnel of model families */
+    .funnel { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin-top: 1.25rem; }
+    .funnel li {
+      font-size: .82rem; font-weight: 600; padding: .35rem .8rem; border-radius: var(--radius-xl);
+      color: var(--text-dim); background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+    }
+    .funnel li.picked { color: var(--accent-cyan); background: rgba(0,229,255,.08); border-color: rgba(0,229,255,.3); }
+
+    /* Closing CTA */
+    .cta-box {
+      text-align: center; margin-top: 2.5rem; padding: 2.5rem 2rem;
+      border-radius: var(--radius-lg); border: 1px solid rgba(155,89,252,.3);
+      background:
+        radial-gradient(ellipse 60% 90% at 50% 0%, rgba(155,89,252,.16) 0%, transparent 70%),
+        var(--card-bg);
+    }
+    .cta-box h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; margin-bottom: .6rem; }
+    .case-section .cta-box p { max-width: 560px; margin: 0 auto 1.5rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 1100px) {
+      .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card-grid, .card-grid--3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .callout { padding: 1.1rem; }
+    }
+  </style>
+</head>
+<body data-nav-page="projects.html">
+
+<!-- ── Shared nav injected by nav.js ── -->
+<div id="site-nav"></div>
+
+
+<!-- HERO -->
+<header class="project-hero container" data-reveal>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="sep">›</span>
+    <a href="projects.html">Projects</a>
+    <span class="sep">›</span>
+    <span class="current">Loan Default Risk Model</span>
+  </nav>
+  <div class="hero-tags">
+    <span class="hero-tag hero-tag--gold">AI &amp; Analytics</span>
+    <span class="hero-tag hero-tag--cyan">Machine Learning</span>
+    <span class="hero-tag hero-tag--violet">Credit Risk</span>
+  </div>
+  <h1 class="project-title display">Loan Default <em>Risk Model</em></h1>
+  <p class="project-lede">A lender asked for a model to predict which loans would default. After a leakage-controlled pipeline, five model families, and every check we could design, the most valuable answer turned out to be an evidence-backed one: <strong style="color:var(--text-primary);">don't deploy it.</strong></p>
+
+  <div class="facts">
+    <div class="fact"><p class="fact-label">Program</p><p class="fact-value">Bryant MSBA Capstone · Aug 2026</p></div>
+    <div class="fact"><p class="fact-label">Team</p><p class="fact-value">2-person capstone team</p></div>
+    <div class="fact"><p class="fact-label">Data</p><p class="fact-value">350,000 loans from two source systems</p></div>
+    <div class="fact"><p class="fact-label">Stack</p><p class="fact-value">Python · scikit-learn · XGBoost · SHAP</p></div>
+    <div class="fact"><p class="fact-label">Outcome</p><p class="fact-value">Test ROC-AUC ≈ 0.50 → do not deploy</p></div>
+  </div>
+</header>
+
+<hr class="divider" />
+
+
+<!-- BUSINESS PROBLEM -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">The Ask</p>
+      <h2 class="display">The Business Problem</h2>
+      <p>A retail lender originates four kinds of loans (mortgage, vehicle, home equity, and unsecured) and wanted to reduce charge-off losses by spotting high-risk loans earlier. The request had two linked parts: estimate each loan's <strong>probability of default</strong> within three months of origination, and for loans that do default, estimate the <strong>severity</strong> (Low, Medium, High, or Severe).</p>
+      <p>The goal was business intervention, not just a higher accuracy number. A missed default is especially costly, because the bank treats a risky borrower as safe and loses its chance to step in. So we defined success up front: test ROC-AUC meaningfully above 0.50, calibrated probabilities that beat a naive base-rate guess, and an acceptable false-negative rate. Fair-lending rules (ECOA / Regulation B) stayed in view throughout variable selection.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- DATA -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Data Preparation</p>
+      <h2 class="display">Two Messy Source Systems, One Clean Dataset</h2>
+      <p>Application-time data (credit score, income, requested and approved amounts, loan terms) and account performance data (payment history, charge-off status) were merged one-to-one on a unique application ID. The target was built directly from each loan's payment history, using only the first three payment periods, so nothing the bank wouldn't know at scoring time leaked into it.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat" data-reveal><div class="stat-num">350,000</div><p>raw loan records; 349,994 used after excluding 6 with too little payment history</p></div>
+      <div class="stat" data-reveal data-delay="1"><div class="stat-num">39 → 17</div><p>columns after merging, narrowed to 17 predictors after leakage and redundancy screening</p></div>
+      <div class="stat" data-reveal data-delay="2"><div class="stat-num">7+</div><p>different raw date formats standardized to one</p></div>
+      <div class="stat" data-reveal data-delay="3"><div class="stat-num">116,651</div><p>rows (33.3%) with silently wrong values from a parsing defect, found and fixed</p></div>
+    </div>
+
+    <div class="card-grid">
+      <div class="info-card" data-reveal>
+        <h3 class="display">Caught a silent parsing defect</h3>
+        <p>A third of the payment histories used a format without separators, so three derived fields had quietly fallen back to placeholder values. All three were recomputed and verified against the unaffected rows, with zero mismatches.</p>
+      </div>
+      <div class="info-card info-card--violet" data-reveal data-delay="1">
+        <h3 class="display">Normalized inconsistent codes</h3>
+        <p>Charge-off flags arrived as 0, 1, "1 ", Y, and N. Payment history included blanks and an undocumented code. Each was mapped to clean, documented values.</p>
+      </div>
+      <div class="info-card info-card--gold" data-reveal>
+        <h3 class="display">Verified duplicates instead of assuming</h3>
+        <p>Original balance proved 100% identical to approved amount, and loan type matched 100% across both source files after mapping. Each duplicate was dropped only after it was checked.</p>
+      </div>
+      <div class="info-card info-card--green" data-reveal data-delay="1">
+        <h3 class="display">Filled gaps with business logic</h3>
+        <p>Missing credit scores took the median (680). Unsecured loans got a collateral value of 0, because by definition they have none, while secured loans got the median for their loan type.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- LEAKAGE -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Doing It Right</p>
+      <h2 class="display">Guarding Against Leakage</h2>
+      <p>Only information available at application or approval could be a predictor. Nine fields describing what happened <em>after</em> a loan was made were excluded, including payment history, charge-off status, current balance, and delinquency counts. Several of them are effectively the outcome itself in a different form.</p>
+      <p>All preprocessing (median imputation and scaling) lived inside a single scikit-learn Pipeline, fit only within each training fold, so no statistic from validation or test data reached the model. The data was split 80/20 with stratification to keep the class balance, and stability was checked with 5-fold cross-validation.</p>
+    </div>
+    <div class="callout" data-reveal>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      <p><strong>The 85% accuracy we didn't report.</strong> An earlier modeling pass had produced 85% accuracy predicting charge-offs. It used fields like delinquency counts and running balance, which already encode the outcome. In other words, it was reconstructing the answer rather than predicting it. Those numbers were deliberately not carried forward.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- MODEL SELECTION -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Approach</p>
+      <h2 class="display">From Twenty Candidates to Four</h2>
+      <p>We reviewed twenty machine learning approaches across classification, regression, clustering, dimensionality reduction, and deep learning. We screened them on five criteria: target alignment, predictive strength, explainability, implementation readiness, and model diversity. Four distinct model families made the final comparison, each measured against a majority-class baseline that any real model must beat.</p>
+    </div>
+    <ul class="funnel" aria-label="Models reviewed, with the four selected highlighted" data-reveal>
+      <li class="picked">Logistic Regression</li><li class="picked">Decision Tree</li><li class="picked">Random Forest</li><li class="picked">XGBoost</li>
+      <li>Gradient Boosting</li><li>CatBoost</li><li>Support Vector Machine</li><li>K-Nearest Neighbors</li><li>Naive Bayes</li><li>Ordinal Logistic Regression</li>
+      <li>Linear Regression</li><li>Random Forest Regressor</li><li>Gradient Boosting Regressor</li><li>K-Means</li><li>Hierarchical Clustering</li><li>DBSCAN</li>
+      <li>PCA</li><li>UMAP</li><li>Multilayer Perceptron</li><li>LSTM</li>
+    </ul>
+    <p class="table-note" style="margin-top:1rem;">Tree models were tuned with RandomizedSearchCV (3-fold cross-validation), scored on ROC-AUC for default and macro F1 for severity.</p>
+  </div>
+</section>
+
+
+<!-- RESULTS -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Results</p>
+      <h2 class="display">Every Model Landed on a Coin Flip</h2>
+      <p>No model showed a meaningful ability to tell loans that default from loans that don't. Test ROC-AUC ranged from <strong>0.4987 to 0.5014</strong>, statistically the same as random guessing (0.50). Cross-validation confirmed it was stable, not noise (0.5001 ± 0.0017), and the logistic regression's Brier score matched a naive base-rate guess to four decimal places.</p>
+    </div>
+
+    <div class="table-wrap" data-reveal>
+      <table class="results-table">
+        <thead>
+          <tr><th>Model</th><th>Train AUC</th><th>Test AUC</th><th>Train–Test Gap</th><th>Test F1</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dummy baseline</td><td>0.5000</td><td>0.5000</td><td>0.0000</td><td>0.7261</td></tr>
+          <tr><td>Logistic Regression</td><td>0.5039</td><td>0.4998</td><td>0.0041</td><td>0.7261</td></tr>
+          <tr><td>Decision Tree</td><td>0.5143</td><td>0.4987</td><td>0.0156</td><td>0.7237</td></tr>
+          <tr><td>Random Forest</td><td>0.5355</td><td>0.4992</td><td>0.0363</td><td>0.7261</td></tr>
+          <tr><td>XGBoost</td><td>0.6053</td><td>0.5014</td><td class="flag">0.1040</td><td>0.7226</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">F1 looks healthy only because 57% of loans defaulted: the plain logistic regression simply predicted "default" for every loan, exactly like the baseline.</p>
+
+    <figure class="chart" data-reveal>
+      <img src="loan-roc-calibration.png" alt="Left: ROC curves for all five models overlapping the diagonal random-guess line, AUC 0.499 to 0.501. Right: calibration curve with a single point on the perfect-calibration line at about 0.57." loading="lazy" width="1290" height="540" />
+      <figcaption><strong>All five ROC curves sit on the random-guess diagonal.</strong> Predicted probabilities fell in a narrow 0.555–0.579 band, so the calibration curve collapses to a single point at the base rate.</figcaption>
+    </figure>
+
+    <div class="card-grid">
+      <div class="info-card info-card--violet" data-reveal>
+        <h3 class="display">Why logistic regression was still the pick</h3>
+        <p>When performance is equal, the tiebreakers are calibration, stability, interpretability, and risk. A simple model makes "it learned nothing" visible right away.</p>
+      </div>
+      <div class="info-card info-card--pink" data-reveal data-delay="1">
+        <h3 class="display">Why not XGBoost</h3>
+        <p>Its 0.6053 training AUC dropped to 0.5014 on test, the largest gap of any model. That's exactly the kind of result that could mislead a team without a disciplined evaluation process into shipping a model that learned nothing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- EVIDENCE -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Stress-Testing the Result</p>
+      <h2 class="display">Proving a Null Result Is Real</h2>
+      <p>"The model doesn't work" is only useful if you can show it isn't a mistake. So we attacked the result from every direction we could:</p>
+    </div>
+    <ol class="evidence" data-reveal>
+      <li><strong>Correlation analysis.</strong> No predictor topped a 0.005 correlation with default, under either a 3-month or a lifetime definition. The strongest was 0.0015.</li>
+      <li><strong>Four feature-importance methods.</strong> Model coefficients, tree importance, permutation importance, and SHAP all came out near zero. Logistic regression and Random Forest even ranked the features in almost opposite order, itself a sign that neither ranking reflected anything real.</li>
+      <li><strong>New engineered features.</strong> Loan-to-value ratio, approval ratio, and two credit-score interaction terms changed nothing.</li>
+      <li><strong>Each loan type on its own.</strong> All five models were refit within each of the four loan types (about 87,000 loans each). Across all 20 combinations, no AUC moved more than 0.0068 from 0.50.</li>
+      <li><strong>The severity model.</strong> The four-level severity model showed the same pattern, with test macro F1 clustered between 0.23 and 0.25, right where a model with no signal should land.</li>
+      <li><strong>Independent reproduction.</strong> My teammate rebuilt the entire pipeline separately, in a different notebook. The two implementations matched within 0.0002 AUC on every model, which makes a coding error in either one very unlikely.</li>
+    </ol>
+    <figure class="chart" data-reveal>
+      <img src="loan-feature-importance.png" alt="Side-by-side bar charts: logistic regression coefficient magnitudes ranked by income frequency and loan type, Random Forest importance ranked by approved amount and payment-to-income — nearly opposite orderings." loading="lazy" width="1389" height="490" />
+      <figcaption><strong>Two models, two opposite stories.</strong> Logistic regression's largest coefficients and Random Forest's top features barely overlap. When importance rankings disagree this completely, neither is measuring a real relationship.</figcaption>
+    </figure>
+  </div>
+</section>
+
+
+<!-- DATA DIAGNOSIS -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Reading the Signal in the Noise</p>
+      <h2 class="display">What the Data Was Really Telling Us</h2>
+      <p>The most revealing finding wasn't about default at all. Credit score had essentially <strong>no relationship even with interest rate</strong> (correlation −0.0008), a link that is close to definitional in real underwriting. Add a 57% three-month default rate and loans that appeared to originate before their application date in nearly half the records, and the dataset looks synthetic, with fields generated independently of each other.</p>
+      <p>In a real bank, this exact pattern wouldn't mean credit risk is unpredictable. It would be a signal to stop and investigate the data pipeline itself, such as a mismatched join or a corrupted extract, before spending another hour on modeling.</p>
+    </div>
+    <figure class="chart" data-reveal>
+      <img src="loan-class-correlation.png" alt="Left: bar chart of about 150,000 no-default versus about 200,000 default loans. Right: correlation matrix where the default_3mo row and the CreditScore row are all zeros." loading="lazy" width="1359" height="490" />
+      <figcaption><strong>A correlation matrix full of zeros.</strong> The target row (bottom) and credit score both show no relationship to anything, including interest rate. Loan amount, term, and payment amount correlate with each other as expected.</figcaption>
+    </figure>
+  </div>
+</section>
+
+
+<!-- RECOMMENDATIONS -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Recommendations</p>
+      <h2 class="display">What We Recommended</h2>
+    </div>
+    <div class="card-grid card-grid--3">
+      <div class="info-card info-card--pink" data-reveal>
+        <h3 class="display">1. Don't deploy</h3>
+        <p>A model without real discriminative power would send collections and servicing teams after loans that are no riskier than any others. It would also create fair-lending exposure by acting on differences that aren't real.</p>
+      </div>
+      <div class="info-card info-card--gold" data-reveal data-delay="1">
+        <h3 class="display">2. Validate the data source</h3>
+        <p>Confirm whether the data contains a real risk relationship before investing further. The pipeline is already built, so it can be re-run directly on real historical data.</p>
+      </div>
+      <div class="info-card" data-reveal data-delay="2">
+        <h3 class="display">3. Expand the features</h3>
+        <p>Production default models rely on credit-bureau trade-line history, verified behavioral data, and economic conditions at origination. None of these were in this dataset.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- TAKEAWAYS -->
+<section class="case-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="section-label">Reflection</p>
+      <h2 class="display">What This Project Taught Me</h2>
+      <p><strong>Accuracy can lie.</strong> A 57% accuracy score sounded reasonable until it turned out to be the model predicting "default" for every loan.</p>
+      <p><strong>Simple models make failure visible.</strong> The interpretable baseline exposed the problem immediately. The most complex model nearly hid it behind an impressive training score.</p>
+      <p><strong>A well-supported "no" is a real deliverable.</strong> Knowing a model shouldn't ship, and being able to prove it, protects a business from costly decisions built on signals that don't exist.</p>
+    </div>
+    <div class="cta-box" data-reveal>
+      <h3 class="display">Want rigor like this on your data?</h3>
+      <p>I bring analytics and AI together with product thinking, so models get judged by the decisions they support, not just the scores they post.</p>
+      <div class="cta-buttons">
+        <a href="contact.html" class="btn btn-primary">Get in Touch ✦</a>
+        <a href="projects.html" class="btn btn-outline">← All Projects</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Shared footer injected by nav.js ── -->
+<div id="site-footer"></div>
+
+
+<script src="nav.js"></script>
+</body>
+</html>
