@@ -117,7 +117,7 @@ Problems found in the Nov 2026 review, in priority order. Work through them one 
   - ~~His school posted about him on Veterans Day~~ → done as `blog-marine-corps-to-ai.html` (Nov 2026). It could also become a homepage highlight later.
   - ~~STEAM Design Program project page~~ → done as `steam-design-program.html` (Nov 2026). Still worth adding if Rafael provides them: pilot attendance and feedback (only quotes he has permission for, never kids' names), and photos with no recognizable children's faces.
   - *(add more ideas here as they come up)*
-- [ ] **CCCRI page count doesn't match between pages.** `cccri.html` says 80+ pages were cut to 8, but the card on `projects.html` says 32 pages from 3 websites were cut to 8. Ask Rafael which is right and fix the other. The homepage card deliberately says only "8 core pages" until then.
+- [x] **CCCRI page count.** Confirmed by Rafael: **80+ pages across 3 websites → 1 site with 8 core pages.** The Projects and homepage cards now match `cccri.html`; use these numbers everywhere.
 - [ ] **5. Clean up the blog listing** *(on hold until the content above exists)*. The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them. Replace them with real posts as they're written.
 
 Done:
