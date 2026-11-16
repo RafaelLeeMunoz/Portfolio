@@ -117,12 +117,13 @@ Problems found in the Nov 2026 review, in priority order. Work through them one 
   - ~~His school posted about him on Veterans Day~~ → done as `blog-marine-corps-to-ai.html` (Nov 2026). It could also become a homepage highlight later.
   - ~~STEAM Design Program project page~~ → done as `steam-design-program.html` (Nov 2026). Still worth adding if Rafael provides them: pilot attendance and feedback (only quotes he has permission for, never kids' names), and photos with no recognizable children's faces.
   - *(add more ideas here as they come up)*
-- [ ] **4. Replace the homepage Featured Projects** *(on hold until the content above exists; leave the section alone for now)*. "Neon Frontier", "FlowTrack PM", "Lumière Studio" and "NarratorAI" are sample cards with emoji thumbnails.
+- [ ] **CCCRI page count doesn't match between pages.** `cccri.html` says 80+ pages were cut to 8, but the card on `projects.html` says 32 pages from 3 websites were cut to 8. Ask Rafael which is right and fix the other. The homepage card deliberately says only "8 core pages" until then.
 - [ ] **5. Clean up the blog listing** *(on hold until the content above exists)*. The last 5 rows in `.post-list` (2024 dates) and every "Popular Posts" link are placeholders with no article behind them. Replace them with real posts as they're written.
 
 Done:
 - [x] Footer copyright year: `nav.js` now prints the current year automatically.
 - [x] **2. Contact form now sends.** It posts to Formspree (`https://formspree.io/f/mbgogkrw`, Rafael's account), which forwards to his Gmail. The address lives only in Formspree. The checkboxes are inside the form, every field has a readable `name`, there's a `_gotcha` spam honeypot, and "Message Sent!" appears only when Formspree confirms. Otherwise an error shows and the visitor keeps what they typed.
+- [x] **4. Homepage Featured Projects.** The four sample cards were replaced with the three real case studies (STEAM Design Program, Loan Default Risk Model, CCCRI), newest first, all the same width. When the site has more projects, swap or add cards here; an odd last card spans the full row on tablets. Tag colors: `.tag-education` (green) was added to `styles.css` alongside the existing games, apps, brands, and AI tags.
 - [x] **7. Contact page availability box.** Removed entirely at Rafael's request (it said "starting Q1 2025"). Don't add an availability badge back unless asked.
 - [x] **8. Page title accents.** The colored word in each `.page-hero-title` now uses the shared `.accent-pink` / `.accent-cyan` classes from `styles.css` instead of inline `style`. Use those classes for new pages too.
 - [x] **6. Newsletter signup.** Replaced with a "Follow Along" box on `blog.html` that links to LinkedIn, since that's where new posts get shared. A real newsletter (e.g. Buttondown or Mailchimp) can come back once posts are regular and there's an audience to send to.
