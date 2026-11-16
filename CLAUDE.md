@@ -66,6 +66,7 @@ Everything sits flat in the repo root. There are no subfolders, and images, audi
   <script src="nav.js"></script>  <!-- before any page-specific script -->
   ```
   A page that isn't in the menu can highlight its parent section with `<body data-nav-page="projects.html">` (`cccri.html` does this). `nav.js` also handles the scrolled-nav background, the mobile hamburger drawer, the active nav link (matched by filename), smooth scrolling for `#anchor` links, `data-reveal` scroll animations and the homepage typewriter tagline. **To change nav or footer links, edit `nav.js` once.** Don't edit them per page.
+- **Cache-busting version tag:** every page links `styles.css?v=YYYYMMDD` and `nav.js?v=YYYYMMDD`. GitHub Pages lets browsers reuse files for 10+ minutes, so a new HTML page can end up paired with an old cached stylesheet and render wrong. (This happened once: the old two-row featured card showed up on Rafael's laptop.) **Whenever you change `styles.css` or `nav.js`, bump the `?v=` date on every `.html` page in the same commit.** A find-and-replace across `*.html` works; keep files UTF-8 without BOM. Rafael's laptop hard refresh is **Ctrl+Shift+R**, because Ctrl+F5 dims the screen.
 - **Page-specific CSS** lives in a `<style>` block in that page's `<head>`. Put a style in `styles.css` only if more than one page uses it.
 
 ### Adding a new page
